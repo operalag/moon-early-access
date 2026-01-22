@@ -22,8 +22,19 @@ export const TelegramProvider = ({ children }: { children: React.ReactNode }) =>
       const WebApp = (await import('@twa-dev/sdk')).default;
       WebApp.ready();
       setWebApp(WebApp);
+      
       if (WebApp.initDataUnsafe?.user) {
         setUser(WebApp.initDataUnsafe.user);
+      } else {
+        // MOCK USER FOR BROWSER TESTING
+        // This allows testing in Chrome without Telegram
+        console.warn("MOON: Running in Dev Mode (Mock User)");
+        setUser({
+          id: 777000, // Fixed Test ID
+          first_name: "Test Analyst",
+          username: "moon_tester",
+          photo_url: ""
+        });
       }
     };
 

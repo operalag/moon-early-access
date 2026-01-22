@@ -37,16 +37,9 @@ export default function AuthWrapper({ children }: { children: React.ReactNode })
 
           if (insertError) {
             console.error('Error creating profile:', insertError);
-          } else {
-            // 3. Handle Referral (only for new users)
-            const startParam = webApp?.initDataUnsafe?.start_param;
-            
-            if (startParam && startParam !== String(user.id)) {
-              await handleReferral(startParam, user.id);
-            }
           }
         } else if (profile) {
-          // 4. Update existing profile
+          // 3. Update existing profile
           await supabase
             .from('profiles')
             .update({
@@ -56,6 +49,13 @@ export default function AuthWrapper({ children }: { children: React.ReactNode })
             })
             .eq('telegram_id', user.id);
         }
+
+        // 4. Handle Referral (Check for both new and existing users)
+        const startParam = webApp?.initDataUnsafe?.start_param;
+        if (startParam && startParam !== String(user.id)) {
+          await handleReferral(startParam, user.id);
+        }
+
       } catch (err) {
         console.error('Auth sync error:', err);
       } finally {
@@ -68,6 +68,15 @@ export default function AuthWrapper({ children }: { children: React.ReactNode })
 
   async function handleReferral(referrerId: string, refereeId: number) {
     try {
+      // Check if user has already been referred
+      const { data: existingReferral } = await supabase
+        .from('referrals')
+        .select('id')
+        .eq('referee_id', refereeId)
+        .single();
+
+      if (existingReferral) return; // Already referred
+
       // Validate referrer exists
       const { data: referrer } = await supabase
         .from('profiles')

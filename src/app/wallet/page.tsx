@@ -5,6 +5,8 @@ import { supabase } from "@/lib/supabaseClient";
 import { TonConnectButton, useTonAddress } from "@tonconnect/ui-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { ArrowLeft, CheckCircle } from "lucide-react";
+import InfoTrigger from "@/components/ui/InfoTrigger";
 
 export default function WalletPage() {
   const { user } = useTelegram();
@@ -14,17 +16,29 @@ export default function WalletPage() {
   useEffect(() => {
     async function saveWallet() {
       if (user && userFriendlyAddress) {
-        // Save to Supabase
-        // Note: You need to add 'ton_wallet_address' column to profiles table first!
-        const { error } = await supabase
+        // 1. Fetch current status first to prevent double-rewarding
+        const { data: profile } = await supabase
           .from('profiles')
-          .update({ 
-            is_wallet_connected: true,
-            // ton_wallet_address: userFriendlyAddress // Uncomment when column exists
-          })
-          .eq('telegram_id', user.id);
-        
-        if (!error) setIsSaved(true);
+          .select('is_wallet_connected, total_points')
+          .eq('telegram_id', user.id)
+          .single();
+
+        if (profile && !profile.is_wallet_connected) {
+          // 2. Award Points & Mark Connected
+          const REWARD = 1000;
+          const { error } = await supabase
+            .from('profiles')
+            .update({ 
+              is_wallet_connected: true,
+              total_points: (profile.total_points || 0) + REWARD
+            })
+            .eq('telegram_id', user.id);
+          
+          if (!error) setIsSaved(true);
+        } else if (profile?.is_wallet_connected) {
+           // Already connected, just show saved state
+           setIsSaved(true);
+        }
       }
     }
 
@@ -34,37 +48,43 @@ export default function WalletPage() {
   }, [userFriendlyAddress, user]);
 
   return (
-    <main className="flex min-h-screen flex-col items-center p-6 bg-black text-white">
-      <div className="w-full max-w-md flex flex-col items-center">
+    <main className="min-h-screen bg-[#050505] p-6 text-white flex flex-col items-center">
+      <div className="w-full max-w-md flex flex-col items-center flex-1">
         
         {/* Header */}
-        <div className="flex w-full items-center gap-4 mb-12">
-          <Link href="/" className="text-zinc-400 hover:text-white transition-colors">
-            ← Back
-          </Link>
-          <h1 className="text-2xl font-bold uppercase tracking-wider">Asset Verification</h1>
+        <div className="flex w-full items-center gap-4 mb-16">
+          <button 
+            onClick={() => window.location.href = '/'}
+            className="p-2 bg-white/5 rounded-full hover:bg-white/10 transition-colors"
+          >
+            <ArrowLeft size={20} className="text-zinc-400" />
+          </button>
+          <h1 className="text-xl font-bold uppercase tracking-wider">Asset Verification</h1>
+          <div className="ml-auto">
+             <InfoTrigger title="TON Connection" content="Connecting your wallet proves you are a real user and allows us to distribute rewards directly to your on-chain address." />
+          </div>
         </div>
 
-        {/* Status Icon */}
-        <div className={`w-32 h-32 rounded-full flex items-center justify-center mb-8 border-4 transition-all ${
-          userFriendlyAddress ? 'border-green-500 bg-green-500/20' : 'border-zinc-700 bg-zinc-800'
-        }`}>
-          {userFriendlyAddress ? (
-             <svg xmlns="http://www.w3.org/2000/svg" className="h-16 w-16 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-             </svg>
-          ) : (
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-16 w-16 text-zinc-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-            </svg>
-          )}
+        {/* Status Graphic */}
+        <div className="relative mb-12 group">
+          <div className={`absolute inset-0 blur-[60px] transition-colors duration-1000 ${userFriendlyAddress ? 'bg-green-500/20' : 'bg-white/5'}`} />
+          
+          <div className={`relative w-40 h-40 rounded-full flex items-center justify-center border-4 transition-all duration-500 ${
+            userFriendlyAddress ? 'border-green-500 bg-[#0A0A0A]' : 'border-white/10 bg-[#0A0A0A]'
+          }`}>
+            {userFriendlyAddress ? (
+               <CheckCircle size={64} className="text-green-500" />
+            ) : (
+              <div className="text-6xl text-white/10 font-black">?</div>
+            )}
+          </div>
         </div>
 
-        <h2 className="text-xl font-bold mb-4 text-center">
-          {userFriendlyAddress ? "WALLET CONNECTED" : "CONNECT TON WALLET"}
+        <h2 className="text-2xl font-black mb-3 text-center uppercase tracking-tight">
+          {userFriendlyAddress ? "VERIFIED" : "CONNECT WALLET"}
         </h2>
         
-        <p className="text-zinc-400 text-center text-sm mb-8 px-4">
+        <p className="text-white/40 text-center text-sm mb-12 px-8 leading-relaxed font-medium">
           {userFriendlyAddress 
             ? "Your assets are secured. You are eligible for the Early Access airdrop." 
             : "Connect your TON wallet to store your Strategy Points and qualify for future rewards."}
@@ -76,9 +96,14 @@ export default function WalletPage() {
         </div>
 
         {isSaved && (
-          <div className="bg-green-900/30 border border-green-800 p-4 rounded-xl flex items-center gap-3">
-             <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
-             <p className="text-green-400 text-sm font-bold">Address Verified & Linked</p>
+          <div className="bg-green-500/10 border border-green-500/20 p-4 rounded-[24px] flex items-center gap-4 animate-in fade-in slide-in-from-bottom-4">
+             <div className="w-10 h-10 rounded-full bg-green-500/20 flex items-center justify-center">
+                <CheckCircle size={20} className="text-green-500" />
+             </div>
+             <div>
+                <p className="text-green-400 text-sm font-bold uppercase tracking-wide">Wallet Verified</p>
+                <p className="text-white/60 text-[10px]">+1,000 Points Credited</p>
+             </div>
           </div>
         )}
 

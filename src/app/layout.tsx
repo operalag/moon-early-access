@@ -3,7 +3,9 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { TelegramProvider } from "@/hooks/useTelegram";
 import { TonProvider } from "@/components/TonProvider";
+import { InfoProvider } from "@/context/InfoContext";
 import Script from "next/script";
+import BottomNav from "@/components/BottomNav";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -34,11 +36,14 @@ export default function RootLayout({
         />
       </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-black text-white`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-[#050505] text-white selection:bg-yellow-500/30`}
       >
         <TonProvider>
           <TelegramProvider>
-            {children}
+            <InfoProvider>
+              {children}
+              <BottomNav />
+            </InfoProvider>
           </TelegramProvider>
         </TonProvider>
       </body>

@@ -4,6 +4,9 @@ import { useTelegram } from "@/hooks/useTelegram";
 import { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabaseClient";
 import Link from "next/link";
+import { ArrowLeft, Users, Share2, Copy } from "lucide-react";
+import InfoTrigger from "@/components/ui/InfoTrigger";
+import { motion } from "framer-motion";
 
 interface Referral {
   created_at: string;
@@ -18,121 +21,124 @@ export default function SyndicatePage() {
   const [referrals, setReferrals] = useState<Referral[]>([]);
   const [loading, setLoading] = useState(true);
 
-  // REPLACE THIS WITH YOUR ACTUAL BOT USERNAME
   const BOT_USERNAME = "MoonPredictionBot"; 
 
   useEffect(() => {
     async function fetchReferrals() {
       if (!user) return;
       
-      // Fetch users who were referred by the current user
-      // Note: This requires a join on the 'profiles' table via 'referee_id'
-      // Ideally, we'd adjust the query, but for now let's just count them 
-      // or fetch raw data. 
-      
-      const { data, error } = await supabase
+      const { data } = await supabase
         .from('referrals')
-        .select(`
-          created_at,
-          profiles!referee_id (first_name, username)
-        `)
+        .select(`created_at, profiles!referee_id (first_name, username)`)
         .eq('referrer_id', user.id)
         .order('created_at', { ascending: false });
 
-      if (data) {
-        setReferrals(data as any);
-      }
+      if (data) setReferrals(data as any);
       setLoading(false);
     }
-
     fetchReferrals();
   }, [user]);
 
   const handleInvite = () => {
-    if (!user || !webApp) return;
+    const userId = user?.id || '777000'; 
+    // Official Mini App Link
+    const inviteLink = `https://t.me/ThePredictionMarket_bot/MoonPrediction?startapp=${userId}`;
+    const message = `get early access to the CRICKET prediction market on ton 🏏 Get 1,000 points instantly.`;
+    const shareUrl = `https://t.me/share/url?url=${encodeURIComponent(inviteLink)}&text=${encodeURIComponent(message)}`;
     
-    const inviteLink = `https://t.me/${BOT_USERNAME}/app?startapp=${user.id}`;
-    const message = `Join me on MOON and trade your cricket knowledge! 🏏 Get 1,000 points instantly.`;
-    const url = `https://t.me/share/url?url=${encodeURIComponent(inviteLink)}&text=${encodeURIComponent(message)}`;
-    
-    webApp.openTelegramLink(url);
+    if (webApp && webApp.openTelegramLink) {
+      webApp.openTelegramLink(shareUrl);
+    } else {
+      window.open(shareUrl, '_blank');
+    }
   };
 
   return (
-    <main className="flex min-h-screen flex-col items-center p-6 bg-black text-white">
-      <div className="w-full max-w-md">
+    <main className="min-h-screen bg-[#050505] p-6 pb-24 text-white">
+      <div className="max-w-md mx-auto">
         
         {/* Header */}
-        <div className="flex items-center gap-4 mb-8">
-          <Link href="/" className="text-zinc-400 hover:text-white transition-colors">
-            ← Back
+        <div className="flex items-center gap-4 mb-8 pt-4">
+          <Link href="/" className="p-2 bg-white/5 rounded-full hover:bg-white/10 transition-colors">
+            <ArrowLeft size={20} className="text-zinc-400" />
           </Link>
-          <h1 className="text-2xl font-bold uppercase tracking-wider">My Syndicate</h1>
+          <h1 className="text-xl font-bold uppercase tracking-wider">My Syndicate</h1>
+          <div className="ml-auto">
+             <InfoTrigger title="Syndicate Mechanics" content="Your syndicate is your network of referrals. The larger your network, the higher your commission tier." />
+          </div>
         </div>
 
         {/* Hero Card */}
-        <div className="bg-gradient-to-br from-yellow-600 to-yellow-800 rounded-3xl p-6 mb-8 text-center relative overflow-hidden">
+        <div className="relative overflow-hidden bg-yellow-500 rounded-[32px] p-8 mb-8 shadow-2xl shadow-yellow-500/10">
           <div className="relative z-10">
-            <h2 className="text-white font-bold text-lg mb-2">GROW YOUR NETWORK</h2>
-            <p className="text-yellow-100 text-sm mb-6">Earn <span className="font-bold text-white">500 Points</span> for every friend you recruit.</p>
+            <div className="flex items-center gap-3 mb-2 opacity-80">
+              <Users size={20} className="text-black" />
+              <span className="text-black font-bold uppercase text-xs tracking-widest">Network Growth</span>
+            </div>
+            <h2 className="text-black font-black text-3xl mb-1">EARN 10%</h2>
+            <p className="text-black/70 text-sm font-medium mb-8 max-w-[80%]">
+              Commission on all future trading fees from your recruits.
+            </p>
             
             <button 
               onClick={handleInvite}
-              className="w-full bg-white text-yellow-900 font-black py-4 rounded-xl shadow-lg hover:scale-105 transition-transform flex items-center justify-center gap-2"
+              className="w-full bg-black text-white font-bold py-4 rounded-2xl hover:scale-[1.02] transition-transform flex items-center justify-center gap-2 shadow-xl"
             >
+              <Share2 size={18} />
               <span>INVITE FRIENDS</span>
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                <path d="M15 8a3 3 0 10-2.977-2.63l-4.94 2.47a3 3 0 100 4.319l4.94 2.47a3 3 0 10.895-1.789l-4.94-2.47a3.027 3.027 0 000-.74l4.94-2.47C13.456 7.68 14.19 8 15 8z" />
-              </svg>
             </button>
           </div>
           
-          {/* Decorative Pattern */}
-          <div className="absolute top-0 right-0 w-32 h-32 bg-white opacity-10 rounded-full -translate-y-1/2 translate-x-1/2"></div>
+          {/* Abstract Pattern */}
+          <div className="absolute -bottom-10 -right-10 w-48 h-48 border-[20px] border-white/20 rounded-full" />
+          <div className="absolute top-10 right-10 w-20 h-20 bg-white/10 rounded-full blur-xl" />
         </div>
 
         {/* Stats Grid */}
-        <div className="grid grid-cols-2 gap-4 mb-8">
-          <div className="bg-zinc-900 p-4 rounded-2xl border border-zinc-800 text-center">
-            <p className="text-zinc-500 text-xs uppercase font-bold">Total Recruits</p>
+        <div className="grid grid-cols-2 gap-3 mb-8">
+          <div className="bg-white/5 border border-white/10 p-5 rounded-[24px]">
+            <p className="text-white/40 text-[10px] uppercase font-bold tracking-wider mb-1">Recruits</p>
             <p className="text-3xl font-black text-white">{referrals.length}</p>
           </div>
-          <div className="bg-zinc-900 p-4 rounded-2xl border border-zinc-800 text-center">
-            <p className="text-zinc-500 text-xs uppercase font-bold">Points Earned</p>
+          <div className="bg-white/5 border border-white/10 p-5 rounded-[24px]">
+            <p className="text-white/40 text-[10px] uppercase font-bold tracking-wider mb-1">Points Earned</p>
             <p className="text-3xl font-black text-yellow-500">{(referrals.length * 500).toLocaleString()}</p>
           </div>
         </div>
 
-        {/* Recruit List */}
-        <div className="bg-zinc-900 rounded-3xl p-6 border border-zinc-800 min-h-[300px]">
-          <h3 className="text-zinc-400 text-sm font-bold uppercase mb-4 tracking-widest">Recent Recruits</h3>
-          
-          {loading ? (
-            <div className="text-center text-zinc-600 py-8">Loading data...</div>
-          ) : referrals.length === 0 ? (
-            <div className="text-center py-8">
-              <div className="w-16 h-16 bg-zinc-800 rounded-full mx-auto mb-4 flex items-center justify-center text-2xl">👻</div>
-              <p className="text-zinc-500 text-sm">Your syndicate is empty.</p>
-              <p className="text-zinc-600 text-xs mt-1">Start inviting to see names here.</p>
-            </div>
-          ) : (
-            <div className="space-y-4">
-              {referrals.map((ref, i) => (
-                <div key={i} className="flex justify-between items-center border-b border-zinc-800 pb-3 last:border-0">
+        {/* List */}
+        <div>
+          <h3 className="text-white/40 text-xs font-bold uppercase tracking-widest mb-4 ml-2">Recent Activity</h3>
+          <div className="space-y-2">
+            {loading ? (
+              <div className="h-20 bg-white/5 rounded-2xl animate-pulse" />
+            ) : referrals.length === 0 ? (
+              <div className="bg-white/5 border border-white/5 border-dashed rounded-[24px] p-8 text-center">
+                 <p className="text-zinc-500 text-sm">No recruits yet.</p>
+              </div>
+            ) : (
+              referrals.map((ref, i) => (
+                <motion.div 
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: i * 0.05 }}
+                  key={i} 
+                  className="bg-white/5 border border-white/5 rounded-[20px] p-4 flex justify-between items-center"
+                >
                   <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 rounded-full bg-zinc-800 flex items-center justify-center text-xs font-bold text-zinc-400">
+                    <div className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-xs font-bold text-zinc-400">
                       {ref.profiles?.first_name?.charAt(0) || '?'}
                     </div>
                     <div>
-                      <p className="font-bold text-sm">{ref.profiles?.first_name || 'Anonymous'}</p>
-                      <p className="text-xs text-zinc-600">@{ref.profiles?.username || 'unknown'}</p>
+                      <p className="font-bold text-sm text-white">{ref.profiles?.first_name || 'Anonymous'}</p>
+                      <p className="text-xs text-white/30">@{ref.profiles?.username || 'user'}</p>
                     </div>
                   </div>
-                  <span className="text-yellow-500 font-bold text-xs">+500 pts</span>
-                </div>
-              ))}
-            </div>
-          )}
+                  <span className="text-yellow-500 font-bold text-xs bg-yellow-500/10 px-2 py-1 rounded-lg">+500</span>
+                </motion.div>
+              ))
+            )}
+          </div>
         </div>
 
       </div>

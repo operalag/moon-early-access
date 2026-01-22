@@ -10,7 +10,7 @@ export function TonProvider({ children }: { children: React.ReactNode }) {
     setMounted(true);
   }, []);
 
-  const manifestUrl = 'https://moon-prediction.vercel.app/tonconnect-manifest.json'; 
+  const manifestUrl = 'https://prediction-early-access.vercel.app/tonconnect-manifest.json'; 
 
   if (!mounted) {
     return <>{children}</>;
