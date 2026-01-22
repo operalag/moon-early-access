@@ -68,44 +68,77 @@ export default function AuthWrapper({ children }: { children: React.ReactNode })
 
   async function handleReferral(referrerId: string, refereeId: number) {
     try {
-      // Check if user has already been referred
+      // Debugging: Alert to confirm function is called (Remove in final prod)
+      // alert(`Processing Referral: Ref=${referrerId} User=${refereeId}`);
+
+      // 1. Check if user has already been referred (Idempotency)
       const { data: existingReferral } = await supabase
         .from('referrals')
         .select('id')
         .eq('referee_id', refereeId)
         .single();
 
-      if (existingReferral) return; // Already referred
+      if (existingReferral) {
+        // alert("Already referred. Skipping.");
+        return; 
+      }
 
-      // Validate referrer exists
-      const { data: referrer } = await supabase
+      // 2. Validate Referrer Exists
+      // precise type casting
+      const referrerIdNum = Number(referrerId);
+      if (isNaN(referrerIdNum)) {
+         console.error("Invalid referrer ID");
+         return;
+      }
+
+      const { data: referrer, error: referrerError } = await supabase
         .from('profiles')
         .select('telegram_id, total_points')
-        .eq('telegram_id', referrerId)
+        .eq('telegram_id', referrerIdNum)
         .single();
 
-      if (referrer) {
-        // Record the referral
-        const { error: refError } = await supabase
-          .from('referrals')
-          .insert({
-            referrer_id: referrer.telegram_id,
-            referee_id: refereeId,
-          });
-
-        if (!refError) {
-          // Reward the Referrer (e.g., +500 points)
-          await supabase
-            .from('profiles')
-            .update({ total_points: (referrer.total_points || 0) + 500 })
-            .eq('telegram_id', referrer.telegram_id);
-            
-          // Optional: Reward the Referee (e.g., +200 bonus)
-          // We'd need to fetch the referee's current points first or update via RPC function
-        }
+      if (referrerError || !referrer) {
+        // alert(`Referrer not found: ${referrerError?.message}`);
+        console.error("Referrer fetch error:", referrerError);
+        return;
       }
-    } catch (err) {
-      console.error('Referral error:', err);
+
+      // 3. Record the Referral
+      // This enables the "Task Completion" checkmark for the Referrer
+      const { error: insertError } = await supabase
+        .from('referrals')
+        .insert({
+          referrer_id: referrer.telegram_id,
+          referee_id: refereeId,
+        });
+
+      if (insertError) {
+        // alert(`Referral Insert Failed: ${insertError.message}`);
+        console.error("Referral Insert Error:", insertError);
+        return;
+      }
+
+      // alert("Referral Recorded Successfully!");
+
+      // 4. Reward the Referrer
+      // WARNING: This might fail if RLS prevents users from updating OTHERS' profiles.
+      // Ideally, this should be a Database Trigger or RPC.
+      const { error: updateError } = await supabase
+        .from('profiles')
+        .update({ total_points: (referrer.total_points || 0) + 500 })
+        .eq('telegram_id', referrer.telegram_id);
+
+      if (updateError) {
+        console.error("Point Update Failed (RLS likely):", updateError);
+        // We do NOT alert here, because the main goal (Syndicate Building) is done.
+        // The points might need to be reconciled via a backend script if this fails.
+      } else {
+        // alert("Referrer Rewarded +500pts");
+      }
+
+    } catch (err: any) {
+      console.error('Referral Critical Error:', err);
+      // alert(`Critical Error: ${err.message}`);
     }
   }
 

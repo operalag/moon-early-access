@@ -279,7 +279,7 @@ function Dashboard() {
           </motion.div>
 
                   <motion.div variants={item} className="text-center pt-8 pb-4 opacity-30">
-                    <p className="text-[10px] font-mono uppercase tracking-widest">System v2.7 • Build 2026-01-21-LateRefFix</p>
+                    <p className="text-[10px] font-mono uppercase tracking-widest">System v2.8 • Build 2026-01-21-DebugRef</p>
                   </motion.div>
                   </motion.div>
       </main>
