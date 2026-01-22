@@ -68,57 +68,26 @@ export default function AuthWrapper({ children }: { children: React.ReactNode })
 
   async function handleReferral(referrerId: string, refereeId: number) {
     try {
-      // 1. Check if user has already been referred (Idempotency)
-      const { data: existingReferral } = await supabase
-        .from('referrals')
-        .select('id')
-        .eq('referee_id', refereeId)
-        .single();
+      // Server-Side Bypass: 
+      // We delegate the database operations to the Next.js API route 
+      // which uses the Admin Key to bypass RLS policies.
+      const res = await fetch('/api/referral', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ 
+            referrerId, 
+            refereeId 
+        }),
+      });
 
-      if (existingReferral) {
-        return; 
-      }
+      const data = await res.json();
 
-      // 2. Validate ID Format
-      const referrerIdNum = Number(referrerId);
-      if (isNaN(referrerIdNum)) {
-         console.error("Invalid referrer ID");
-         return;
-      }
-
-      // 3. BLIND INSERT (The Fix for v2.9)
-      // We skip fetching the profile first to avoid RLS "Read" errors.
-      // We trust the Foreign Key constraint to fail if the user doesn't exist.
-      const { error: insertError } = await supabase
-        .from('referrals')
-        .insert({
-          referrer_id: referrerIdNum,
-          referee_id: refereeId,
-        });
-
-      if (insertError) {
-        console.error("Referral Insert Error:", insertError);
-        return;
-      }
-
-      // 4. Reward the Referrer (Best Effort)
-      // Only now do we try to fetch profile to update points.
-      // If this fails due to RLS, at least the Referral Record exists (Checkmark works).
-      try {
-        const { data: referrer } = await supabase
-            .from('profiles')
-            .select('telegram_id, total_points')
-            .eq('telegram_id', referrerIdNum)
-            .single();
-
-        if (referrer) {
-            await supabase
-                .from('profiles')
-                .update({ total_points: (referrer.total_points || 0) + 500 })
-                .eq('telegram_id', referrerIdNum);
-        }
-      } catch (rewardErr) {
-          console.warn("Could not reward points (RLS restriction likely):", rewardErr);
+      if (!res.ok) {
+        console.error("Referral API Failed:", data.error);
+      } else {
+        console.log("Referral Processed:", data.message || "Success");
       }
 
     } catch (err: any) {
