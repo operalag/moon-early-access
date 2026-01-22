@@ -68,9 +68,6 @@ export default function AuthWrapper({ children }: { children: React.ReactNode })
 
   async function handleReferral(referrerId: string, refereeId: number) {
     try {
-      // Debugging: Alert to confirm function is called (Remove in final prod)
-      // alert(`Processing Referral: Ref=${referrerId} User=${refereeId}`);
-
       // 1. Check if user has already been referred (Idempotency)
       const { data: existingReferral } = await supabase
         .from('referrals')
@@ -79,66 +76,53 @@ export default function AuthWrapper({ children }: { children: React.ReactNode })
         .single();
 
       if (existingReferral) {
-        // alert("Already referred. Skipping.");
         return; 
       }
 
-      // 2. Validate Referrer Exists
-      // precise type casting
+      // 2. Validate ID Format
       const referrerIdNum = Number(referrerId);
       if (isNaN(referrerIdNum)) {
          console.error("Invalid referrer ID");
          return;
       }
 
-      const { data: referrer, error: referrerError } = await supabase
-        .from('profiles')
-        .select('telegram_id, total_points')
-        .eq('telegram_id', referrerIdNum)
-        .single();
-
-      if (referrerError || !referrer) {
-        // alert(`Referrer not found: ${referrerError?.message}`);
-        console.error("Referrer fetch error:", referrerError);
-        return;
-      }
-
-      // 3. Record the Referral
-      // This enables the "Task Completion" checkmark for the Referrer
+      // 3. BLIND INSERT (The Fix for v2.9)
+      // We skip fetching the profile first to avoid RLS "Read" errors.
+      // We trust the Foreign Key constraint to fail if the user doesn't exist.
       const { error: insertError } = await supabase
         .from('referrals')
         .insert({
-          referrer_id: referrer.telegram_id,
+          referrer_id: referrerIdNum,
           referee_id: refereeId,
         });
 
       if (insertError) {
-        // alert(`Referral Insert Failed: ${insertError.message}`);
         console.error("Referral Insert Error:", insertError);
         return;
       }
 
-      // alert("Referral Recorded Successfully!");
+      // 4. Reward the Referrer (Best Effort)
+      // Only now do we try to fetch profile to update points.
+      // If this fails due to RLS, at least the Referral Record exists (Checkmark works).
+      try {
+        const { data: referrer } = await supabase
+            .from('profiles')
+            .select('telegram_id, total_points')
+            .eq('telegram_id', referrerIdNum)
+            .single();
 
-      // 4. Reward the Referrer
-      // WARNING: This might fail if RLS prevents users from updating OTHERS' profiles.
-      // Ideally, this should be a Database Trigger or RPC.
-      const { error: updateError } = await supabase
-        .from('profiles')
-        .update({ total_points: (referrer.total_points || 0) + 500 })
-        .eq('telegram_id', referrer.telegram_id);
-
-      if (updateError) {
-        console.error("Point Update Failed (RLS likely):", updateError);
-        // We do NOT alert here, because the main goal (Syndicate Building) is done.
-        // The points might need to be reconciled via a backend script if this fails.
-      } else {
-        // alert("Referrer Rewarded +500pts");
+        if (referrer) {
+            await supabase
+                .from('profiles')
+                .update({ total_points: (referrer.total_points || 0) + 500 })
+                .eq('telegram_id', referrerIdNum);
+        }
+      } catch (rewardErr) {
+          console.warn("Could not reward points (RLS restriction likely):", rewardErr);
       }
 
     } catch (err: any) {
       console.error('Referral Critical Error:', err);
-      // alert(`Critical Error: ${err.message}`);
     }
   }
 
