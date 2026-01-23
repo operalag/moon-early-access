@@ -71,17 +71,8 @@ export default function AuthWrapper({ children }: { children: React.ReactNode })
             }
         }, 500);
 
+        // Cleanup function for useEffect
         return () => clearInterval(interval);
-
-      } catch (err) {
-        console.error('Auth sync error:', err);
-      } finally {
-        setLoading(false);
-      }
-    }
-
-    syncUser();
-  }, [user, webApp]);
 
       } catch (err) {
         console.error('Auth sync error:', err);
