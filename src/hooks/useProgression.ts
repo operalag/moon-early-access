@@ -41,10 +41,15 @@ export function useProgression() {
         .eq('telegram_id', user.id)
         .single();
 
-      const { count: refCount } = await supabase
-        .from('referrals')
-        .select('*', { count: 'exact', head: true })
-        .eq('referrer_id', user.id);
+      // FETCH REFERRALS VIA API (Bypass RLS)
+      let apiReferralCount = 0;
+      try {
+        const refRes = await fetch(`/api/syndicate?userId=${user.id}`);
+        const refData = await refRes.json();
+        if (refRes.ok) apiReferralCount = refData.count;
+      } catch (e) {
+        console.error("Progression Sync (API) Error:", e);
+      }
 
       const { data: loginData } = await supabase
         .from('daily_logins')
@@ -60,7 +65,7 @@ export function useProgression() {
       const isWalletConnected = !!sdkAddress || dbWalletConnected;
       
       const streak = loginData?.streak_count || 0;
-      const referralCount = refCount || 0;
+      const referralCount = apiReferralCount;
       const hasJoinedChannel = profile?.has_joined_channel || false;
 
       // 3. Calculate Progress

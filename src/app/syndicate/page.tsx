@@ -27,14 +27,19 @@ export default function SyndicatePage() {
     async function fetchReferrals() {
       if (!user) return;
       
-      const { data } = await supabase
-        .from('referrals')
-        .select(`created_at, profiles!referee_id (first_name, username)`)
-        .eq('referrer_id', user.id)
-        .order('created_at', { ascending: false });
+      try {
+        // Use Server-Side API to bypass RLS
+        const res = await fetch(`/api/syndicate?userId=${user.id}`);
+        const data = await res.json();
 
-      if (data) setReferrals(data as any);
-      setLoading(false);
+        if (res.ok && data.referrals) {
+          setReferrals(data.referrals);
+        }
+      } catch (err) {
+        console.error("Failed to fetch syndicate:", err);
+      } finally {
+        setLoading(false);
+      }
     }
     fetchReferrals();
   }, [user]);
