@@ -3,10 +3,12 @@
 import { useEffect, useState } from 'react';
 import { useTelegram } from '@/hooks/useTelegram';
 import { supabase } from '@/lib/supabaseClient';
+import { Loader2 } from 'lucide-react';
 
 export default function AuthWrapper({ children }: { children: React.ReactNode }) {
   const { user, webApp } = useTelegram();
   const [loading, setLoading] = useState(true);
+  const [referralStatus, setReferralStatus] = useState<string | null>(null);
 
   useEffect(() => {
     async function syncUser() {
@@ -16,7 +18,7 @@ export default function AuthWrapper({ children }: { children: React.ReactNode })
       }
 
       try {
-        // 1. Check if profile exists
+        // 1. Sync Profile
         const { data: profile, error } = await supabase
           .from('profiles')
           .select('*')
@@ -24,36 +26,26 @@ export default function AuthWrapper({ children }: { children: React.ReactNode })
           .single();
 
         if (error && error.code === 'PGRST116') {
-          // 2. Profile doesn't exist -> CREATE NEW USER
-          const { error: insertError } = await supabase.from('profiles').insert([
-            {
+          await supabase.from('profiles').insert([{
               telegram_id: user.id,
               username: user.username,
               first_name: user.first_name,
               avatar_url: user.photo_url,
-              total_points: 1000, // Base starting points
-            },
-          ]);
-
-          if (insertError) {
-            console.error('Error creating profile:', insertError);
-          }
+              total_points: 1000,
+          }]);
         } else if (profile) {
-          // 3. Update existing profile
-          await supabase
-            .from('profiles')
-            .update({
+          await supabase.from('profiles').update({
               username: user.username,
               first_name: user.first_name,
               avatar_url: user.photo_url,
-            })
-            .eq('telegram_id', user.id);
+          }).eq('telegram_id', user.id);
         }
 
-        // 4. Handle Referral (Check for both new and existing users)
+        // 2. Handle Referral
         const startParam = webApp?.initDataUnsafe?.start_param;
         if (startParam && startParam !== String(user.id)) {
-          await handleReferral(startParam, user.id);
+           setReferralStatus(`Detecting Invite: ${startParam}...`);
+           await handleReferral(startParam, user.id);
         }
 
       } catch (err) {
@@ -68,40 +60,47 @@ export default function AuthWrapper({ children }: { children: React.ReactNode })
 
   async function handleReferral(referrerId: string, refereeId: number) {
     try {
-      // Server-Side Bypass: 
-      // We delegate the database operations to the Next.js API route 
-      // which uses the Admin Key to bypass RLS policies.
+      setReferralStatus("Activating Invite...");
+      
       const res = await fetch('/api/referral', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ 
-            referrerId, 
-            refereeId 
-        }),
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ referrerId, refereeId }),
       });
 
       const data = await res.json();
 
       if (!res.ok) {
-        console.error("Referral API Failed:", data.error);
+        console.error("Referral Error:", data.error);
+        setReferralStatus(`Invite Failed: ${data.error}`);
       } else {
-        console.log("Referral Processed:", data.message || "Success");
+        setReferralStatus("Invite Accepted! +Rewards Applied");
+        // Hide success message after 3s
+        setTimeout(() => setReferralStatus(null), 3000);
       }
 
     } catch (err: any) {
-      console.error('Referral Critical Error:', err);
+      setReferralStatus("Connection Error");
     }
   }
 
   if (loading) {
     return (
-      <div className="flex h-screen items-center justify-center bg-black">
+      <div className="flex h-screen items-center justify-center bg-[#050505]">
         <div className="text-xl font-bold text-yellow-500 animate-pulse">LOADING MOON...</div>
       </div>
     );
   }
 
-  return <>{children}</>;
+  return (
+    <>
+      {referralStatus && (
+        <div className="fixed top-4 left-4 right-4 z-50 bg-blue-600 text-white p-3 rounded-xl shadow-lg flex items-center gap-3 animate-in slide-in-from-top-4">
+           {referralStatus.includes('Failed') ? null : <Loader2 size={16} className="animate-spin" />}
+           <span className="text-xs font-bold">{referralStatus}</span>
+        </div>
+      )}
+      {children}
+    </>
+  );
 }
