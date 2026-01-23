@@ -42,7 +42,20 @@ export default function AuthWrapper({ children }: { children: React.ReactNode })
         }
 
         // 2. Handle Referral
-        const startParam = webApp?.initDataUnsafe?.start_param;
+        let startParam = webApp?.initDataUnsafe?.start_param;
+
+        // FALLBACK: URL Scanner (for when SDK fails to populate start_param)
+        if (!startParam && typeof window !== 'undefined') {
+          const searchParams = new URLSearchParams(window.location.search);
+          const hashParams = new URLSearchParams(window.location.hash.slice(1));
+          startParam = searchParams.get('tgWebAppStartParam') || 
+                       hashParams.get('tgWebAppStartParam') ||
+                       searchParams.get('startapp') ||
+                       hashParams.get('startapp');
+          
+          if (startParam) console.log("MOON: Referral found in URL fallback:", startParam);
+        }
+
         if (startParam && startParam !== String(user.id)) {
            setReferralStatus(`Detecting Invite: ${startParam}...`);
            await handleReferral(startParam, user.id);
