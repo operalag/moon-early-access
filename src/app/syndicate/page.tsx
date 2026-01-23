@@ -99,6 +99,60 @@ export default function SyndicatePage() {
           <div className="absolute top-10 right-10 w-20 h-20 bg-white/10 rounded-full blur-xl" />
         </div>
 
+        {/* Manual Code Entry (Fail-Safe) */}
+        <div className="mb-8">
+           <details className="group">
+              <summary className="list-none flex items-center justify-center gap-2 text-zinc-500 text-xs font-bold uppercase tracking-widest cursor-pointer hover:text-white transition-colors">
+                <span>Have an invite code?</span>
+                <span className="group-open:rotate-180 transition-transform">▼</span>
+              </summary>
+              <div className="mt-4 bg-white/5 border border-white/10 p-4 rounded-2xl flex gap-2 animate-in fade-in slide-in-from-top-2">
+                 <input 
+                   type="text" 
+                   placeholder="e.g. 458184707"
+                   className="flex-1 bg-black/50 border border-white/10 rounded-xl px-4 py-3 text-white text-sm focus:outline-none focus:border-yellow-500 transition-colors"
+                   id="manual-ref-input"
+                 />
+                 <button 
+                   onClick={async () => {
+                     const input = document.getElementById('manual-ref-input') as HTMLInputElement;
+                     const code = input.value.trim();
+                     if (!code || !user) return;
+                     
+                     const btn = document.getElementById('manual-ref-btn')!;
+                     const originalText = btn.innerText;
+                     btn.innerText = "...";
+                     btn.setAttribute('disabled', 'true');
+
+                     try {
+                        const res = await fetch('/api/referral', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ referrerId: code, refereeId: user.id }),
+                        });
+                        const data = await res.json();
+                        if (res.ok) {
+                            alert("Success! Referral linked.");
+                            window.location.reload();
+                        } else {
+                            alert(data.error || "Failed");
+                        }
+                     } catch (e) {
+                        alert("Connection Error");
+                     } finally {
+                        btn.innerText = originalText;
+                        btn.removeAttribute('disabled');
+                     }
+                   }}
+                   id="manual-ref-btn"
+                   className="bg-white text-black font-bold px-6 rounded-xl text-sm hover:bg-zinc-200"
+                 >
+                   CLAIM
+                 </button>
+              </div>
+           </details>
+        </div>
+
         {/* Stats Grid */}
         <div className="grid grid-cols-2 gap-3 mb-8">
           <div className="bg-white/5 border border-white/10 p-5 rounded-[24px]">

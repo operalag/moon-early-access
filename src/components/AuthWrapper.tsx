@@ -41,25 +41,47 @@ export default function AuthWrapper({ children }: { children: React.ReactNode })
           }).eq('telegram_id', user.id);
         }
 
-        // 2. Handle Referral
-        let startParam = webApp?.initDataUnsafe?.start_param;
+        // 2. Handle Referral (with Polling)
+        // We poll for 5 seconds to catch "Late Hydration" of the initData
+        let attempts = 0;
+        const interval = setInterval(async () => {
+            attempts++;
+            if (attempts > 10) clearInterval(interval); // Stop after 5s
 
-        // FALLBACK: URL Scanner (for when SDK fails to populate start_param)
-        if (!startParam && typeof window !== 'undefined') {
-          const searchParams = new URLSearchParams(window.location.search);
-          const hashParams = new URLSearchParams(window.location.hash.slice(1));
-          startParam = searchParams.get('tgWebAppStartParam') || 
-                       hashParams.get('tgWebAppStartParam') ||
-                       searchParams.get('startapp') ||
-                       hashParams.get('startapp');
-          
-          if (startParam) console.log("MOON: Referral found in URL fallback:", startParam);
-        }
+            let startParam = webApp?.initDataUnsafe?.start_param;
 
-        if (startParam && startParam !== String(user.id)) {
-           setReferralStatus(`Detecting Invite: ${startParam}...`);
-           await handleReferral(startParam, user.id);
-        }
+            // Fallback: URL Scanner
+            if (!startParam && typeof window !== 'undefined') {
+                const searchParams = new URLSearchParams(window.location.search);
+                const hashParams = new URLSearchParams(window.location.hash.slice(1));
+                startParam = searchParams.get('tgWebAppStartParam') || 
+                             hashParams.get('tgWebAppStartParam') ||
+                             searchParams.get('startapp') ||
+                             hashParams.get('startapp');
+            }
+
+            if (startParam && startParam !== String(user.id)) {
+                clearInterval(interval); // Found it! Stop polling.
+                // Only trigger if we haven't processed this session
+                if (!sessionStorage.getItem('referral_processed')) {
+                    sessionStorage.setItem('referral_processed', 'true');
+                    setReferralStatus(`Found Invite Code: ${startParam}`);
+                    await handleReferral(startParam, user.id);
+                }
+            }
+        }, 500);
+
+        return () => clearInterval(interval);
+
+      } catch (err) {
+        console.error('Auth sync error:', err);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    syncUser();
+  }, [user, webApp]);
 
       } catch (err) {
         console.error('Auth sync error:', err);
