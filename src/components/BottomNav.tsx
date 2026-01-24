@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { LayoutGrid, Bot, Newspaper } from 'lucide-react';
+import { LayoutGrid, Bot, Newspaper, Settings } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 export default function BottomNav() {
@@ -12,6 +12,7 @@ export default function BottomNav() {
     { name: 'Markets', href: '/', icon: LayoutGrid },
     { name: 'AI Analyst', href: '/chat', icon: Bot },
     { name: 'News', href: '/news', icon: Newspaper },
+    { name: 'Settings', href: '/settings', icon: Settings },
   ];
 
   return (

@@ -38,6 +38,7 @@ export default function AuthWrapper({ children }: { children: React.ReactNode })
               username: user.username,
               first_name: user.first_name,
               avatar_url: user.photo_url,
+              last_active_at: new Date().toISOString(), // Project Megaphone signal
           }).eq('telegram_id', user.id);
         }
 
