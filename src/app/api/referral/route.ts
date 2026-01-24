@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { supabaseAdmin } from '@/lib/supabaseAdmin';
+import { awardPoints } from '@/lib/pointsEngine';
 
 export async function POST(request: Request) {
   try {
@@ -38,19 +39,14 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: insertError.message }, { status: 500 });
     }
 
-    // 3. Reward Points (Admin Write - Bypasses RLS)
-    // Fetch current points first
-    const { data: referrer } = await supabaseAdmin
-        .from('profiles')
-        .select('total_points')
-        .eq('telegram_id', referrerIdNum)
-        .single();
-
-    if (referrer) {
-        await supabaseAdmin
-            .from('profiles')
-            .update({ total_points: (referrer.total_points || 0) + 500 })
-            .eq('telegram_id', referrerIdNum);
+    // 3. Reward Points via Engine (v4.0+)
+    // This updates Profile, Transactions, and Leaderboard Buckets atomically.
+    try {
+       await awardPoints(referrerIdNum, 500, 'referral', { refereeId });
+    } catch (engineError) {
+       console.error("Points Engine Failed for Referral:", engineError);
+       // We do not fail the request because the referral itself (Step 2) was successful.
+       // We can reconcile points later via logs.
     }
 
     return NextResponse.json({ success: true }, { status: 200 });

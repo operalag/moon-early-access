@@ -109,8 +109,27 @@ export default function SpinPage() {
     setPrize(null);
 
     try {
-        const selectedIndex = getWeightedPrizeIndex();
-        const selectedPrize = prizes[selectedIndex];
+        // 1. Call Secure API
+        const res = await fetch('/api/spin', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ userId: user.id })
+        });
+        
+        const data = await res.json();
+
+        if (!res.ok) {
+            alert(data.error || "Spin Failed");
+            setSpinning(false);
+            return;
+        }
+
+        const selectedPrize = data.prize;
+        
+        // Find index for animation
+        const selectedIndex = prizes.findIndex(p => p.label === selectedPrize.label);
+        
+        // 2. Animation Logic
         const segmentAngle = 360 / prizes.length;
         const spinRotations = 8; 
         const targetAngle = (selectedIndex * segmentAngle);
@@ -126,32 +145,12 @@ export default function SpinPage() {
           confetti({ particleCount: 150, spread: 80, origin: { y: 0.6 }, colors: ['#ffd700', '#ffffff'] });
 
           const now = new Date().toISOString();
-          
-          // Update LocalStorage (Immediate Lock)
           localStorage.setItem(`last_spin_${user.id}`, now);
-
-          // Update DB
-          const { data: profile } = await supabase
-            .from('profiles')
-            .select('total_points')
-            .eq('telegram_id', user.id)
-            .single();
-
-          if (profile) {
-            await supabase
-              .from('profiles')
-              .update({ 
-                total_points: profile.total_points + selectedPrize.value,
-                last_spin_at: now
-              })
-              .eq('telegram_id', user.id);
-          }
           
           setTimeRemaining(calculateTimeRemaining());
 
           // Redirect to Dashboard
           setTimeout(() => {
-             // Use window.location to force a refresh on dashboard so it picks up the new points
              window.location.href = '/'; 
           }, 2500);
 
