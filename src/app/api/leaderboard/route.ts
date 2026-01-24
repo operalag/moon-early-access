@@ -43,6 +43,7 @@ export async function GET(request: Request) {
         .from('leaderboard_buckets')
         .select(`
            points,
+           period_key,
            profiles (username, first_name, avatar_url)
         `)
         .eq('period_type', period)
