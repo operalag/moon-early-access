@@ -16,28 +16,19 @@ export default function WalletPage() {
   useEffect(() => {
     async function saveWallet() {
       if (user && userFriendlyAddress) {
-        // 1. Fetch current status first to prevent double-rewarding
-        const { data: profile } = await supabase
-          .from('profiles')
-          .select('is_wallet_connected, total_points')
-          .eq('telegram_id', user.id)
-          .single();
-
-        if (profile && !profile.is_wallet_connected) {
-          // 2. Award Points & Mark Connected
-          const REWARD = 1000;
-          const { error } = await supabase
-            .from('profiles')
-            .update({ 
-              is_wallet_connected: true,
-              total_points: (profile.total_points || 0) + REWARD
+        try {
+          const res = await fetch('/api/wallet/verify', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ 
+              userId: user.id,
+              walletAddress: userFriendlyAddress 
             })
-            .eq('telegram_id', user.id);
+          });
           
-          if (!error) setIsSaved(true);
-        } else if (profile?.is_wallet_connected) {
-           // Already connected, just show saved state
-           setIsSaved(true);
+          if (res.ok) setIsSaved(true);
+        } catch (e) {
+          console.error("Wallet Sync Error:", e);
         }
       }
     }
