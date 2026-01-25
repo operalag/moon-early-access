@@ -7,7 +7,8 @@ export type PointReason =
   | 'wallet_connect' 
   | 'channel_join' 
   | 'prediction_win' 
-  | 'admin_adjustment';
+  | 'admin_adjustment'
+  | 'welcome_bonus';
 
 /**
  * The Centralized Points Engine

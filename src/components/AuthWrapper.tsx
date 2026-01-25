@@ -26,13 +26,22 @@ export default function AuthWrapper({ children }: { children: React.ReactNode })
           .single();
 
         if (error && error.code === 'PGRST116') {
+          // New User: Create with 0 points, then let Engine handle the Welcome Bonus
           await supabase.from('profiles').insert([{
               telegram_id: user.id,
               username: user.username,
               first_name: user.first_name,
               avatar_url: user.photo_url,
-              total_points: 1000,
+              total_points: 0, 
           }]);
+          
+          // Trigger Welcome Bonus (Engine)
+          await fetch('/api/auth/welcome', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ userId: user.id })
+          });
+
         } else if (profile) {
           await supabase.from('profiles').update({
               username: user.username,
