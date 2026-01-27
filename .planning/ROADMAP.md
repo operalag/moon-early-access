@@ -14,16 +14,17 @@ Transform the gamified Telegram Mini App into an active prediction market tradin
 **Goal:** Ship a polished v1.0 release candidate with visual refinements
 **Requirements:** Launch Polish items from PROJECT.md
 - Leaderboard: Remove @username, show only name and avatar
-- Visual tweaks across app
-- Page element reordering
+- Visual tweaks across app (user-specified at runtime)
+- Page element reordering (user-specified at runtime)
 
 **Estimated complexity:** S (1-2 days)
 **Research needed:** No
 **Dependencies:** None
-**Plans:** 1 plan
+**Plans:** 2 plans
 
 Plans:
-- [ ] 01-01-PLAN.md — Remove @username from leaderboard + verify polish
+- [ ] 01-01-PLAN.md — Remove @username from leaderboard + gather polish requirements
+- [ ] 01-02-PLAN.md — Implement user-specified visual tweaks and reordering (conditional)
 
 **Success Criteria:**
 - Leaderboard displays name and avatar only (no @username)
