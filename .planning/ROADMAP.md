@@ -1,0 +1,191 @@
+# Project Roadmap
+
+**Project:** Moon Prediction Mini App
+**Version:** 1.0.0
+**Created:** 2026-01-27
+
+## Milestone 1: Prediction Market Integration (Current)
+
+Transform the gamified Telegram Mini App into an active prediction market trading platform with guided onboarding.
+
+---
+
+### Phase 1: Launch Polish
+**Goal:** Ship a polished v1.0 release candidate with visual refinements
+**Requirements:** Launch Polish items from PROJECT.md
+- Leaderboard: Remove @username, show only name and avatar
+- Visual tweaks across app
+- Page element reordering
+
+**Estimated complexity:** S (1-2 days)
+**Research needed:** No
+**Dependencies:** None
+
+**Success Criteria:**
+- Leaderboard displays name and avatar only (no @username)
+- Visual tweaks applied per user feedback
+- Page elements reordered as specified
+
+---
+
+### Phase 2: Foundation & Types
+**Goal:** Establish data contracts and state management for prediction market integration
+**Requirements:** Technical foundation for Prediction Market Integration
+- TypeScript types for markets, positions, trades
+- Zustand store skeleton for trade slip and UI state
+- TanStack Query setup for server state
+- MarketContext provider
+
+**Estimated complexity:** S (1-2 days)
+**Research needed:** No
+**Dependencies:** Phase 1 complete
+
+**Success Criteria:**
+- Type definitions cover all market/trade entities
+- State management patterns established
+- Mock data utilities ready for Phase 3
+
+---
+
+### Phase 3: Mock Trading UI
+**Goal:** Build and iterate on trading interface without external API dependency
+**Requirements:** Prediction Market Integration - Display market data and trading interface
+- Market listing page with mock data
+- Single market trading interface (buy/sell)
+- Position display with P&L
+- Wallet balance display
+
+**Estimated complexity:** M (2-3 days)
+**Research needed:** No
+**Dependencies:** Phase 2 complete
+
+**Success Criteria:**
+- User can browse market listings (mock)
+- User can view market details and probabilities
+- Trading interface functional with mock data
+- Position list shows mock positions with P&L
+
+---
+
+### Phase 4: themoon.business API Integration
+**Goal:** Connect to real market data from themoon.business
+**Requirements:** Prediction Market Integration - Integrate a market from themoon.business
+- Market client library (lib/marketClient.ts)
+- API routes proxying to themoon.business
+- Real market data flowing to UI
+- Error handling and loading states
+
+**Estimated complexity:** L (3-5 days)
+**Research needed:** YES - BLOCKED until API documentation received
+**Dependencies:** Phase 3 complete, themoon.business API access
+
+**Success Criteria:**
+- Real markets displayed from themoon.business
+- Market data updates in real-time (polling or WebSocket)
+- API errors handled gracefully
+- initData validation on all API routes
+
+**Research Notes:**
+- Contact themoon.business for API documentation
+- Clarify: authentication mechanism, trade submission flow, settlement, token type
+- Fallback options: direct smart contract, iframe embed
+
+---
+
+### Phase 5: Trading Execution
+**Goal:** Enable real trades via TonConnect wallet integration
+**Requirements:** Prediction Market Integration - Trading interface
+- Trade preparation endpoint
+- TonConnect transaction signing flow
+- Optimistic trade UI with recovery
+- Transaction confirmation and receipts
+
+**Estimated complexity:** M (2-3 days)
+**Research needed:** Maybe - depends on themoon.business transaction flow
+**Dependencies:** Phase 4 complete, TonConnect patterns established
+
+**Success Criteria:**
+- User can submit a trade and sign with TonConnect
+- Transaction status shows (pending, confirmed, failed)
+- Optimistic UI updates immediately, reconciles on confirmation
+- Gas fees displayed transparently before signing
+
+---
+
+### Phase 6: Tutorial & Onboarding
+**Goal:** Guide new users through wallet setup and first trade
+**Requirements:** Tutorial/Onboarding items from PROJECT.md
+- Wallet creation/connection coaching
+- Prediction market basics education
+- First trade completion with reward
+
+**Estimated complexity:** M (2-3 days)
+**Research needed:** No
+**Dependencies:** Phase 5 complete (trading must work to teach it)
+
+**Success Criteria:**
+- New user guided through wallet connection (not required upfront)
+- Tutorial explains prediction market concepts in plain language
+- User completes first trade with guided walkthrough
+- First trade reward granted (points, badge, or both)
+- Progress tracked and persisted
+
+---
+
+### Phase 7: Position Management & Polish
+**Goal:** Complete the trading loop with position tracking and settlement
+**Requirements:** Prediction Market Integration - final polish
+- Position polling with real-time updates
+- Settlement handling (claim winnings)
+- Points engine integration for trading activity
+- Final UX polish and edge cases
+
+**Estimated complexity:** M (2-3 days)
+**Research needed:** No
+**Dependencies:** Phase 6 complete
+
+**Success Criteria:**
+- User can view all open positions with live P&L
+- Settlement flow works (automatic or user-initiated)
+- Points awarded for trading milestones
+- Error states and edge cases handled
+
+---
+
+## Success Criteria for Milestone 1
+
+Milestone 1 is complete when:
+- [ ] Launch Polish shipped (v1.0 ready)
+- [ ] User can browse real markets from themoon.business
+- [ ] User can execute a trade via TonConnect
+- [ ] New user can complete tutorial and first trade with reward
+- [ ] Positions tracked with P&L display
+- [ ] Trading vocabulary uses "trading" framing, not "betting"
+
+## Risk Summary
+
+| Risk | Mitigation | Phase |
+|------|------------|-------|
+| themoon.business API unavailable | Fallback to iframe or smart contract direct | Phase 4 |
+| Premature wallet prompts cause abandonment | Wallet deferred until trading; tutorial guides | Phase 6 |
+| Crypto jargon overwhelms users | Plain language, progressive disclosure | Phase 6 |
+| TON-only violation | TonConnect SDK only, no multichain | Phase 5 |
+
+## Timeline Estimate
+
+| Phase | Complexity | Days |
+|-------|------------|------|
+| 1 - Launch Polish | S | 1-2 |
+| 2 - Foundation & Types | S | 1-2 |
+| 3 - Mock Trading UI | M | 2-3 |
+| 4 - API Integration | L | 3-5 |
+| 5 - Trading Execution | M | 2-3 |
+| 6 - Tutorial & Onboarding | M | 2-3 |
+| 7 - Position Management | M | 2-3 |
+| **Total** | | **14-21 days** |
+
+Note: Phase 4 may be blocked pending themoon.business API access. Phases 1-3 can proceed immediately.
+
+---
+*Roadmap created: 2026-01-27*
+*Based on: PROJECT.md requirements, research/SUMMARY.md findings*
