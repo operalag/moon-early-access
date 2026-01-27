@@ -124,9 +124,6 @@ export default function LeaderboardPage() {
                             <p className={`font-bold text-sm ${rank === 1 ? 'text-yellow-500' : 'text-white'}`}>
                                 {user.first_name}
                             </p>
-                            <p className="text-[10px] text-white/30 font-mono">
-                                @{user.username || 'anon'}
-                            </p>
                         </div>
 
                         <div className="text-right">
