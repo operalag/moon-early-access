@@ -34,28 +34,29 @@ Plans:
 
 ---
 
-### Phase 2: Foundation & Types
-**Goal:** Establish data contracts and state management for prediction market integration
-**Requirements:** Technical foundation for Prediction Market Integration
-- TypeScript types for markets, positions, trades
-- Zustand store skeleton for trade slip and UI state
-- TanStack Query setup for server state
-- Mock data utilities for Phase 3
+### Phase 2: Campaign Tracking
+**Goal:** Track user acquisition from marketing campaigns via startapp parameter
+**Requirements:** Campaign attribution system
+- Detect if startapp parameter is a campaign ID (e.g., "V1a", "V1b") or a referral (numeric user ID)
+- For referrals: keep existing flow unchanged
+- For campaigns: record campaign attribution (user_id, campaign_id, timestamp)
+- Database table to store campaign attributions
+- Admin view to see which users came through which campaigns
 
-**Estimated complexity:** S (1-2 days)
+**Estimated complexity:** S (1 day)
 **Research needed:** No
 **Dependencies:** Phase 1 complete
-**Plans:** 3 plans
+**Plans:** 2 plans
 
 Plans:
-- [ ] 02-01-PLAN.md — Install dependencies + create market types
-- [ ] 02-02-PLAN.md — Create Zustand store + TanStack Query setup + wire providers
-- [ ] 02-03-PLAN.md — Create mock data utilities
+- [ ] 02-01-PLAN.md — Create campaign_attributions table and POST /api/campaign endpoint
+- [ ] 02-02-PLAN.md — Add detection logic to AuthWrapper and create debug endpoint
 
 **Success Criteria:**
-- Type definitions cover all market/trade entities
-- State management patterns established
-- Mock data utilities ready for Phase 3
+- startapp parameter correctly identified as campaign vs referral
+- Campaign attributions stored in database
+- Existing referral flow unchanged
+- Campaign data queryable (debug endpoint)
 
 ---
 
@@ -188,7 +189,7 @@ Milestone 1 is complete when:
 | Phase | Complexity | Days |
 |-------|------------|------|
 | 1 - Launch Polish | S | 1-2 |
-| 2 - Foundation & Types | S | 1-2 |
+| 2 - Campaign Tracking | S | 1 |
 | 3 - Mock Trading UI | M | 2-3 |
 | 4 - API Integration | L | 3-5 |
 | 5 - Trading Execution | M | 2-3 |
