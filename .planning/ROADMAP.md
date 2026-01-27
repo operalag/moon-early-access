@@ -10,26 +10,27 @@ Transform the gamified Telegram Mini App into an active prediction market tradin
 
 ---
 
-### Phase 1: Launch Polish
+### Phase 1: Launch Polish ✓
 **Goal:** Ship a polished v1.0 release candidate with visual refinements
 **Requirements:** Launch Polish items from PROJECT.md
-- Leaderboard: Remove @username, show only name and avatar
-- Visual tweaks across app (user-specified at runtime)
-- Page element reordering (user-specified at runtime)
+- ✓ Leaderboard: Remove @username, show only name and avatar
+- ✓ Visual tweaks across app (user declined - none needed)
+- ✓ Page element reordering (user declined - none needed)
 
 **Estimated complexity:** S (1-2 days)
 **Research needed:** No
 **Dependencies:** None
+**Status:** COMPLETE (2026-01-27)
 **Plans:** 2 plans
 
 Plans:
-- [ ] 01-01-PLAN.md — Remove @username from leaderboard + gather polish requirements
-- [ ] 01-02-PLAN.md — Implement user-specified visual tweaks and reordering (conditional)
+- [x] 01-01-PLAN.md — Remove @username from leaderboard + gather polish requirements
+- [x] 01-02-PLAN.md — Skipped (user specified no additional polish)
 
 **Success Criteria:**
-- Leaderboard displays name and avatar only (no @username)
-- Visual tweaks applied per user feedback
-- Page elements reordered as specified
+- ✓ Leaderboard displays name and avatar only (no @username)
+- ✓ Visual tweaks applied per user feedback (none requested)
+- ✓ Page elements reordered as specified (none requested)
 
 ---
 
@@ -160,7 +161,7 @@ Plans:
 ## Success Criteria for Milestone 1
 
 Milestone 1 is complete when:
-- [ ] Launch Polish shipped (v1.0 ready)
+- [x] Launch Polish shipped (v1.0 ready)
 - [ ] User can browse real markets from themoon.business
 - [ ] User can execute a trade via TonConnect
 - [ ] New user can complete tutorial and first trade with reward
