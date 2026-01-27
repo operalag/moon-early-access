@@ -2,7 +2,7 @@
 
 **Project:** Moon Prediction Mini App
 **Last Updated:** 2026-01-27
-**Current Phase:** Phase 2 - Campaign Tracking (IN PROGRESS)
+**Current Phase:** Phase 2 - Campaign Tracking (COMPLETE)
 
 ## Progress
 
@@ -11,7 +11,7 @@
 | Phase | Status | Notes |
 |-------|--------|-------|
 | 1 - Launch Polish | **COMPLETE** | All plans complete |
-| 2 - Campaign Tracking | **IN PROGRESS** | Plan 01 complete |
+| 2 - Campaign Tracking | **COMPLETE** | All plans complete |
 | 3 - Mock Trading UI | Pending | |
 | 4 - API Integration | **BLOCKED** | Needs themoon.business API docs |
 | 5 - Trading Execution | Pending | |
@@ -23,9 +23,9 @@
 | Plan | Status | Summary |
 |------|--------|---------|
 | 02-01 | **COMPLETE** | Campaign attribution table and API |
-| 02-02 | Pending | TMA integration for campaign capture |
+| 02-02 | **COMPLETE** | TMA integration for campaign capture |
 
-Progress: [##------] 2/7 phases (Phase 2: 1/2 plans)
+Progress: [##------] 2/7 phases complete
 
 ## Blockers
 
@@ -41,9 +41,14 @@ Progress: [##------] 2/7 phases (Phase 2: 1/2 plans)
 | 2026-01-27 | 02-01 | First-touch attribution model | UNIQUE(user_id) ensures one campaign per user |
 | 2026-01-27 | 02-01 | No points for campaign attribution | Pure tracking, unlike referrals |
 | 2026-01-27 | 02-01 | Supabase migrations structure | supabase/ directory for managed migrations |
+| 2026-01-27 | 02-02 | Referral = numeric, Campaign = alphanumeric | Clear distinction for startapp param routing |
+| 2026-01-27 | 02-02 | Separate session storage keys | referral_processed vs campaign_processed |
+| 2026-01-27 | 02-02 | Silent campaign attribution | No UI feedback for marketing tracking |
 
 ## Recent Activity
 
+- 2026-01-27: Completed Plan 02-02 - TMA integration for campaign capture
+- 2026-01-27: Phase 2 (Campaign Tracking) COMPLETE
 - 2026-01-27: Completed Plan 02-01 - Campaign attribution table and API
 - 2026-01-27: Completed Plan 01-02 - Skipped (no requirements)
 - 2026-01-27: Phase 1 (Launch Polish) COMPLETE
@@ -56,15 +61,15 @@ Progress: [##------] 2/7 phases (Phase 2: 1/2 plans)
 
 ## Session Continuity
 
-Last session: 2026-01-27T16:35:30Z
-Stopped at: Completed Plan 02-01 (Campaign Attribution API)
+Last session: 2026-01-27T16:39:02Z
+Stopped at: Completed Plan 02-02 (TMA Integration)
 Resume file: None
 
 ## Quick Commands
 
 ```bash
-# Continue Phase 2
-/gsd:execute-plan 02-02
+# Start Phase 3
+/gsd:plan-phase 03
 
 # Check progress
 /gsd:progress
@@ -85,10 +90,12 @@ Key constraints:
 **User Versioning Preference:**
 Continue versioning format: "System v5.3.0-beta - Build 2026-01-24-WelcomeBonusEngine"
 
-**Phase 2 Context:**
+**Phase 2 Summary (Complete):**
 - Campaign tracking for marketing attribution
 - First-touch model (one campaign per user)
 - API endpoint: POST /api/campaign {campaignId, userId}
+- Detection: isReferralCode() distinguishes numeric (referral) from alphanumeric (campaign)
+- Debug endpoint: GET /api/debug/campaigns with 3 query modes
 
 ---
 *State initialized: 2026-01-27*
