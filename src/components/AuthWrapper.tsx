@@ -5,6 +5,12 @@ import { useTelegram } from '@/hooks/useTelegram';
 import { supabase } from '@/lib/supabaseClient';
 import { Loader2 } from 'lucide-react';
 
+// Referral codes are purely numeric Telegram user IDs (e.g., "458184707")
+// Campaign codes contain letters (e.g., "V1a", "TW2b", "IG3c")
+function isReferralCode(code: string): boolean {
+  return /^\d+$/.test(code);
+}
+
 export default function AuthWrapper({ children }: { children: React.ReactNode }) {
   const { user, webApp } = useTelegram();
   const [loading, setLoading] = useState(true);
@@ -32,9 +38,9 @@ export default function AuthWrapper({ children }: { children: React.ReactNode })
               username: user.username,
               first_name: user.first_name,
               avatar_url: user.photo_url,
-              total_points: 0, 
+              total_points: 0,
           }]);
-          
+
           // Trigger Welcome Bonus (Engine)
           await fetch('/api/auth/welcome', {
               method: 'POST',
@@ -51,7 +57,7 @@ export default function AuthWrapper({ children }: { children: React.ReactNode })
           }).eq('telegram_id', user.id);
         }
 
-        // 2. Handle Referral (with Polling)
+        // 2. Handle startapp Parameter (Referral or Campaign)
         // We poll for 5 seconds to catch "Late Hydration" of the initData
         let attempts = 0;
         const interval = setInterval(async () => {
@@ -64,7 +70,7 @@ export default function AuthWrapper({ children }: { children: React.ReactNode })
             if (!startParam && typeof window !== 'undefined') {
                 const searchParams = new URLSearchParams(window.location.search);
                 const hashParams = new URLSearchParams(window.location.hash.slice(1));
-                startParam = searchParams.get('tgWebAppStartParam') || 
+                startParam = searchParams.get('tgWebAppStartParam') ||
                              hashParams.get('tgWebAppStartParam') ||
                              searchParams.get('startapp') ||
                              hashParams.get('startapp');
@@ -72,11 +78,21 @@ export default function AuthWrapper({ children }: { children: React.ReactNode })
 
             if (startParam && startParam !== String(user.id)) {
                 clearInterval(interval); // Found it! Stop polling.
-                // Only trigger if we haven't processed this session
-                if (!sessionStorage.getItem('referral_processed')) {
-                    sessionStorage.setItem('referral_processed', 'true');
-                    setReferralStatus(`Found Invite Code: ${startParam}`);
-                    await handleReferral(startParam, user.id);
+
+                // Route based on code type
+                if (isReferralCode(startParam)) {
+                    // Numeric = Referral (existing flow)
+                    if (!sessionStorage.getItem('referral_processed')) {
+                        sessionStorage.setItem('referral_processed', 'true');
+                        setReferralStatus(`Found Invite Code: ${startParam}`);
+                        await handleReferral(startParam, user.id);
+                    }
+                } else {
+                    // Contains letters = Campaign (silent attribution)
+                    if (!sessionStorage.getItem('campaign_processed')) {
+                        sessionStorage.setItem('campaign_processed', 'true');
+                        await handleCampaign(startParam, user.id);
+                    }
                 }
             }
         }, 500);
@@ -93,6 +109,25 @@ export default function AuthWrapper({ children }: { children: React.ReactNode })
 
     syncUser();
   }, [user, webApp]);
+
+  async function handleCampaign(campaignId: string, userId: number) {
+    try {
+      // Silent attribution - no UI feedback needed for campaigns
+      const res = await fetch('/api/campaign', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ campaignId, userId }),
+      });
+
+      if (!res.ok) {
+        const data = await res.json();
+        console.error("Campaign Attribution Error:", data.error);
+      }
+      // No success UI - campaign tracking is silent
+    } catch (err) {
+      console.error("Campaign Attribution Failed:", err);
+    }
+  }
 
   async function handleReferral(referrerId: string, refereeId: number) {
     try {
