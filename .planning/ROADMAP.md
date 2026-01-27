@@ -40,11 +40,17 @@ Plans:
 - TypeScript types for markets, positions, trades
 - Zustand store skeleton for trade slip and UI state
 - TanStack Query setup for server state
-- MarketContext provider
+- Mock data utilities for Phase 3
 
 **Estimated complexity:** S (1-2 days)
 **Research needed:** No
 **Dependencies:** Phase 1 complete
+**Plans:** 3 plans
+
+Plans:
+- [ ] 02-01-PLAN.md — Install dependencies + create market types
+- [ ] 02-02-PLAN.md — Create Zustand store + TanStack Query setup + wire providers
+- [ ] 02-03-PLAN.md — Create mock data utilities
 
 **Success Criteria:**
 - Type definitions cover all market/trade entities
