@@ -20,6 +20,10 @@ Transform the gamified Telegram Mini App into an active prediction market tradin
 **Estimated complexity:** S (1-2 days)
 **Research needed:** No
 **Dependencies:** None
+**Plans:** 1 plan
+
+Plans:
+- [ ] 01-01-PLAN.md — Remove @username from leaderboard + verify polish
 
 **Success Criteria:**
 - Leaderboard displays name and avatar only (no @username)
