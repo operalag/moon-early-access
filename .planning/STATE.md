@@ -1,8 +1,8 @@
 # Project State
 
 **Project:** Moon Prediction Mini App
-**Last Updated:** 2026-01-27
-**Current Phase:** Phase 2 - Campaign Tracking (COMPLETE)
+**Last Updated:** 2026-01-28
+**Current Phase:** Phase 3 - Featured Market Gating (IN PROGRESS)
 
 ## Progress
 
@@ -12,20 +12,19 @@
 |-------|--------|-------|
 | 1 - Launch Polish | **COMPLETE** | All plans complete |
 | 2 - Campaign Tracking | **COMPLETE** | All plans complete |
-| 3 - Mock Trading UI | Pending | |
+| 3 - Featured Market Gating | **IN PROGRESS** | Plan 01 complete |
 | 4 - API Integration | **BLOCKED** | Needs themoon.business API docs |
 | 5 - Trading Execution | Pending | |
 | 6 - Tutorial & Onboarding | Pending | |
 | 7 - Position Management | Pending | |
 
-### Phase 2 Progress
+### Phase 3 Progress
 
 | Plan | Status | Summary |
 |------|--------|---------|
-| 02-01 | **COMPLETE** | Campaign attribution table and API |
-| 02-02 | **COMPLETE** | TMA integration for campaign capture |
+| 03-01 | **COMPLETE** | Wallet gating modal + FeaturedMarketCard |
 
-Progress: [##------] 2/7 phases complete
+Progress: [###-----] 3/7 phases (pending UAT)
 
 ## Blockers
 
@@ -44,9 +43,12 @@ Progress: [##------] 2/7 phases complete
 | 2026-01-27 | 02-02 | Referral = numeric, Campaign = alphanumeric | Clear distinction for startapp param routing |
 | 2026-01-27 | 02-02 | Separate session storage keys | referral_processed vs campaign_processed |
 | 2026-01-27 | 02-02 | Silent campaign attribution | No UI feedback for marketing tracking |
+| 2026-01-28 | 03-01 | Close modal before TonConnect | Avoid z-index conflicts between modals |
+| 2026-01-28 | 03-01 | Card as button element | Better accessibility for interactive elements |
 
 ## Recent Activity
 
+- 2026-01-28: Completed Plan 03-01 - Wallet gating modal + FeaturedMarketCard
 - 2026-01-27: Completed Plan 02-02 - TMA integration for campaign capture
 - 2026-01-27: Phase 2 (Campaign Tracking) COMPLETE
 - 2026-01-27: Completed Plan 02-01 - Campaign attribution table and API
@@ -61,15 +63,15 @@ Progress: [##------] 2/7 phases complete
 
 ## Session Continuity
 
-Last session: 2026-01-27T16:39:02Z
-Stopped at: Completed Plan 02-02 (TMA Integration)
+Last session: 2026-01-28T14:31:58Z
+Stopped at: Completed Plan 03-01 (Wallet Gating)
 Resume file: None
 
 ## Quick Commands
 
 ```bash
-# Start Phase 3
-/gsd:plan-phase 03
+# Start Phase 4 (blocked - needs API docs)
+/gsd:plan-phase 04
 
 # Check progress
 /gsd:progress
@@ -97,6 +99,12 @@ Continue versioning format: "System v5.3.0-beta - Build 2026-01-24-WelcomeBonusE
 - Detection: isReferralCode() distinguishes numeric (referral) from alphanumeric (campaign)
 - Debug endpoint: GET /api/debug/campaigns with 3 query modes
 
+**Phase 3 Summary (Plan 01 Complete):**
+- WalletGateModal: Bottom sheet with wallet education and +1000 points incentive
+- FeaturedMarketCard: Extracted component with lock indicator and wallet gating
+- Dashboard integration: Uses webApp.openLink for external navigation to themoon.business
+- Visual testing needed: Lock icon, bottom sheet animation, TonConnect flow
+
 ---
 *State initialized: 2026-01-27*
-*Last updated: 2026-01-27*
+*Last updated: 2026-01-28*
