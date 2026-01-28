@@ -61,23 +61,23 @@ Plans:
 
 ---
 
-### Phase 3: Mock Trading UI
-**Goal:** Build and iterate on trading interface without external API dependency
-**Requirements:** Prediction Market Integration - Display market data and trading interface
-- Market listing page with mock data
-- Single market trading interface (buy/sell)
-- Position display with P&L
-- Wallet balance display
+### Phase 3: Featured Market Gating
+**Goal:** Gate Featured Market access behind wallet connection with education and incentive
+**Requirements:** Prediction Market Integration - Wallet gating before external market access
+- Featured Market card shows lock indicator when wallet not connected
+- Tap triggers bottom sheet modal with wallet education
+- Points reward (~1000+) for connecting wallet (shown upfront)
+- Connected users go directly to themoon.business via Telegram openLink
 
-**Estimated complexity:** M (2-3 days)
+**Estimated complexity:** S (1-2 days)
 **Research needed:** No
 **Dependencies:** Phase 2 complete ✓
 
 **Success Criteria:**
-- User can browse market listings (mock)
-- User can view market details and probabilities
-- Trading interface functional with mock data
-- Position list shows mock positions with P&L
+- Featured Market card shows lock + "Wallet required" when no wallet
+- Bottom sheet modal explains requirement, offers "Connect Wallet" CTA
+- Points awarded on wallet connection
+- Connected users redirected to themoon.business on tap
 
 ---
 
