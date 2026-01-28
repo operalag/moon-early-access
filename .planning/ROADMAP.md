@@ -72,6 +72,10 @@ Plans:
 **Estimated complexity:** S (1-2 days)
 **Research needed:** No
 **Dependencies:** Phase 2 complete ✓
+**Plans:** 1 plan
+
+Plans:
+- [ ] 03-01-PLAN.md — Wallet gating components and page integration
 
 **Success Criteria:**
 - Featured Market card shows lock + "Wallet required" when no wallet
