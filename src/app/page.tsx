@@ -11,11 +11,22 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Zap, Trophy, Users, Wallet, TrendingUp } from "lucide-react";
 import ProgressionCard from "@/components/ProgressionCard";
 import WelcomeScreen from "@/components/WelcomeScreen";
+import FeaturedMarketCard from "@/components/FeaturedMarketCard";
 import { useTonAddress } from "@tonconnect/ui-react";
 
 function Dashboard() {
-  const { user } = useTelegram();
+  const { user, webApp } = useTelegram();
   const userFriendlyAddress = useTonAddress();
+
+  const handleNavigateToMarket = () => {
+    const url = 'https://themoon.business';
+    if (webApp?.openLink) {
+      webApp.openLink(url);
+    } else {
+      // Fallback for browser dev testing
+      window.open(url, '_blank');
+    }
+  };
   
   const [hasStarted, setHasStarted] = useState(false);
   const [isChecking, setIsChecking] = useState(true);
@@ -256,26 +267,7 @@ function Dashboard() {
                <h3 className="text-xs font-bold text-white/50 uppercase tracking-widest">Featured Market</h3>
                <InfoTrigger title="Featured Market" content="These are the highest volume markets currently open for analysis. Early positions often yield better returns." />
              </div>
-             
-             <div className="bg-white/5 border border-white/10 rounded-[24px] p-1">
-                <div className="bg-[#0A0A0A] rounded-[20px] p-4 border border-white/5">
-                  <div className="flex justify-between items-start mb-3">
-                     <div className="bg-blue-500/10 text-blue-400 px-2 py-1 rounded-lg text-[10px] font-bold uppercase tracking-wider border border-blue-500/20">
-                       Cricket World Cup
-                     </div>
-                     <span className="text-white/30 text-[10px] font-mono">ID: #8821</span>
-                  </div>
-                  <h4 className="text-white font-bold text-lg mb-1">India vs Pakistan</h4>
-                  <div className="h-1 w-full bg-white/10 rounded-full overflow-hidden flex mt-3">
-                     <div className="h-full bg-green-500 w-[65%]" />
-                     <div className="h-full bg-red-500 w-[35%]" />
-                  </div>
-                  <div className="flex justify-between mt-2 text-[10px] font-mono font-medium">
-                    <span className="text-green-400">IND 65%</span>
-                    <span className="text-red-400">PAK 35%</span>
-                  </div>
-                </div>
-             </div>
+             <FeaturedMarketCard onNavigate={handleNavigateToMarket} />
           </motion.div>
 
                   <motion.div variants={item} className="text-center pt-8 pb-4 opacity-30">
