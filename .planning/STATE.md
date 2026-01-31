@@ -1,8 +1,8 @@
 # Project State
 
 **Project:** Moon Prediction Mini App
-**Last Updated:** 2026-01-28
-**Current Phase:** Phase 3 - Featured Market Gating (COMPLETE)
+**Last Updated:** 2026-01-31
+**Current Phase:** Phase 8 - Various Small Tasks (In Progress)
 
 ## Progress
 
@@ -17,6 +17,7 @@
 | 5 - Trading Execution | Pending | |
 | 6 - Tutorial & Onboarding | Pending | |
 | 7 - Position Management | Pending | |
+| 8 - Various Small Tasks | **IN PROGRESS** | UI polish tasks |
 
 ### Phase 3 Progress
 
@@ -24,11 +25,18 @@
 |------|--------|---------|
 | 03-01 | **COMPLETE** | Wallet gating modal + FeaturedMarketCard |
 
-Progress: [###-----] 3/7 phases complete
+### Phase 8 Progress
+
+| Plan | Status | Summary |
+|------|--------|---------|
+| 08-01 | **COMPLETE** | Welcome spacing + news limit to 4 |
+
+Progress: [###-----] 3/8 phases complete
 
 ## Blockers
 
 - **themoon.business API documentation** - Required for Phase 4. Contact themoon.business team.
+- **Missing SUPABASE_SERVICE_ROLE_KEY** - Prevents production build. Add to .env.local.
 
 ## Accumulated Decisions
 
@@ -45,9 +53,14 @@ Progress: [###-----] 3/7 phases complete
 | 2026-01-27 | 02-02 | Silent campaign attribution | No UI feedback for marketing tracking |
 | 2026-01-28 | 03-01 | Close modal before TonConnect | Avoid z-index conflicts between modals |
 | 2026-01-28 | 03-01 | Card as button element | Better accessibility for interactive elements |
+| 2026-01-31 | 08-01 | Welcome spacing via padding | pb-12 → pb-8 for 25% upward content shift |
+| 2026-01-31 | 08-01 | Hard-coded news limit of 4 | Cleaner display without pagination |
 
 ## Recent Activity
 
+- 2026-01-31: Completed Plan 08-01 - Welcome spacing + news limit
+- 2026-01-31: Phase 8 (Various Small Tasks) started
+- 2026-01-30: Phase 8 added to roadmap (Various Small Tasks)
 - 2026-01-28: Phase 3 (Featured Market Gating) COMPLETE
 - 2026-01-28: Completed Plan 03-01 - Wallet gating modal + FeaturedMarketCard
 - 2026-01-27: Completed Plan 02-02 - TMA integration for campaign capture
@@ -64,8 +77,8 @@ Progress: [###-----] 3/7 phases complete
 
 ## Session Continuity
 
-Last session: 2026-01-28T14:31:58Z
-Stopped at: Completed Plan 03-01 (Wallet Gating)
+Last session: 2026-01-31T11:35:29Z
+Stopped at: Completed Plan 08-01 (UI Polish)
 Resume file: None
 
 ## Quick Commands
@@ -106,6 +119,11 @@ Continue versioning format: "System v5.3.0-beta - Build 2026-01-24-WelcomeBonusE
 - Dashboard integration: Uses webApp.openLink for external navigation to themoon.business
 - Visual testing needed: Lock icon, bottom sheet animation, TonConnect flow
 
+**Phase 8 Summary (Plan 01 Complete):**
+- Welcome screen: Reduced top spacing by 25% (pb-12 → pb-8)
+- News API: Limited to 4 items (down from 10)
+- Pure UI polish, no logic changes
+
 ---
 *State initialized: 2026-01-27*
-*Last updated: 2026-01-28*
+*Last updated: 2026-01-31*
