@@ -1,15 +1,52 @@
 'use client';
 
 import { useTelegram } from "@/hooks/useTelegram";
-import { Newspaper, ExternalLink, RefreshCw } from "lucide-react";
-import InfoTrigger from "@/components/ui/InfoTrigger";
+import { ExternalLink, Users, Volume2 } from "lucide-react";
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 
 type NewsItem = {
   id: string;
   text: string;
+  date: string;
 };
+
+function formatTime(dateString: string): string {
+  const date = new Date(dateString);
+  return date.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: false });
+}
+
+function formatMessageText(text: string): React.ReactNode {
+  // Convert markdown-style bold **text** to actual bold
+  // and handle links
+  const parts = text.split(/(\*\*[^*]+\*\*|\[[^\]]+\]\([^)]+\)|https?:\/\/[^\s]+)/g);
+
+  return parts.map((part, i) => {
+    if (part.startsWith('**') && part.endsWith('**')) {
+      return <strong key={i} className="font-semibold">{part.slice(2, -2)}</strong>;
+    }
+    if (part.match(/^\[[^\]]+\]\([^)]+\)$/)) {
+      const match = part.match(/^\[([^\]]+)\]\(([^)]+)\)$/);
+      if (match) {
+        return (
+          <a key={i} href={match[2]} target="_blank" rel="noopener noreferrer"
+             className="text-[#3390ec] hover:underline">
+            {match[1]}
+          </a>
+        );
+      }
+    }
+    if (part.match(/^https?:\/\/[^\s]+$/)) {
+      return (
+        <a key={i} href={part} target="_blank" rel="noopener noreferrer"
+           className="text-[#3390ec] hover:underline break-all">
+          {part}
+        </a>
+      );
+    }
+    return part;
+  });
+}
 
 export default function NewsPage() {
   const { webApp } = useTelegram();
@@ -43,86 +80,95 @@ export default function NewsPage() {
   };
 
   return (
-    <main className="min-h-screen bg-[#050505] p-6 pb-32 text-white relative overflow-hidden">
-      
-      {/* Background Graphic */}
-      <div className="absolute top-0 right-0 w-64 h-64 bg-green-500/10 rounded-full blur-[80px] pointer-events-none translate-x-1/2 -translate-y-1/2" />
+    <main className="min-h-screen bg-[#0e1621] pb-28">
 
-      {/* Header */}
-      <div className="flex items-center justify-between mb-6 relative z-10 pt-4">
-        <h1 className="text-3xl font-black uppercase tracking-tighter">
-          Intel<span className="text-green-500">.</span>
-        </h1>
-        <div className="flex items-center gap-3">
-          <button 
-             onClick={fetchNews} 
-             className="p-2 bg-white/5 rounded-full hover:bg-white/10"
-             disabled={loading}
+      {/* Channel Header - Telegram Style */}
+      <div className="sticky top-0 z-20 bg-[#17212b] border-b border-white/5">
+        <div className="flex items-center gap-3 p-3">
+          {/* Channel Avatar */}
+          <div className="w-10 h-10 rounded-full bg-gradient-to-br from-yellow-500 to-orange-600 flex items-center justify-center flex-shrink-0">
+            <span className="text-white font-bold text-lg">🏏</span>
+          </div>
+
+          {/* Channel Info */}
+          <div className="flex-1 min-w-0">
+            <div className="flex items-center gap-1.5">
+              <h1 className="text-white font-semibold text-[15px] truncate">Cricket & Crypto</h1>
+              <Volume2 size={14} className="text-[#3390ec] flex-shrink-0" />
+            </div>
+            <p className="text-[#6c7883] text-[13px] flex items-center gap-1">
+              <Users size={12} />
+              <span>channel</span>
+            </p>
+          </div>
+
+          {/* Open in Telegram Button */}
+          <button
+            onClick={handleOpenChannel}
+            className="bg-[#3390ec] hover:bg-[#2b7fd4] text-white font-medium text-sm py-1.5 px-3 rounded-lg flex items-center gap-1.5 transition-colors"
           >
-            <RefreshCw size={18} className={`text-zinc-400 ${loading ? 'animate-spin' : ''}`} />
+            <span>Open</span>
+            <ExternalLink size={14} />
           </button>
-          <InfoTrigger title="Market Intel" content="Live feed from our official channel. Get the alpha before the market moves." />
         </div>
       </div>
 
-      {/* CTA Card */}
-      <div 
-        className="bg-gradient-to-br from-green-900/40 to-black border border-white/10 rounded-[32px] p-6 relative overflow-hidden text-center mb-8"
-      >
-          <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-10 mix-blend-overlay" />
-          <div className="flex justify-between items-center relative z-10">
-            <div className="text-left">
-              <h2 className="text-lg font-bold text-white">@cricketandcrypto</h2>
-              <p className="text-zinc-400 text-xs">Official Signal Channel</p>
-            </div>
-            <button 
-              onClick={handleOpenChannel}
-              className="bg-white text-black font-bold py-2 px-4 rounded-xl flex items-center gap-2 hover:scale-105 transition-transform shadow-lg text-xs"
-            >
-              <span>OPEN</span>
-              <ExternalLink size={14} />
-            </button>
-          </div>
-      </div>
+      {/* Messages Area - Telegram Style Chat */}
+      <div className="p-3 space-y-2">
 
-      {/* News Feed */}
-      <div className="space-y-4">
-        <h3 className="text-white/40 text-xs font-bold uppercase tracking-widest pl-2">Latest Wire</h3>
-        
         {loading && news.length === 0 ? (
-          <div className="space-y-3">
-            {[1,2,3].map(i => (
-              <div key={i} className="h-24 bg-white/5 rounded-[24px] animate-pulse" />
+          <div className="space-y-2">
+            {[1,2,3,4].map(i => (
+              <div key={i} className="bg-[#182533] rounded-xl p-4 animate-pulse">
+                <div className="h-4 bg-white/10 rounded w-3/4 mb-2" />
+                <div className="h-4 bg-white/10 rounded w-1/2 mb-2" />
+                <div className="h-4 bg-white/10 rounded w-2/3" />
+              </div>
             ))}
           </div>
         ) : news.length === 0 ? (
-          <p className="text-center text-zinc-500 text-sm py-10">No recent updates found.</p>
+          <div className="text-center py-16">
+            <p className="text-[#6c7883] text-sm">No messages yet</p>
+          </div>
         ) : (
           news.map((item, i) => (
-            <motion.div 
-              initial={{ y: 20, opacity: 0 }}
+            <motion.div
+              initial={{ y: 10, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={{ delay: i * 0.05 }}
-              key={i}
-              className="bg-white/5 border border-white/10 rounded-[24px] p-5 hover:bg-white/10 transition-colors"
+              key={item.id}
+              className="bg-[#182533] rounded-xl px-3 py-2 max-w-[95%]"
             >
-              <div className="flex items-start gap-3">
-                <div className="w-8 h-8 rounded-full bg-green-500/20 flex-shrink-0 flex items-center justify-center mt-1">
-                  <Newspaper size={14} className="text-green-500" />
-                </div>
-                <div>
-                   <p className="text-sm text-zinc-200 leading-relaxed whitespace-pre-wrap line-clamp-4">
-                     {item.text}
-                   </p>
-                   {item.text.length > 150 && (
-                     <button onClick={handleOpenChannel} className="text-green-500 text-xs font-bold mt-2 hover:underline">
-                       Read more
-                     </button>
-                   )}
-                </div>
+              {/* Message Content */}
+              <p className="text-[#f5f5f5] text-[14px] leading-[1.5] whitespace-pre-wrap break-words">
+                {formatMessageText(item.text)}
+              </p>
+
+              {/* Timestamp */}
+              <div className="flex justify-end mt-1">
+                <span className="text-[#6c7883] text-[11px]">
+                  {formatTime(item.date)}
+                </span>
               </div>
             </motion.div>
           ))
+        )}
+
+        {/* Channel CTA at bottom */}
+        {!loading && news.length > 0 && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.3 }}
+            className="text-center py-4"
+          >
+            <button
+              onClick={handleOpenChannel}
+              className="text-[#3390ec] text-sm font-medium hover:underline"
+            >
+              View full channel in Telegram →
+            </button>
+          </motion.div>
         )}
       </div>
 
