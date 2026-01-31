@@ -2,7 +2,7 @@
 
 **Project:** Moon Prediction Mini App
 **Last Updated:** 2026-01-31
-**Current Phase:** Phase 8 - Various Small Tasks (In Progress)
+**Current Phase:** Phase 8 - Various Small Tasks (COMPLETE)
 
 ## Progress
 
@@ -17,7 +17,7 @@
 | 5 - Trading Execution | Pending | |
 | 6 - Tutorial & Onboarding | Pending | |
 | 7 - Position Management | Pending | |
-| 8 - Various Small Tasks | **IN PROGRESS** | UI polish tasks |
+| 8 - Various Small Tasks | **COMPLETE** | All plans complete |
 
 ### Phase 3 Progress
 
@@ -31,7 +31,7 @@
 |------|--------|---------|
 | 08-01 | **COMPLETE** | Welcome spacing + news limit to 4 |
 
-Progress: [###-----] 3/8 phases complete
+Progress: [####----] 4/8 phases complete
 
 ## Blockers
 
@@ -58,6 +58,7 @@ Progress: [###-----] 3/8 phases complete
 
 ## Recent Activity
 
+- 2026-01-31: Phase 8 (Various Small Tasks) COMPLETE
 - 2026-01-31: Completed Plan 08-01 - Welcome spacing + news limit
 - 2026-01-31: Phase 8 (Various Small Tasks) started
 - 2026-01-30: Phase 8 added to roadmap (Various Small Tasks)

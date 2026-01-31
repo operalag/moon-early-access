@@ -171,23 +171,24 @@ Plans:
 
 ---
 
-### Phase 8: Various Small Tasks
+### Phase 8: Various Small Tasks ✓
 **Goal:** Targeted UI polish - welcome page spacing and news feed limit
 **Requirements:** Various small tasks and improvements
-- Reduce welcome page top spacing (~20-30% less top gap)
-- Limit news feed to 4 items
+- ✓ Reduce welcome page top spacing (~20-30% less top gap)
+- ✓ Limit news feed to 4 items
 **Estimated complexity:** S
 **Research needed:** No
 **Dependencies:** None (independent of other phases)
+**Status:** COMPLETE (2026-01-31)
 **Plans:** 1 plan
 
 Plans:
-- [ ] 08-01-PLAN.md — Welcome spacing adjustment + news feed limit
+- [x] 08-01-PLAN.md — Welcome spacing adjustment + news feed limit
 
 **Success Criteria:**
-- [ ] Welcome screen content positioned higher (reduced top gap)
-- [ ] News section displays exactly 4 items
-- [ ] All other screens unchanged
+- ✓ Welcome screen content positioned higher (reduced top gap)
+- ✓ News section displays exactly 4 items
+- ✓ All other screens unchanged
 
 ---
 
