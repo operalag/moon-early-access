@@ -9,7 +9,7 @@ interface WelcomeProps {
 
 export default function WelcomeScreen({ onStart }: WelcomeProps) {
   return (
-    <div className="fixed inset-0 z-50 bg-black flex flex-col items-center justify-end pb-12">
+    <div className="fixed inset-0 z-50 bg-black flex flex-col items-center justify-end pb-8">
       {/* Background Image Layer */}
       <div className="absolute inset-0 z-0">
         <img 
