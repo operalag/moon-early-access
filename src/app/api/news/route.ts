@@ -30,7 +30,7 @@ export async function GET() {
 
     // Get last 5 messages (reverse order usually in HTML? No, usually top to bottom)
     // The scraping usually gets them in chronological order. We want latest (bottom) first.
-    const latestNews = matches.slice(-10).reverse();
+    const latestNews = matches.slice(-4).reverse();
 
     return NextResponse.json({ news: latestNews });
 
