@@ -192,6 +192,40 @@ Plans:
 
 ---
 
+### Phase 9: Analytics Dashboard
+**Goal:** Build an admin dashboard with growth metrics, user insights, and engagement visualizations
+**Requirements:** Analytics and tracking for app growth
+- User acquisition metrics (total users, daily/weekly/monthly active users)
+- Engagement heatmaps (when users are most active)
+- Wallet connection funnel (users → wallet connected → trades)
+- Referral network visualization
+- Campaign performance tracking
+- Points economy health (total distributed, burn rate)
+- Retention curves (D1, D7, D30)
+- Feature usage breakdown (spin, referrals, settings, etc.)
+
+**Estimated complexity:** M-L (3-5 days)
+**Research needed:** No
+**Dependencies:** None (uses existing Supabase data)
+**Status:** Planned
+**Plans:** 5 plans
+
+Plans:
+- [ ] 09-01-PLAN.md — Foundation: deps, admin config, AdminGuard, overview API
+- [ ] 09-02-PLAN.md — Core charts: user growth, wallet funnel, points economy
+- [ ] 09-03-PLAN.md — Engagement: heatmap, retention curves, feature usage
+- [ ] 09-04-PLAN.md — Marketing: campaign table, referral stats
+- [ ] 09-05-PLAN.md — Polish: export, date picker, mobile responsive
+
+**Success Criteria:**
+- Dashboard accessible via protected admin route
+- Real-time metrics with auto-refresh
+- Visual charts and graphs (not just tables)
+- Mobile-responsive for on-the-go monitoring
+- Export capabilities for reporting
+
+---
+
 ## Success Criteria for Milestone 1
 
 Milestone 1 is complete when:
