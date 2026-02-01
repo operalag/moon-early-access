@@ -8,6 +8,9 @@ import { FeatureUsageChart } from '@/components/admin/charts/FeatureUsageChart';
 import { UserGrowthChart } from '@/components/admin/charts/UserGrowthChart';
 import { WalletFunnel } from '@/components/admin/charts/WalletFunnel';
 import { PointsEconomyChart } from '@/components/admin/charts/PointsEconomyChart';
+import { CampaignTable } from '@/components/admin/CampaignTable';
+import { ReferralStats } from '@/components/admin/ReferralStats';
+import { LeaderboardTrends } from '@/components/admin/LeaderboardTrends';
 
 interface OverviewData {
   totalUsers: number;
@@ -72,6 +75,48 @@ interface PointsData {
   };
 }
 
+interface CampaignData {
+  campaign_id: string;
+  users: number;
+  first_attribution: string;
+  last_attribution: string;
+}
+
+interface CampaignsResponse {
+  campaigns: CampaignData[];
+  summary: {
+    total_campaigns: number;
+    total_attributed_users: number;
+  };
+}
+
+interface ReferralSummary {
+  total_referrals: number;
+  unique_referrers: number;
+  avg_per_referrer: number;
+}
+
+interface TopReferrer {
+  referrer_id: number;
+  referrer_name: string;
+  count: number;
+}
+
+interface LeaderboardTrend {
+  telegram_id: number;
+  name: string;
+  current_rank: number;
+  previous_rank: number;
+  change: number;
+}
+
+interface ReferralsResponse {
+  summary: ReferralSummary;
+  top_referrers: TopReferrer[];
+  network_depth: { tier1: number };
+  leaderboard_trends: LeaderboardTrend[];
+}
+
 /**
  * Admin Dashboard Page
  *
@@ -86,6 +131,8 @@ export default function AdminDashboardPage() {
   const [userGrowth, setUserGrowth] = useState<UserGrowthData[]>([]);
   const [funnel, setFunnel] = useState<FunnelData | null>(null);
   const [points, setPoints] = useState<PointsData | null>(null);
+  const [campaigns, setCampaigns] = useState<CampaignsResponse | null>(null);
+  const [referrals, setReferrals] = useState<ReferralsResponse | null>(null);
   const [loading, setLoading] = useState(true);
   const [lastUpdated, setLastUpdated] = useState<Date | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -100,6 +147,8 @@ export default function AdminDashboardPage() {
         usersRes,
         funnelRes,
         pointsRes,
+        campaignsRes,
+        referralsRes,
       ] = await Promise.all([
         fetch('/api/admin/analytics/overview'),
         fetch('/api/admin/analytics/engagement'),
@@ -108,6 +157,8 @@ export default function AdminDashboardPage() {
         fetch('/api/admin/analytics/users'),
         fetch('/api/admin/analytics/funnel'),
         fetch('/api/admin/analytics/points'),
+        fetch('/api/admin/analytics/campaigns'),
+        fetch('/api/admin/analytics/referrals'),
       ]);
 
       if (!overviewRes.ok) {
@@ -123,6 +174,8 @@ export default function AdminDashboardPage() {
         usersData,
         funnelData,
         pointsData,
+        campaignsData,
+        referralsData,
       ] = await Promise.all([
         overviewRes.json(),
         engagementRes.ok ? engagementRes.json() : [],
@@ -131,6 +184,8 @@ export default function AdminDashboardPage() {
         usersRes.ok ? usersRes.json() : [],
         funnelRes.ok ? funnelRes.json() : null,
         pointsRes.ok ? pointsRes.json() : null,
+        campaignsRes.ok ? campaignsRes.json() : null,
+        referralsRes.ok ? referralsRes.json() : null,
       ]);
 
       setOverview(overviewData);
@@ -140,6 +195,8 @@ export default function AdminDashboardPage() {
       setUserGrowth(usersData);
       setFunnel(funnelData);
       setPoints(pointsData);
+      setCampaigns(campaignsData);
+      setReferrals(referralsData);
       setLastUpdated(new Date());
       setError(null);
     } catch (err) {
@@ -214,7 +271,7 @@ export default function AdminDashboardPage() {
           <div className="h-32 bg-zinc-800 rounded"></div>
         </div>
         {/* Retention + Features skeleton */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
           <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-4 animate-pulse">
             <div className="h-4 bg-zinc-800 rounded w-36 mb-4"></div>
             <div className="h-72 bg-zinc-800 rounded"></div>
@@ -223,6 +280,22 @@ export default function AdminDashboardPage() {
             <div className="h-4 bg-zinc-800 rounded w-36 mb-4"></div>
             <div className="h-72 bg-zinc-800 rounded"></div>
           </div>
+        </div>
+        {/* Marketing Performance skeleton */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+          <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-4 animate-pulse">
+            <div className="h-4 bg-zinc-800 rounded w-40 mb-4"></div>
+            <div className="h-64 bg-zinc-800 rounded"></div>
+          </div>
+          <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-4 animate-pulse">
+            <div className="h-4 bg-zinc-800 rounded w-36 mb-4"></div>
+            <div className="h-64 bg-zinc-800 rounded"></div>
+          </div>
+        </div>
+        {/* Leaderboard Dynamics skeleton */}
+        <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-4 animate-pulse">
+          <div className="h-4 bg-zinc-800 rounded w-44 mb-4"></div>
+          <div className="h-48 bg-zinc-800 rounded"></div>
         </div>
       </div>
     );
@@ -344,7 +417,7 @@ export default function AdminDashboardPage() {
       </div>
 
       {/* Retention Analysis + Feature Adoption */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
         {/* Retention Chart */}
         <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-4">
           <h2 className="text-lg font-semibold text-white mb-4">Retention Analysis</h2>
@@ -368,6 +441,36 @@ export default function AdminDashboardPage() {
             </div>
           )}
         </div>
+      </div>
+
+      {/* Marketing Performance */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+        {/* Campaign Performance Table */}
+        <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-4">
+          <h2 className="text-base font-semibold text-white mb-3">Campaign Performance</h2>
+          {campaigns?.summary && (
+            <p className="text-zinc-500 text-sm mb-4">
+              {campaigns.summary.total_campaigns} campaigns, {campaigns.summary.total_attributed_users.toLocaleString()} attributed users
+            </p>
+          )}
+          <CampaignTable data={campaigns?.campaigns || []} />
+        </div>
+
+        {/* Referral Network */}
+        <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-4">
+          <h2 className="text-base font-semibold text-white mb-3">Referral Network</h2>
+          <ReferralStats
+            summary={referrals?.summary || { total_referrals: 0, unique_referrers: 0, avg_per_referrer: 0 }}
+            topReferrers={referrals?.top_referrers || []}
+          />
+        </div>
+      </div>
+
+      {/* Leaderboard Dynamics */}
+      <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-4">
+        <h2 className="text-base font-semibold text-white mb-3">Leaderboard Dynamics</h2>
+        <p className="text-zinc-500 text-sm mb-4">Top movers in the last 7 days</p>
+        <LeaderboardTrends trends={referrals?.leaderboard_trends || []} />
       </div>
     </div>
   );
