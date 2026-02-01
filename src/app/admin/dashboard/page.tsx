@@ -92,11 +92,22 @@ export default function AdminDashboardPage() {
 
   const fetchData = useCallback(async () => {
     try {
-      const [overviewRes, engagementRes, retentionRes, featuresRes] = await Promise.all([
+      const [
+        overviewRes,
+        engagementRes,
+        retentionRes,
+        featuresRes,
+        usersRes,
+        funnelRes,
+        pointsRes,
+      ] = await Promise.all([
         fetch('/api/admin/analytics/overview'),
         fetch('/api/admin/analytics/engagement'),
         fetch('/api/admin/analytics/retention'),
         fetch('/api/admin/analytics/features'),
+        fetch('/api/admin/analytics/users'),
+        fetch('/api/admin/analytics/funnel'),
+        fetch('/api/admin/analytics/points'),
       ]);
 
       if (!overviewRes.ok) {
@@ -104,17 +115,31 @@ export default function AdminDashboardPage() {
         throw new Error(errorData.error || 'Failed to fetch overview');
       }
 
-      const [overviewData, engagementData, retentionData, featuresData] = await Promise.all([
+      const [
+        overviewData,
+        engagementData,
+        retentionData,
+        featuresData,
+        usersData,
+        funnelData,
+        pointsData,
+      ] = await Promise.all([
         overviewRes.json(),
         engagementRes.ok ? engagementRes.json() : [],
         retentionRes.ok ? retentionRes.json() : [],
         featuresRes.ok ? featuresRes.json() : [],
+        usersRes.ok ? usersRes.json() : [],
+        funnelRes.ok ? funnelRes.json() : null,
+        pointsRes.ok ? pointsRes.json() : null,
       ]);
 
       setOverview(overviewData);
       setEngagement(engagementData);
       setRetention(retentionData);
       setFeatures(featuresData);
+      setUserGrowth(usersData);
+      setFunnel(funnelData);
+      setPoints(pointsData);
       setLastUpdated(new Date());
       setError(null);
     } catch (err) {
@@ -165,6 +190,23 @@ export default function AdminDashboardPage() {
               <div className="h-7 bg-zinc-800 rounded w-16"></div>
             </div>
           ))}
+        </div>
+        {/* User Growth skeleton */}
+        <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-4 mb-6 animate-pulse">
+          <div className="h-4 bg-zinc-800 rounded w-28 mb-2"></div>
+          <div className="h-3 bg-zinc-800 rounded w-20 mb-4"></div>
+          <div className="h-72 bg-zinc-800 rounded"></div>
+        </div>
+        {/* Funnel + Points skeleton */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+          <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-4 animate-pulse">
+            <div className="h-4 bg-zinc-800 rounded w-36 mb-4"></div>
+            <div className="h-72 bg-zinc-800 rounded"></div>
+          </div>
+          <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-4 animate-pulse">
+            <div className="h-4 bg-zinc-800 rounded w-36 mb-4"></div>
+            <div className="h-72 bg-zinc-800 rounded"></div>
+          </div>
         </div>
         {/* Engagement Heatmap skeleton */}
         <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-4 mb-6 animate-pulse">
@@ -236,6 +278,61 @@ export default function AdminDashboardPage() {
           title="Total Referrals"
           value={formatNumber(overview?.totalReferrals || 0)}
         />
+      </div>
+
+      {/* User Growth Chart - Full Width */}
+      <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-4 mb-6">
+        <h2 className="text-lg font-semibold text-white mb-1">User Growth</h2>
+        <p className="text-zinc-500 text-sm mb-4">Last 30 days</p>
+        {userGrowth.length > 0 ? (
+          <UserGrowthChart data={userGrowth} />
+        ) : (
+          <div className="h-72 flex items-center justify-center text-zinc-500">
+            No user growth data available yet
+          </div>
+        )}
+      </div>
+
+      {/* Conversion Funnel + Points Economy */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+        {/* Wallet Conversion Funnel */}
+        <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-4">
+          <h2 className="text-lg font-semibold text-white mb-4">Conversion Funnel</h2>
+          {funnel?.stages && funnel.stages.length > 0 ? (
+            <>
+              <WalletFunnel data={funnel.stages} />
+              <div className="mt-4 flex justify-center gap-6 text-sm">
+                <div className="text-zinc-400">
+                  To Channel: <span className="text-purple-400 font-medium">{funnel.conversionRates.toChannel}%</span>
+                </div>
+                <div className="text-zinc-400">
+                  To Wallet: <span className="text-green-400 font-medium">{funnel.conversionRates.toWallet}%</span>
+                </div>
+              </div>
+            </>
+          ) : (
+            <div className="h-72 flex items-center justify-center text-zinc-500">
+              No funnel data available yet
+            </div>
+          )}
+        </div>
+
+        {/* Points Economy Chart */}
+        <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-4">
+          <h2 className="text-lg font-semibold text-white mb-1">Points Economy</h2>
+          {points?.totals && (
+            <p className="text-zinc-500 text-sm mb-4">
+              Total: {formatNumber(points.totals.distributed)} points
+            </p>
+          )}
+          {points?.breakdown && points.breakdown.length > 0 ? (
+            <PointsEconomyChart data={points.breakdown} />
+          ) : (
+            <div className="h-72 flex items-center justify-center text-zinc-500">
+              No points data available yet
+            </div>
+          )}
+        </div>
       </div>
 
       {/* User Engagement Heatmap */}
