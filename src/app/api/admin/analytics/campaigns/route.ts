@@ -1,0 +1,83 @@
+import { NextResponse } from 'next/server';
+import { supabaseAdmin } from '@/lib/supabaseAdmin';
+
+/**
+ * Admin Analytics Campaigns API
+ *
+ * Returns campaign attribution performance data:
+ * - campaigns: Array of campaigns with user counts and date ranges
+ * - summary: Total campaigns and total attributed users
+ */
+
+interface CampaignRow {
+  campaign_id: string;
+  created_at: string;
+}
+
+interface CampaignStats {
+  campaign_id: string;
+  users: number;
+  first_attribution: string;
+  last_attribution: string;
+}
+
+export async function GET() {
+  try {
+    // Get all campaign attributions
+    const { data, error } = await supabaseAdmin
+      .from('campaign_attributions')
+      .select('campaign_id, created_at')
+      .order('created_at', { ascending: true });
+
+    if (error) {
+      throw new Error(`Campaign attributions query failed: ${error.message}`);
+    }
+
+    // Aggregate by campaign_id
+    const campaignMap = new Map<string, { users: number; first: string; last: string }>();
+
+    for (const row of (data as CampaignRow[]) || []) {
+      const existing = campaignMap.get(row.campaign_id);
+      if (existing) {
+        existing.users += 1;
+        if (row.created_at > existing.last) {
+          existing.last = row.created_at;
+        }
+      } else {
+        campaignMap.set(row.campaign_id, {
+          users: 1,
+          first: row.created_at,
+          last: row.created_at,
+        });
+      }
+    }
+
+    // Convert to array and sort by users DESC
+    const campaigns: CampaignStats[] = [];
+    for (const [campaign_id, stats] of campaignMap.entries()) {
+      campaigns.push({
+        campaign_id,
+        users: stats.users,
+        first_attribution: stats.first,
+        last_attribution: stats.last,
+      });
+    }
+
+    campaigns.sort((a, b) => b.users - a.users);
+
+    // Calculate summary
+    const summary = {
+      total_campaigns: campaigns.length,
+      total_attributed_users: data?.length || 0,
+    };
+
+    return NextResponse.json({
+      campaigns,
+      summary,
+    });
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : 'Unknown error';
+    console.error('Admin Analytics Campaigns Error:', message);
+    return NextResponse.json({ error: message }, { status: 500 });
+  }
+}
