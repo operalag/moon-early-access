@@ -49,7 +49,7 @@ export function FeatureUsageChart({ data }: FeatureUsageChartProps) {
           paddingAngle={2}
           dataKey="users"
           nameKey="feature"
-          label={({ percentage }) => `${percentage}%`}
+          label={({ percent }) => `${((percent ?? 0) * 100).toFixed(1)}%`}
           labelLine={{ stroke: '#71717a' }}
         >
           {chartData.map((entry, index) => (
@@ -66,9 +66,9 @@ export function FeatureUsageChart({ data }: FeatureUsageChartProps) {
             borderRadius: '8px',
             color: '#fff',
           }}
-          formatter={(value: number, name: string) => [
-            `${value.toLocaleString()} users`,
-            name,
+          formatter={(value, name) => [
+            `${Number(value).toLocaleString()} users`,
+            String(name),
           ]}
         />
         <Legend
