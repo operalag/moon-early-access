@@ -226,6 +226,31 @@ Plans:
 
 ---
 
+### Phase 10: Admin Leaderboard View
+**Goal:** Display top 10 leaderboards (overall, weekly, daily) in admin dashboard with user details and export
+**Requirements:** Leaderboard visibility for admin analytics
+- Top 10 users for each timeframe (overall, weekly, daily)
+- Display: name, username, wallet address (if connected)
+- CSV export for each leaderboard
+- Integrated into existing admin dashboard
+
+**Estimated complexity:** S (1 day)
+**Research needed:** No
+**Dependencies:** Phase 9 complete (uses admin dashboard infrastructure)
+**Status:** Planned
+**Plans:** 1 plan
+
+Plans:
+- [ ] 10-01-PLAN.md — Leaderboards API, LeaderboardTable component, dashboard integration
+
+**Success Criteria:**
+- Three leaderboard tables visible in admin dashboard (overall, weekly, daily)
+- Each shows top 10 with name, username, wallet
+- Export button for each leaderboard generates CSV
+- Consistent styling with existing dashboard components
+
+---
+
 ## Success Criteria for Milestone 1
 
 Milestone 1 is complete when:
