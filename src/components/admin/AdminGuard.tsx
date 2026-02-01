@@ -44,7 +44,9 @@ export function AdminGuard({ children }: AdminGuardProps) {
 
       // Check 2: Valid session cookie (for browser access)
       try {
-        const response = await fetch('/api/admin/auth');
+        const response = await fetch('/api/admin/auth', {
+          credentials: 'include',
+        });
         const data = await response.json();
 
         if (data.authenticated) {
@@ -78,8 +80,8 @@ export function AdminGuard({ children }: AdminGuardProps) {
 
   // Handle logout
   const handleLogout = async () => {
-    await fetch('/api/admin/auth', { method: 'DELETE' });
-    router.replace('/admin/login');
+    await fetch('/api/admin/auth', { method: 'DELETE', credentials: 'include' });
+    window.location.href = '/admin/login';
   };
 
   // Loading state

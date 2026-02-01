@@ -25,12 +25,15 @@ export default function AdminLoginPage() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ password }),
+        credentials: 'include',
       });
 
       const data = await response.json();
 
       if (response.ok) {
-        router.push('/admin/dashboard');
+        // Small delay to ensure cookie is set before redirect
+        await new Promise(resolve => setTimeout(resolve, 100));
+        window.location.href = '/admin/dashboard';
       } else {
         setError(data.error || 'Authentication failed');
       }
