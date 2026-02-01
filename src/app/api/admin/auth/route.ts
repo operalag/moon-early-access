@@ -32,13 +32,13 @@ export async function POST(request: NextRequest) {
 
     const response = NextResponse.json({ success: true });
 
-    // Set secure HTTP-only cookie
+    // Set secure HTTP-only cookie (path must be / to include /api routes)
     response.cookies.set(COOKIE_NAME, sessionToken, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
       sameSite: 'lax',
       maxAge: SESSION_DURATION / 1000, // in seconds
-      path: '/admin',
+      path: '/',
     });
 
     return response;
@@ -61,7 +61,7 @@ export async function DELETE() {
     secure: process.env.NODE_ENV === 'production',
     sameSite: 'lax',
     maxAge: 0,
-    path: '/admin',
+    path: '/',
   });
 
   return response;
