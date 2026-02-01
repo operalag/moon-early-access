@@ -17,16 +17,28 @@ interface DailyUserCount {
  * - cumulative: Running total of all users up to that day
  *
  * Query params:
- * - days: Number of days to look back (default 30)
+ * - days: Number of days to look back (default 30, ignored if from/to provided)
+ * - from: Start date (YYYY-MM-DD)
+ * - to: End date (YYYY-MM-DD)
  */
 export async function GET(request: NextRequest) {
   try {
     const searchParams = request.nextUrl.searchParams;
+    const fromParam = searchParams.get('from');
+    const toParam = searchParams.get('to');
     const days = parseInt(searchParams.get('days') || '30', 10);
 
-    // Calculate date range
-    const endDate = new Date();
-    const startDate = subDays(endDate, days - 1);
+    // Calculate date range from params or default
+    let endDate: Date;
+    let startDate: Date;
+
+    if (fromParam && toParam) {
+      startDate = parseISO(fromParam);
+      endDate = parseISO(toParam);
+    } else {
+      endDate = new Date();
+      startDate = subDays(endDate, days - 1);
+    }
 
     // Get all users created before or during the period
     const { data: allUsers, error: usersError } = await supabaseAdmin

@@ -5,7 +5,8 @@ import { Download } from 'lucide-react';
 import { format } from 'date-fns';
 
 interface ExportButtonProps {
-  data: Record<string, unknown>[];
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  data: any[];
   filename: string;
   headers?: { label: string; key: string }[];
   disabled?: boolean;

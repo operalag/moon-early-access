@@ -1,4 +1,4 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { supabaseAdmin } from '@/lib/supabaseAdmin';
 import { format, subDays, eachDayOfInterval, parseISO } from 'date-fns';
 
@@ -10,16 +10,32 @@ interface EngagementData {
 /**
  * Admin Analytics Engagement API
  *
- * Returns daily activity counts for the last 90 days.
+ * Returns daily activity counts for the last 90 days (or custom range).
  * Used to feed the GitHub-style heatmap component.
+ *
+ * Query params:
+ * - from: Start date (YYYY-MM-DD)
+ * - to: End date (YYYY-MM-DD)
  *
  * Returns: Array of { date: string (YYYY-MM-DD), count: number }
  */
-export async function GET() {
+export async function GET(request: NextRequest) {
   try {
-    // Calculate date range (last 90 days)
-    const endDate = new Date();
-    const startDate = subDays(endDate, 89); // 90 days including today
+    const searchParams = request.nextUrl.searchParams;
+    const fromParam = searchParams.get('from');
+    const toParam = searchParams.get('to');
+
+    // Calculate date range from params or default (last 90 days)
+    let endDate: Date;
+    let startDate: Date;
+
+    if (fromParam && toParam) {
+      startDate = parseISO(fromParam);
+      endDate = parseISO(toParam);
+    } else {
+      endDate = new Date();
+      startDate = subDays(endDate, 89); // 90 days including today
+    }
 
     // Query transactions for activity timestamps in the range
     const { data: transactions, error: txError } = await supabaseAdmin

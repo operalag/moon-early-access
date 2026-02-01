@@ -1,5 +1,6 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { supabaseAdmin } from '@/lib/supabaseAdmin';
+import { parseISO } from 'date-fns';
 
 interface PointsBreakdown {
   reason: string;
@@ -22,15 +23,34 @@ interface PointsData {
  * - breakdown: Array of { reason, distributed, transactions }
  * - totals: Total distributed points and transaction count
  *
+ * Query params:
+ * - from: Start date (YYYY-MM-DD)
+ * - to: End date (YYYY-MM-DD)
+ *
  * Only counts positive transactions (points awarded, not deducted).
  */
-export async function GET() {
+export async function GET(request: NextRequest) {
   try {
-    // Get all positive transactions grouped by reason
-    const { data: transactions, error: txError } = await supabaseAdmin
+    const searchParams = request.nextUrl.searchParams;
+    const fromParam = searchParams.get('from');
+    const toParam = searchParams.get('to');
+
+    // Build query for positive transactions
+    let query = supabaseAdmin
       .from('transactions')
-      .select('reason, amount')
+      .select('reason, amount, created_at')
       .gt('amount', 0);
+
+    // Apply date filters if provided
+    if (fromParam && toParam) {
+      const startDate = parseISO(fromParam);
+      const endDate = parseISO(toParam);
+      query = query
+        .gte('created_at', startDate.toISOString())
+        .lte('created_at', endDate.toISOString());
+    }
+
+    const { data: transactions, error: txError } = await query;
 
     if (txError) {
       throw new Error(`Transactions query failed: ${txError.message}`);

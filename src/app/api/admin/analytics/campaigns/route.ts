@@ -1,5 +1,6 @@
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { supabaseAdmin } from '@/lib/supabaseAdmin';
+import { parseISO } from 'date-fns';
 
 /**
  * Admin Analytics Campaigns API
@@ -7,6 +8,10 @@ import { supabaseAdmin } from '@/lib/supabaseAdmin';
  * Returns campaign attribution performance data:
  * - campaigns: Array of campaigns with user counts and date ranges
  * - summary: Total campaigns and total attributed users
+ *
+ * Query params:
+ * - from: Start date (YYYY-MM-DD)
+ * - to: End date (YYYY-MM-DD)
  */
 
 interface CampaignRow {
@@ -21,13 +26,28 @@ interface CampaignStats {
   last_attribution: string;
 }
 
-export async function GET() {
+export async function GET(request: NextRequest) {
   try {
-    // Get all campaign attributions
-    const { data, error } = await supabaseAdmin
+    const searchParams = request.nextUrl.searchParams;
+    const fromParam = searchParams.get('from');
+    const toParam = searchParams.get('to');
+
+    // Build query for campaign attributions
+    let query = supabaseAdmin
       .from('campaign_attributions')
       .select('campaign_id, created_at')
       .order('created_at', { ascending: true });
+
+    // Apply date filters if provided
+    if (fromParam && toParam) {
+      const startDate = parseISO(fromParam);
+      const endDate = parseISO(toParam);
+      query = query
+        .gte('created_at', startDate.toISOString())
+        .lte('created_at', endDate.toISOString());
+    }
+
+    const { data, error } = await query;
 
     if (error) {
       throw new Error(`Campaign attributions query failed: ${error.message}`);

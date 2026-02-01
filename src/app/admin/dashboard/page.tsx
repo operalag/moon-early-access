@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState, useCallback } from 'react';
+import { subDays, startOfDay, endOfDay, format } from 'date-fns';
 import { MetricCard } from '@/components/admin/MetricCard';
 import { EngagementHeatmap } from '@/components/admin/charts/EngagementHeatmap';
 import { RetentionChart } from '@/components/admin/charts/RetentionChart';
@@ -11,6 +12,9 @@ import { PointsEconomyChart } from '@/components/admin/charts/PointsEconomyChart
 import { CampaignTable } from '@/components/admin/CampaignTable';
 import { ReferralStats } from '@/components/admin/ReferralStats';
 import { LeaderboardTrends } from '@/components/admin/LeaderboardTrends';
+import { DashboardHeader } from '@/components/admin/DashboardHeader';
+import { ExportButton } from '@/components/admin/ExportButton';
+import { DateRange } from '@/components/admin/DateRangePicker';
 
 interface OverviewData {
   totalUsers: number;
@@ -117,13 +121,53 @@ interface ReferralsResponse {
   leaderboard_trends: LeaderboardTrend[];
 }
 
+// CSV Header definitions
+const overviewHeaders = [
+  { label: 'Metric', key: 'metric' },
+  { label: 'Value', key: 'value' },
+];
+
+const userGrowthHeaders = [
+  { label: 'Date', key: 'date' },
+  { label: 'Daily New', key: 'total' },
+  { label: 'Cumulative', key: 'cumulative' },
+];
+
+const pointsHeaders = [
+  { label: 'Reason', key: 'reason' },
+  { label: 'Total Distributed', key: 'distributed' },
+  { label: 'Transactions', key: 'transactions' },
+];
+
+const campaignHeaders = [
+  { label: 'Campaign ID', key: 'campaign_id' },
+  { label: 'Users', key: 'users' },
+  { label: 'First Seen', key: 'first_attribution' },
+  { label: 'Last Seen', key: 'last_attribution' },
+];
+
+const referralHeaders = [
+  { label: 'Rank', key: 'rank' },
+  { label: 'Name', key: 'referrer_name' },
+  { label: 'Referral Count', key: 'count' },
+];
+
 /**
  * Admin Dashboard Page
  *
  * Displays key metrics and charts in a responsive grid layout.
- * Auto-refreshes every 60 seconds.
+ * Features:
+ * - Date range filtering for time-based charts
+ * - CSV export for all data sections
+ * - Auto-refresh every 60 seconds
  */
 export default function AdminDashboardPage() {
+  // Date range state (default: last 30 days)
+  const [dateRange, setDateRange] = useState<DateRange>(() => ({
+    from: startOfDay(subDays(new Date(), 29)),
+    to: endOfDay(new Date()),
+  }));
+
   const [overview, setOverview] = useState<OverviewData | null>(null);
   const [engagement, setEngagement] = useState<EngagementData[]>([]);
   const [retention, setRetention] = useState<CohortData[]>([]);
@@ -134,11 +178,22 @@ export default function AdminDashboardPage() {
   const [campaigns, setCampaigns] = useState<CampaignsResponse | null>(null);
   const [referrals, setReferrals] = useState<ReferralsResponse | null>(null);
   const [loading, setLoading] = useState(true);
+  const [isRefreshing, setIsRefreshing] = useState(false);
   const [lastUpdated, setLastUpdated] = useState<Date | null>(null);
   const [error, setError] = useState<string | null>(null);
 
+  // Format date for API query params
+  const formatDateParam = (date: Date): string => format(date, 'yyyy-MM-dd');
+
   const fetchData = useCallback(async () => {
     try {
+      setIsRefreshing(true);
+
+      // Build date query params
+      const fromParam = formatDateParam(dateRange.from);
+      const toParam = formatDateParam(dateRange.to);
+      const dateQuery = `?from=${fromParam}&to=${toParam}`;
+
       const [
         overviewRes,
         engagementRes,
@@ -151,13 +206,13 @@ export default function AdminDashboardPage() {
         referralsRes,
       ] = await Promise.all([
         fetch('/api/admin/analytics/overview'),
-        fetch('/api/admin/analytics/engagement'),
+        fetch(`/api/admin/analytics/engagement${dateQuery}`),
         fetch('/api/admin/analytics/retention'),
         fetch('/api/admin/analytics/features'),
-        fetch('/api/admin/analytics/users'),
+        fetch(`/api/admin/analytics/users${dateQuery}`),
         fetch('/api/admin/analytics/funnel'),
-        fetch('/api/admin/analytics/points'),
-        fetch('/api/admin/analytics/campaigns'),
+        fetch(`/api/admin/analytics/points${dateQuery}`),
+        fetch(`/api/admin/analytics/campaigns${dateQuery}`),
         fetch('/api/admin/analytics/referrals'),
       ]);
 
@@ -205,13 +260,17 @@ export default function AdminDashboardPage() {
       console.error('Dashboard fetch error:', message);
     } finally {
       setLoading(false);
+      setIsRefreshing(false);
     }
-  }, []);
+  }, [dateRange]);
 
-  // Initial fetch and auto-refresh every 60 seconds
+  // Refetch when date range changes
   useEffect(() => {
     fetchData();
+  }, [fetchData]);
 
+  // Auto-refresh every 60 seconds
+  useEffect(() => {
     const interval = setInterval(fetchData, 60000);
     return () => clearInterval(interval);
   }, [fetchData]);
@@ -221,13 +280,26 @@ export default function AdminDashboardPage() {
     return num.toLocaleString();
   };
 
-  // Format last updated time
-  const formatTime = (date: Date): string => {
-    return date.toLocaleTimeString('en-US', {
-      hour: '2-digit',
-      minute: '2-digit',
-      second: '2-digit',
-    });
+  // Prepare overview data for export
+  const getOverviewExportData = () => {
+    if (!overview) return [];
+    return [
+      { metric: 'Total Users', value: overview.totalUsers },
+      { metric: 'Wallets Connected', value: overview.walletsConnected },
+      { metric: 'Wallet Conversion Rate', value: `${overview.walletConversionRate}%` },
+      { metric: 'Points Distributed', value: overview.totalPointsDistributed },
+      { metric: 'Total Referrals', value: overview.totalReferrals },
+    ];
+  };
+
+  // Prepare referrals data for export with rank
+  const getReferralsExportData = () => {
+    if (!referrals?.top_referrers) return [];
+    return referrals.top_referrers.map((r, i) => ({
+      rank: i + 1,
+      referrer_name: r.referrer_name,
+      count: r.count,
+    }));
   };
 
   if (loading) {
@@ -323,40 +395,59 @@ export default function AdminDashboardPage() {
 
   return (
     <div className="p-6">
-      <div className="mb-8">
-        <h1 className="text-2xl font-bold text-white">Analytics Dashboard</h1>
-        <p className="text-zinc-500 text-sm mt-1">
-          Last updated: {lastUpdated ? formatTime(lastUpdated) : 'Never'}
-          <span className="text-zinc-600 ml-2">(auto-refresh: 60s)</span>
-        </p>
-      </div>
+      {/* Dashboard Header */}
+      <DashboardHeader
+        title="Analytics Dashboard"
+        lastUpdated={lastUpdated}
+        onRefresh={fetchData}
+        isRefreshing={isRefreshing}
+        dateRange={dateRange}
+        onDateRangeChange={setDateRange}
+      />
 
-      {/* Metric Cards */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
-        <MetricCard
-          title="Total Users"
-          value={formatNumber(overview?.totalUsers || 0)}
-        />
-        <MetricCard
-          title="Wallets Connected"
-          value={formatNumber(overview?.walletsConnected || 0)}
-          change={`${overview?.walletConversionRate || '0'}% conversion`}
-          trend="neutral"
-        />
-        <MetricCard
-          title="Points Distributed"
-          value={formatNumber(overview?.totalPointsDistributed || 0)}
-        />
-        <MetricCard
-          title="Total Referrals"
-          value={formatNumber(overview?.totalReferrals || 0)}
-        />
+      {/* Metric Cards with Export */}
+      <div className="mb-8">
+        <div className="flex items-center justify-between mb-4">
+          <h2 className="text-sm font-medium text-zinc-400 uppercase tracking-wider">Overview</h2>
+          <ExportButton
+            data={getOverviewExportData()}
+            filename="overview"
+            headers={overviewHeaders}
+          />
+        </div>
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+          <MetricCard
+            title="Total Users"
+            value={formatNumber(overview?.totalUsers || 0)}
+          />
+          <MetricCard
+            title="Wallets Connected"
+            value={formatNumber(overview?.walletsConnected || 0)}
+            change={`${overview?.walletConversionRate || '0'}% conversion`}
+            trend="neutral"
+          />
+          <MetricCard
+            title="Points Distributed"
+            value={formatNumber(overview?.totalPointsDistributed || 0)}
+          />
+          <MetricCard
+            title="Total Referrals"
+            value={formatNumber(overview?.totalReferrals || 0)}
+          />
+        </div>
       </div>
 
       {/* User Growth Chart - Full Width */}
       <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-4 mb-6">
-        <h2 className="text-lg font-semibold text-white mb-1">User Growth</h2>
-        <p className="text-zinc-500 text-sm mb-4">Last 30 days</p>
+        <div className="flex items-center justify-between mb-1">
+          <h2 className="text-lg font-semibold text-white">User Growth</h2>
+          <ExportButton
+            data={userGrowth}
+            filename="user-growth"
+            headers={userGrowthHeaders}
+          />
+        </div>
+        <p className="text-zinc-500 text-sm mb-4">Selected date range</p>
         {userGrowth.length > 0 ? (
           <UserGrowthChart data={userGrowth} />
         ) : (
@@ -392,7 +483,14 @@ export default function AdminDashboardPage() {
 
         {/* Points Economy Chart */}
         <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-4">
-          <h2 className="text-lg font-semibold text-white mb-1">Points Economy</h2>
+          <div className="flex items-center justify-between mb-1">
+            <h2 className="text-lg font-semibold text-white">Points Economy</h2>
+            <ExportButton
+              data={points?.breakdown || []}
+              filename="points-economy"
+              headers={pointsHeaders}
+            />
+          </div>
           {points?.totals && (
             <p className="text-zinc-500 text-sm mb-4">
               Total: {formatNumber(points.totals.distributed)} points
@@ -447,7 +545,14 @@ export default function AdminDashboardPage() {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
         {/* Campaign Performance Table */}
         <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-4">
-          <h2 className="text-base font-semibold text-white mb-3">Campaign Performance</h2>
+          <div className="flex items-center justify-between mb-3">
+            <h2 className="text-base font-semibold text-white">Campaign Performance</h2>
+            <ExportButton
+              data={campaigns?.campaigns || []}
+              filename="campaigns"
+              headers={campaignHeaders}
+            />
+          </div>
           {campaigns?.summary && (
             <p className="text-zinc-500 text-sm mb-4">
               {campaigns.summary.total_campaigns} campaigns, {campaigns.summary.total_attributed_users.toLocaleString()} attributed users
@@ -458,7 +563,14 @@ export default function AdminDashboardPage() {
 
         {/* Referral Network */}
         <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-4">
-          <h2 className="text-base font-semibold text-white mb-3">Referral Network</h2>
+          <div className="flex items-center justify-between mb-3">
+            <h2 className="text-base font-semibold text-white">Referral Network</h2>
+            <ExportButton
+              data={getReferralsExportData()}
+              filename="referrals"
+              headers={referralHeaders}
+            />
+          </div>
           <ReferralStats
             summary={referrals?.summary || { total_referrals: 0, unique_referrers: 0, avg_per_referrer: 0 }}
             topReferrers={referrals?.top_referrers || []}
