@@ -105,8 +105,8 @@ export function FeatureUsageChart({ data }: FeatureUsageChartProps) {
             paddingAngle={2}
             dataKey="users"
             nameKey="feature"
-            label={({ feature, percent }) =>
-              `${feature}: ${((percent ?? 0) * 100).toFixed(1)}%`
+            label={({ name, percent }) =>
+              `${name}: ${((percent ?? 0) * 100).toFixed(1)}%`
             }
             labelLine={{ stroke: '#71717a' }}
           >
