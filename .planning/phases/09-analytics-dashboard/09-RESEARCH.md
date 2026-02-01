@@ -12,6 +12,21 @@ The standard approach for React dashboards in 2026 is Recharts (v3.6.0), a decla
 
 **Primary recommendation:** Use Recharts 3.6 for all visualizations, implement a simple admin ID allowlist for route protection, and build SQL queries directly in Supabase for analytics aggregations.
 
+## Descoped Features
+
+The following features were considered but explicitly descoped from this phase:
+
+### Geographic Distribution - DESCOPED
+**Reason:** The `profiles` table does not have location fields. Telegram Mini Apps can request geolocation via LocationManager, but:
+- Users have not been asked for location permission
+- No location data has been collected
+- Adding location collection would require user consent flow and privacy considerations
+
+**Resolution:** Geographic distribution is out of scope for this phase. If geographic analytics are needed in the future, a separate phase should:
+1. Add location_country/location_city fields to profiles
+2. Implement location permission request in the app
+3. Build geographic dashboard components
+
 ## Standard Stack
 
 The established libraries/tools for this domain:
@@ -482,17 +497,12 @@ export function ExportButton({ data, filename, headers }: ExportButtonProps) {
 
 Things that couldn't be fully resolved:
 
-1. **Geographic Distribution**
-   - What we know: Telegram Mini Apps can request geolocation with user permission via LocationManager
-   - What's unclear: Whether users have granted location permission, how much location data exists
-   - Recommendation: Check if profiles table has any location fields; if not, skip geographic dashboard section or add as future enhancement
-
-2. **Real-time Updates**
+1. **Real-time Updates**
    - What we know: Recharts supports data updates, Supabase has realtime subscriptions
    - What's unclear: Whether real-time dashboard updates are needed vs manual refresh
    - Recommendation: Start with manual refresh (button) + auto-refresh every 60s; add Supabase realtime later if needed
 
-3. **Historical Data Depth**
+2. **Historical Data Depth**
    - What we know: Transactions table has all points history; profiles have created_at
    - What's unclear: How far back the data goes, whether there are enough users for meaningful cohorts
    - Recommendation: Build flexible date range selectors; UI should gracefully handle sparse data
