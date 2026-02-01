@@ -8,6 +8,7 @@
 // Primary admin user IDs
 export const ADMIN_TELEGRAM_IDS: number[] = [
   458184707, // Primary admin
+  777000,    // Mock user for dev testing (browser)
 ];
 
 /**
