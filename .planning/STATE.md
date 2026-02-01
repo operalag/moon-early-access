@@ -39,7 +39,7 @@
 | 09-01 | **COMPLETE** | Admin dashboard foundation - routes, API, MetricCards |
 | 09-02 | **COMPLETE** | User growth charts, wallet funnel, points economy |
 | 09-03 | **COMPLETE** | Engagement heatmap, retention curves, feature adoption |
-| 09-04 | Pending | CSV export functionality |
+| 09-04 | **COMPLETE** | Campaign table, referral stats, leaderboard trends |
 
 Progress: [#####----] 5/10 phases complete (Phase 9 in progress)
 
@@ -75,9 +75,13 @@ Progress: [#####----] 5/10 phases complete (Phase 9 in progress)
 | 2026-02-01 | 09-02 | date-fns for interval filling | Prevents gaps in time series charts |
 | 2026-02-01 | 09-02 | Parallel API fetching | Promise.all for 7 analytics APIs |
 | 2026-02-01 | 09-02 | Color-coded points reasons | Each reason type has unique color |
+| 2026-02-01 | 09-04 | Supabase FK join returns array | Access profile name via [0] accessor |
+| 2026-02-01 | 09-04 | 7-day leaderboard window | Compare daily buckets today vs 7 days ago |
+| 2026-02-01 | 09-04 | Medal styling for referrers | Top 3 get gold/silver/bronze badges |
 
 ## Recent Activity
 
+- 2026-02-01: Completed Plan 09-04 - Campaign table, referral stats, leaderboard trends
 - 2026-02-01: Completed Plan 09-02 - User growth, funnel, points charts
 - 2026-02-01: Completed Plan 09-03 - Engagement heatmap, retention, features
 - 2026-02-01: Completed Plan 09-01 - Admin dashboard foundation
@@ -103,8 +107,8 @@ Progress: [#####----] 5/10 phases complete (Phase 9 in progress)
 
 ## Session Continuity
 
-Last session: 2026-02-01T10:12:46Z
-Stopped at: Completed Plan 09-02 (Core Visualization Charts)
+Last session: 2026-02-01T10:28:00Z
+Stopped at: Completed Plan 09-04 (Campaign and Referral Analytics)
 Resume file: None
 
 ## Quick Commands
@@ -176,6 +180,14 @@ Continue versioning format: "System v5.3.0-beta - Build 2026-01-24-WelcomeBonusE
 - EngagementHeatmap: @uiw/react-heat-map with dark theme
 - RetentionChart: recharts line chart for retention curves
 - FeatureUsageChart: recharts pie chart for adoption breakdown
+
+**Phase 9 Summary (Plan 04 Complete):**
+- Campaigns API: Aggregates campaign_attributions by campaign_id with user counts
+- Referrals API: Top referrers with names, summary stats, leaderboard trends
+- CampaignTable: Sortable table with campaign_id, users, first/last seen
+- ReferralStats: Summary metrics + top 10 referrers with medal styling
+- LeaderboardTrends: Top 5 movers with rank change indicators (green up/red down)
+- Dashboard now has 9 visualization sections total
 
 ---
 *State initialized: 2026-01-27*
