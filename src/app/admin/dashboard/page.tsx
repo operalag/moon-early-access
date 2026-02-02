@@ -12,6 +12,7 @@ import { PointsEconomyChart } from '@/components/admin/charts/PointsEconomyChart
 import { CampaignTable } from '@/components/admin/CampaignTable';
 import { ReferralStats } from '@/components/admin/ReferralStats';
 import { LeaderboardTrends } from '@/components/admin/LeaderboardTrends';
+import { LeaderboardTable } from '@/components/admin/LeaderboardTable';
 import { DashboardHeader } from '@/components/admin/DashboardHeader';
 import { ExportButton } from '@/components/admin/ExportButton';
 import { DateRange } from '@/components/admin/DateRangePicker';
@@ -121,6 +122,21 @@ interface ReferralsResponse {
   leaderboard_trends: LeaderboardTrend[];
 }
 
+interface LeaderboardEntry {
+  rank: number;
+  first_name: string;
+  username: string | null;
+  wallet_address: string | null;
+  points: number;
+}
+
+interface LeaderboardsData {
+  overall: LeaderboardEntry[];
+  weekly: LeaderboardEntry[];
+  daily: LeaderboardEntry[];
+  generated_at: string;
+}
+
 // CSV Header definitions
 const overviewHeaders = [
   { label: 'Metric', key: 'metric' },
@@ -177,6 +193,7 @@ export default function AdminDashboardPage() {
   const [points, setPoints] = useState<PointsData | null>(null);
   const [campaigns, setCampaigns] = useState<CampaignsResponse | null>(null);
   const [referrals, setReferrals] = useState<ReferralsResponse | null>(null);
+  const [leaderboards, setLeaderboards] = useState<LeaderboardsData | null>(null);
   const [loading, setLoading] = useState(true);
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [lastUpdated, setLastUpdated] = useState<Date | null>(null);
@@ -204,6 +221,7 @@ export default function AdminDashboardPage() {
         pointsRes,
         campaignsRes,
         referralsRes,
+        leaderboardsRes,
       ] = await Promise.all([
         fetch('/api/admin/analytics/overview'),
         fetch(`/api/admin/analytics/engagement${dateQuery}`),
@@ -214,6 +232,7 @@ export default function AdminDashboardPage() {
         fetch(`/api/admin/analytics/points${dateQuery}`),
         fetch(`/api/admin/analytics/campaigns${dateQuery}`),
         fetch('/api/admin/analytics/referrals'),
+        fetch('/api/admin/analytics/leaderboards'),
       ]);
 
       if (!overviewRes.ok) {
@@ -231,6 +250,7 @@ export default function AdminDashboardPage() {
         pointsData,
         campaignsData,
         referralsData,
+        leaderboardsData,
       ] = await Promise.all([
         overviewRes.json(),
         engagementRes.ok ? engagementRes.json() : [],
@@ -241,6 +261,7 @@ export default function AdminDashboardPage() {
         pointsRes.ok ? pointsRes.json() : null,
         campaignsRes.ok ? campaignsRes.json() : null,
         referralsRes.ok ? referralsRes.json() : null,
+        leaderboardsRes.ok ? leaderboardsRes.json() : null,
       ]);
 
       setOverview(overviewData);
@@ -252,6 +273,7 @@ export default function AdminDashboardPage() {
       setPoints(pointsData);
       setCampaigns(campaignsData);
       setReferrals(referralsData);
+      setLeaderboards(leaderboardsData);
       setLastUpdated(new Date());
       setError(null);
     } catch (err) {
@@ -365,9 +387,28 @@ export default function AdminDashboardPage() {
           </div>
         </div>
         {/* Leaderboard Dynamics skeleton */}
-        <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-4 animate-pulse">
+        <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-4 mb-6 animate-pulse">
           <div className="h-4 bg-zinc-800 rounded w-44 mb-4"></div>
           <div className="h-48 bg-zinc-800 rounded"></div>
+        </div>
+        {/* Top 10 Leaderboards skeleton */}
+        <div className="mt-6">
+          <div className="h-4 bg-zinc-800 rounded w-40 mb-4"></div>
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            {[...Array(3)].map((_, i) => (
+              <div
+                key={i}
+                className="bg-zinc-900 border border-zinc-800 rounded-xl p-4 animate-pulse"
+              >
+                <div className="h-4 bg-zinc-800 rounded w-20 mb-4"></div>
+                <div className="space-y-2">
+                  {[...Array(5)].map((_, j) => (
+                    <div key={j} className="h-12 bg-zinc-800 rounded"></div>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     );
@@ -579,10 +620,40 @@ export default function AdminDashboardPage() {
       </div>
 
       {/* Leaderboard Dynamics */}
-      <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-4">
+      <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-4 mb-6">
         <h2 className="text-base font-semibold text-white mb-3">Leaderboard Dynamics</h2>
         <p className="text-zinc-500 text-sm mb-4">Top movers in the last 7 days</p>
         <LeaderboardTrends trends={referrals?.leaderboard_trends || []} />
+      </div>
+
+      {/* Top 10 Leaderboards */}
+      <div className="mt-6">
+        <h2 className="text-sm font-medium text-zinc-400 uppercase tracking-wider mb-4">
+          Top 10 Leaderboards
+        </h2>
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-4">
+            <LeaderboardTable
+              title="Overall"
+              data={leaderboards?.overall || []}
+              filename="leaderboard-overall"
+            />
+          </div>
+          <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-4">
+            <LeaderboardTable
+              title="Weekly"
+              data={leaderboards?.weekly || []}
+              filename="leaderboard-weekly"
+            />
+          </div>
+          <div className="bg-zinc-900 border border-zinc-800 rounded-xl p-4">
+            <LeaderboardTable
+              title="Daily"
+              data={leaderboards?.daily || []}
+              filename="leaderboard-daily"
+            />
+          </div>
+        </div>
       </div>
     </div>
   );
