@@ -237,17 +237,17 @@ Plans:
 **Estimated complexity:** S (1 day)
 **Research needed:** No
 **Dependencies:** Phase 9 complete (uses admin dashboard infrastructure)
-**Status:** Planned
+**Status:** COMPLETE (2026-02-02)
 **Plans:** 1 plan
 
 Plans:
-- [ ] 10-01-PLAN.md — Leaderboards API, LeaderboardTable component, dashboard integration
+- [x] 10-01-PLAN.md — Leaderboards API, LeaderboardTable component, dashboard integration
 
 **Success Criteria:**
-- Three leaderboard tables visible in admin dashboard (overall, weekly, daily)
-- Each shows top 10 with name, username, wallet
-- Export button for each leaderboard generates CSV
-- Consistent styling with existing dashboard components
+- ✓ Three leaderboard tables visible in admin dashboard (overall, weekly, daily)
+- ✓ Each shows top 10 with name, username, wallet
+- ✓ Export button for each leaderboard generates CSV
+- ✓ Consistent styling with existing dashboard components
 
 ---
 
