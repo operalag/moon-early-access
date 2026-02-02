@@ -11,6 +11,7 @@ import { getISOWeek, getISOWeekYear } from 'date-fns';
  * - daily: Today's date from leaderboard_buckets
  *
  * Each entry includes rank, name, username, wallet address, and points.
+ * Wallet addresses are fetched from points_transactions metadata (wallet_connect reason).
  */
 
 interface LeaderboardEntry {
@@ -26,13 +27,64 @@ interface ProfileRow {
   first_name: string | null;
   username: string | null;
   total_points: number;
-  ton_wallet_address: string | null;
 }
 
-interface BucketJoinRow {
+interface BucketRow {
   user_id: number;
   points: number;
-  profiles: { first_name: string | null; username: string | null; ton_wallet_address: string | null }[] | null;
+}
+
+interface WalletTransaction {
+  user_id: number;
+  metadata: { address?: string } | null;
+}
+
+// Helper to fetch wallet addresses from points_transactions
+async function getWalletAddresses(userIds: number[]): Promise<Map<number, string>> {
+  if (userIds.length === 0) return new Map();
+
+  const { data, error } = await supabaseAdmin
+    .from('points_transactions')
+    .select('user_id, metadata')
+    .in('user_id', userIds)
+    .eq('reason', 'wallet_connect');
+
+  if (error) {
+    console.error('Error fetching wallet addresses:', error);
+    return new Map();
+  }
+
+  const walletMap = new Map<number, string>();
+  for (const tx of (data as WalletTransaction[]) || []) {
+    if (tx.metadata?.address) {
+      walletMap.set(tx.user_id, tx.metadata.address);
+    }
+  }
+  return walletMap;
+}
+
+// Helper to fetch profile details for a list of user IDs
+async function getProfileDetails(userIds: number[]): Promise<Map<number, { first_name: string; username: string | null }>> {
+  if (userIds.length === 0) return new Map();
+
+  const { data, error } = await supabaseAdmin
+    .from('profiles')
+    .select('telegram_id, first_name, username')
+    .in('telegram_id', userIds);
+
+  if (error) {
+    console.error('Error fetching profile details:', error);
+    return new Map();
+  }
+
+  const profileMap = new Map<number, { first_name: string; username: string | null }>();
+  for (const profile of data || []) {
+    profileMap.set(profile.telegram_id, {
+      first_name: profile.first_name || 'Unknown',
+      username: profile.username,
+    });
+  }
+  return profileMap;
 }
 
 export async function GET() {
@@ -42,7 +94,7 @@ export async function GET() {
     // 1. Overall (all-time) leaderboard from profiles
     const { data: overallData, error: overallError } = await supabaseAdmin
       .from('profiles')
-      .select('telegram_id, first_name, username, total_points, ton_wallet_address')
+      .select('telegram_id, first_name, username, total_points')
       .order('total_points', { ascending: false })
       .limit(10);
 
@@ -50,11 +102,15 @@ export async function GET() {
       throw new Error(`Overall leaderboard failed: ${overallError.message}`);
     }
 
-    const overall: LeaderboardEntry[] = ((overallData as ProfileRow[]) || []).map((row, index) => ({
+    const overallProfiles = (overallData as ProfileRow[]) || [];
+    const overallUserIds = overallProfiles.map(p => p.telegram_id);
+    const overallWallets = await getWalletAddresses(overallUserIds);
+
+    const overall: LeaderboardEntry[] = overallProfiles.map((row, index) => ({
       rank: index + 1,
       first_name: row.first_name || 'Unknown',
       username: row.username,
-      wallet_address: row.ton_wallet_address,
+      wallet_address: overallWallets.get(row.telegram_id) || null,
       points: row.total_points || 0,
     }));
 
@@ -63,7 +119,7 @@ export async function GET() {
 
     const { data: dailyData, error: dailyError } = await supabaseAdmin
       .from('leaderboard_buckets')
-      .select('user_id, points, profiles!leaderboard_buckets_user_id_fkey(first_name, username, ton_wallet_address)')
+      .select('user_id, points')
       .eq('period_type', 'daily')
       .eq('period_key', todayKey)
       .order('points', { ascending: false })
@@ -73,13 +129,21 @@ export async function GET() {
       throw new Error(`Daily leaderboard failed: ${dailyError.message}`);
     }
 
-    const daily: LeaderboardEntry[] = ((dailyData as BucketJoinRow[]) || []).map((row, index) => ({
-      rank: index + 1,
-      first_name: row.profiles?.[0]?.first_name || 'Unknown',
-      username: row.profiles?.[0]?.username || null,
-      wallet_address: row.profiles?.[0]?.ton_wallet_address || null,
-      points: row.points || 0,
-    }));
+    const dailyBuckets = (dailyData as BucketRow[]) || [];
+    const dailyUserIds = dailyBuckets.map(b => b.user_id);
+    const dailyProfiles = await getProfileDetails(dailyUserIds);
+    const dailyWallets = await getWalletAddresses(dailyUserIds);
+
+    const daily: LeaderboardEntry[] = dailyBuckets.map((row, index) => {
+      const profile = dailyProfiles.get(row.user_id);
+      return {
+        rank: index + 1,
+        first_name: profile?.first_name || 'Unknown',
+        username: profile?.username || null,
+        wallet_address: dailyWallets.get(row.user_id) || null,
+        points: row.points || 0,
+      };
+    });
 
     // 3. Weekly leaderboard from leaderboard_buckets
     // ISO week format: YYYY-WNN (e.g., 2026-W05)
@@ -89,7 +153,7 @@ export async function GET() {
 
     const { data: weeklyData, error: weeklyError } = await supabaseAdmin
       .from('leaderboard_buckets')
-      .select('user_id, points, profiles!leaderboard_buckets_user_id_fkey(first_name, username, ton_wallet_address)')
+      .select('user_id, points')
       .eq('period_type', 'weekly')
       .eq('period_key', weeklyKey)
       .order('points', { ascending: false })
@@ -99,13 +163,21 @@ export async function GET() {
       throw new Error(`Weekly leaderboard failed: ${weeklyError.message}`);
     }
 
-    const weekly: LeaderboardEntry[] = ((weeklyData as BucketJoinRow[]) || []).map((row, index) => ({
-      rank: index + 1,
-      first_name: row.profiles?.[0]?.first_name || 'Unknown',
-      username: row.profiles?.[0]?.username || null,
-      wallet_address: row.profiles?.[0]?.ton_wallet_address || null,
-      points: row.points || 0,
-    }));
+    const weeklyBuckets = (weeklyData as BucketRow[]) || [];
+    const weeklyUserIds = weeklyBuckets.map(b => b.user_id);
+    const weeklyProfiles = await getProfileDetails(weeklyUserIds);
+    const weeklyWallets = await getWalletAddresses(weeklyUserIds);
+
+    const weekly: LeaderboardEntry[] = weeklyBuckets.map((row, index) => {
+      const profile = weeklyProfiles.get(row.user_id);
+      return {
+        rank: index + 1,
+        first_name: profile?.first_name || 'Unknown',
+        username: profile?.username || null,
+        wallet_address: weeklyWallets.get(row.user_id) || null,
+        points: row.points || 0,
+      };
+    });
 
     return NextResponse.json({
       overall,

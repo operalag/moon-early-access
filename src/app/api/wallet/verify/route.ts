@@ -24,13 +24,12 @@ export async function POST(request: Request) {
       return NextResponse.json({ success: true, message: 'Already verified' });
     }
 
-    // 3. Mark as Connected (and save address if we had the column)
-    // For now, we just flip the boolean as per original spec
+    // 3. Mark as Connected and save wallet address
     await supabaseAdmin
       .from('profiles')
-      .update({ 
+      .update({
         is_wallet_connected: true,
-        // ton_wallet_address: walletAddress // Future use
+        ton_wallet_address: walletAddress
       })
       .eq('telegram_id', userId);
 
