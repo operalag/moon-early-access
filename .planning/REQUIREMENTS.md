@@ -83,12 +83,12 @@ Which phases cover which requirements. Updated during roadmap creation.
 |-------------|-------|--------|
 | NAV-01 | Phase 14 | Pending |
 | NAV-02 | Phase 14 | Pending |
-| SLIDE-01 | Phase 12 | Pending |
-| SLIDE-02 | Phase 12 | Pending |
-| SLIDE-03 | Phase 12 | Pending |
-| SLIDE-04 | Phase 12 | Pending |
+| SLIDE-01 | Phase 12 | Complete |
+| SLIDE-02 | Phase 12 | Complete |
+| SLIDE-03 | Phase 12 | Complete |
+| SLIDE-04 | Phase 12 | Complete |
 | MOD1-01 | Phase 13 | Pending |
-| MOD1-02 | Phase 12 | Pending |
+| MOD1-02 | Phase 12 | Complete |
 | MOD1-03 | Phase 13 | Pending |
 | MOD1-04 | Phase 13 | Pending |
 | MOD1-05 | Phase 13 | Pending |

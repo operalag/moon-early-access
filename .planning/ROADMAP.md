@@ -142,8 +142,8 @@ Plans:
 **Plans:** 2 plans
 
 Plans:
-- [ ] 12-01-PLAN.md — SlideEngine with swipe/arrow navigation and all 5 slide type renderers
-- [ ] 12-02-PLAN.md — Quiz haptic feedback and confetti integration
+- [x] 12-01-PLAN.md — SlideEngine with swipe/arrow navigation and all 5 slide type renderers
+- [x] 12-02-PLAN.md — Quiz haptic feedback and confetti integration
 
 ---
 
@@ -204,7 +204,7 @@ Plans:
 | 9 | v1.0 | 5/5 | Complete | 2026-02-01 |
 | 10 | v1.0 | 1/1 | Complete | 2026-02-02 |
 | 11 - Data Model & Content | v6.0.0 | 1/1 | Complete | 2026-02-03 |
-| 12 - Slide Engine | v6.0.0 | 0/2 | Not started | - |
+| 12 - Slide Engine | v6.0.0 | 2/2 | Complete | 2026-02-03 |
 | 13 - Module 1 Integration | v6.0.0 | 0/2 | Not started | - |
 | 14 - Menu & Gating | v6.0.0 | 0/1 | Not started | - |
 
