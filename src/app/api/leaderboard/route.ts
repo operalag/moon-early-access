@@ -1,83 +1,137 @@
 import { NextResponse } from 'next/server';
 import { supabaseAdmin } from '@/lib/supabaseAdmin';
+import { getISOWeek, getISOWeekYear } from 'date-fns';
+
+interface LeaderboardEntry {
+  username: string | null;
+  first_name: string | null;
+  avatar_url: string | null;
+  points: number;
+  rank: number;
+  isCurrentUser?: boolean;
+}
 
 export async function GET(request: Request) {
   try {
     const { searchParams } = new URL(request.url);
-    const period = searchParams.get('period') || 'all_time'; // 'daily', 'weekly', 'all_time'
-    const limit = 50;
+    const period = searchParams.get('period') || 'all_time';
+    const userId = searchParams.get('userId');
+    const userIdNum = userId ? parseInt(userId, 10) : null;
 
-    let data: any[] = [];
-    
+    let allEntries: LeaderboardEntry[] = [];
+
     if (period === 'all_time') {
-      // Query Profiles (Legacy/Total)
       const { data: profiles, error } = await supabaseAdmin
         .from('profiles')
-        .select('username, first_name, total_points, avatar_url')
-        .order('total_points', { ascending: false })
-        .limit(limit);
-        
-      if (error) throw error;
-      data = profiles.map(p => ({ ...p, points: p.total_points }));
+        .select('telegram_id, username, first_name, total_points, avatar_url')
+        .order('total_points', { ascending: false });
 
+      if (error) throw error;
+
+      allEntries = (profiles || []).map((p, i) => ({
+        username: p.username,
+        first_name: p.first_name,
+        avatar_url: p.avatar_url,
+        points: p.total_points || 0,
+        rank: i + 1,
+        isCurrentUser: userIdNum ? p.telegram_id === userIdNum : false,
+      }));
     } else {
-      // Query Buckets (Daily/Weekly)
-      let key = '';
+      // Daily or Weekly from leaderboard_buckets
       const now = new Date();
-      
+      let periodKey = '';
+
       if (period === 'daily') {
-        // YYYY-MM-DD
-        key = now.toISOString().split('T')[0]; 
+        periodKey = now.toISOString().split('T')[0];
       } else if (period === 'weekly') {
-        // IYYY-"W"IW (Postgres ISO Week format is tricky in JS, let's trust the DB key gen for now)
-        // Actually, we can just filter by period_type and order by points for the "current" key.
-        // A better approach for the API is to query the *latest* key dynamically or let the client pass it.
-        // For MVP, we will query the bucket matching "TODAY" logic from Postgres side or just fetch 'daily' typed rows sorted by date.
+        const weekNumber = getISOWeek(now);
+        const weekYear = getISOWeekYear(now);
+        periodKey = `${weekYear}-W${String(weekNumber).padStart(2, '0')}`;
       }
 
-      // V2 Approach: Query buckets directly
-      // We need to match the specific key (e.g. '2026-01-24')
-      // Let's use a Postgres function or a smart query.
-      
       const { data: buckets, error } = await supabaseAdmin
         .from('leaderboard_buckets')
         .select(`
-           points,
-           period_key,
-           profiles (username, first_name, avatar_url)
+          user_id,
+          points,
+          profiles (telegram_id, username, first_name, avatar_url)
         `)
         .eq('period_type', period)
-        .order('period_key', { ascending: false }) // Latest bucket first
-        .order('points', { ascending: false })     // Highest score
-        .limit(limit);
+        .eq('period_key', periodKey)
+        .order('points', { ascending: false });
 
-        // Note: This gets the latest *globally*, effectively showing "Current Leaderboard"
-        // We might need to filter by specific date key if we have history.
-        // For now, let's assume we want the *latest active period*.
-        
-        if (error) throw error;
-        
-        // Filter to ensure we only show the *current* period (top of the list)
-        // If we have data from yesterday, we don't want to mix it.
-        // Since we ordered by period_key desc, the first rows are the latest period.
-        // We should filter explicitly in JS if needed, but for MVP let's trust the sort.
-        
-        const latestKey = buckets[0]?.period_key;
-        const currentBuckets = buckets.filter((b: any) => b.period_key === latestKey);
+      if (error) throw error;
 
-        data = currentBuckets.map((b: any) => ({
-            username: b.profiles?.username,
-            first_name: b.profiles?.first_name,
-            avatar_url: b.profiles?.avatar_url,
-            points: b.points
-        }));
+      allEntries = (buckets || []).map((b: any, i) => ({
+        username: b.profiles?.username,
+        first_name: b.profiles?.first_name,
+        avatar_url: b.profiles?.avatar_url,
+        points: b.points || 0,
+        rank: i + 1,
+        isCurrentUser: userIdNum ? b.user_id === userIdNum : false,
+      }));
     }
 
-    return NextResponse.json({ 
-        period, 
-        leaderboard: data 
-    });
+    // If no userId provided, return top 50 (legacy behavior)
+    if (!userIdNum) {
+      return NextResponse.json({
+        period,
+        leaderboard: allEntries.slice(0, 50),
+        userRank: null,
+        totalUsers: allEntries.length,
+      });
+    }
 
+    // Find current user's position
+    const userIndex = allEntries.findIndex(e => e.isCurrentUser);
+    const userRank = userIndex >= 0 ? userIndex + 1 : null;
+
+    // Build dynamic view: top 3 + user neighborhood (2 ahead, user, 10 behind)
+    const top3 = allEntries.slice(0, 3);
+
+    if (userIndex === -1) {
+      // User not on leaderboard - show top 3 only
+      return NextResponse.json({
+        period,
+        leaderboard: top3,
+        userRank: null,
+        totalUsers: allEntries.length,
+        hasGap: false,
+      });
+    }
+
+    // Calculate neighborhood bounds
+    const neighborhoodStart = Math.max(0, userIndex - 2); // 2 ahead
+    const neighborhoodEnd = Math.min(allEntries.length, userIndex + 11); // user + 10 behind
+
+    // Check if there's overlap with top 3
+    const hasGap = neighborhoodStart > 3;
+
+    // Build final list
+    let leaderboard: LeaderboardEntry[] = [];
+
+    if (userIndex < 3) {
+      // User is in top 3 - show from top to user + 10 behind
+      leaderboard = allEntries.slice(0, neighborhoodEnd);
+    } else if (hasGap) {
+      // Gap exists - show top 3, then neighborhood
+      leaderboard = [
+        ...top3,
+        { username: null, first_name: null, avatar_url: null, points: -1, rank: -1 }, // Gap marker
+        ...allEntries.slice(neighborhoodStart, neighborhoodEnd),
+      ];
+    } else {
+      // No gap - continuous from top to neighborhood end
+      leaderboard = allEntries.slice(0, neighborhoodEnd);
+    }
+
+    return NextResponse.json({
+      period,
+      leaderboard,
+      userRank,
+      totalUsers: allEntries.length,
+      hasGap,
+    });
   } catch (error: any) {
     console.error('Leaderboard API Error:', error);
     return NextResponse.json({ error: error.message }, { status: 500 });

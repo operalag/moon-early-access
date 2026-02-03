@@ -90,7 +90,7 @@ export default function SettingsPage() {
                </div>
                <div>
                   <p className="font-bold text-sm uppercase">Version</p>
-                  <p className="text-[10px] text-white/40">Build 5.8.0-beta</p>
+                  <p className="text-[10px] text-white/40">Build 5.9.0-beta</p>
                </div>
             </div>
             <div className="p-5 flex items-center gap-4">
