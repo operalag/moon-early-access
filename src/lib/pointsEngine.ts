@@ -1,14 +1,15 @@
 import { supabaseAdmin } from './supabaseAdmin';
 
-export type PointReason = 
-  | 'referral' 
-  | 'daily_spin' 
-  | 'daily_login' 
-  | 'wallet_connect' 
-  | 'channel_join' 
-  | 'prediction_win' 
+export type PointReason =
+  | 'referral'
+  | 'daily_spin'
+  | 'daily_login'
+  | 'wallet_connect'
+  | 'channel_join'
+  | 'prediction_win'
   | 'admin_adjustment'
-  | 'welcome_bonus';
+  | 'welcome_bonus'
+  | 'education_complete';
 
 /**
  * The Centralized Points Engine
