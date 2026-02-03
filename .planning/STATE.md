@@ -2,69 +2,66 @@
 
 **Project:** Moon Prediction Mini App
 **Last Updated:** 2026-02-03
-**Current Phase:** Not started (defining requirements)
+**Current Phase:** Phase 11 - Data Model & Content
+
+## Project Reference
+
+See: .planning/PROJECT.md (updated 2026-02-03)
+
+**Core value:** Educate and guide Telegram users into becoming active prediction market traders through gamified Cricket-themed education.
+**Current focus:** v6.0.0 "Net Practice" - Phase 11 (Data Model & Content)
 
 ## Current Position
 
-Phase: Not started (defining requirements)
-Plan: —
-Status: Defining requirements for Milestone v6.0.0 "Net Practice"
-Last activity: 2026-02-03 — Milestone v6.0.0 started
+Phase: 11 of 14 (Data Model & Content)
+Plan: 0 of 1 in current phase
+Status: Pending (ready to plan)
+Last activity: 2026-02-03 — Roadmap created for v6.0.0 "Net Practice"
 
-## Progress
+Progress: [----------] 0%
 
-### Milestone 2: Net Practice (v6.0.0)
+## Performance Metrics
 
-| Phase | Status | Notes |
-|-------|--------|-------|
-| TBD | Pending | Roadmap not yet created |
+**Velocity:**
+- Total plans completed (v6.0.0): 0
+- Average duration: -
+- Total execution time: -
 
-Progress: [----------] 0% — Defining requirements
+**By Phase:**
 
-## Blockers
+| Phase | Plans | Total | Avg/Plan |
+|-------|-------|-------|----------|
+| 11 | 0/1 | - | - |
+| 12 | 0/2 | - | - |
+| 13 | 0/2 | - | - |
+| 14 | 0/1 | - | - |
 
-- None for v6.0.0 (self-contained feature)
-- **themoon.business API documentation** — Required for future trading integration (separate milestone)
+*Updated after each plan completion*
 
-## Accumulated Decisions
+## Accumulated Context
 
-| Date | Phase-Plan | Decision | Rationale |
-|------|------------|----------|-----------|
-| 2026-02-03 | v6.0.0 | Points not XP | Single currency, existing engine |
-| 2026-02-03 | v6.0.0 | Static JSON content | Easy updates without deploy |
-| 2026-02-03 | v6.0.0 | Module 2+ wallet-gated | Incentivize wallet connection |
-| 2026-02-03 | v6.0.0 | Incremental release (Module 1 first) | Test before shipping all |
+### Decisions
 
-## Recent Activity
+Decisions logged during milestone planning:
 
-- 2026-02-03: Milestone v6.0.0 "Net Practice" started
-- 2026-02-03: Archived previous work to MILESTONES.md
-- 2026-02-03: Ad-hoc features shipped (v5.7.0 → v5.10.0)
-- 2026-02-02: Phase 10 (Admin Leaderboard View) COMPLETE
-- 2026-02-01: Phase 9 (Analytics Dashboard) COMPLETE
+- [v6.0.0]: Points not XP - Single currency using existing points engine
+- [v6.0.0]: Static JSON content - Easy updates without redeploy (education_modules.json)
+- [v6.0.0]: Module 2+ wallet-gated - Incentivize wallet connection
+- [v6.0.0]: Incremental release - Ship Module 1 first, test before shipping all
+
+### Pending Todos
+
+None yet.
+
+### Blockers/Concerns
+
+- **themoon.business API documentation** — Required for future trading integration (separate milestone, does not block v6.0.0)
 
 ## Session Continuity
 
 Last session: 2026-02-03
-Stopped at: Defining requirements for v6.0.0
+Stopped at: Roadmap created for v6.0.0, ready to plan Phase 11
 Resume file: None
-
-## Context for Future Sessions
-
-This is a Telegram Mini App for cricket/crypto predictions. We're building "The Net Practice" — a gamified educational module using Cricket metaphors (Overs = Modules, Balls = Slides).
-
-**v6.0.0 Scope:**
-- Module 1: "The Kit Bag" (wallet education, 6 slides)
-- SlideEngine component with swipe/tap navigation
-- Quiz logic + haptic feedback + confetti
-- Points integration (existing system)
-- Badge system
-- Locked module teasers
-
-**Key constraints:**
-- TON blockchain only (Telegram mandate)
-- Trading framing, not betting (regulatory)
-- Static JSON for content (education_modules.json)
 
 ---
 *State initialized: 2026-01-27*

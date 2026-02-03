@@ -81,29 +81,29 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| NAV-01 | TBD | Pending |
-| NAV-02 | TBD | Pending |
-| SLIDE-01 | TBD | Pending |
-| SLIDE-02 | TBD | Pending |
-| SLIDE-03 | TBD | Pending |
-| SLIDE-04 | TBD | Pending |
-| MOD1-01 | TBD | Pending |
-| MOD1-02 | TBD | Pending |
-| MOD1-03 | TBD | Pending |
-| MOD1-04 | TBD | Pending |
-| MOD1-05 | TBD | Pending |
-| PROG-01 | TBD | Pending |
-| PROG-02 | TBD | Pending |
-| PROG-03 | TBD | Pending |
-| GATE-01 | TBD | Pending |
-| GATE-02 | TBD | Pending |
-| CONT-01 | TBD | Pending |
+| NAV-01 | Phase 14 | Pending |
+| NAV-02 | Phase 14 | Pending |
+| SLIDE-01 | Phase 12 | Pending |
+| SLIDE-02 | Phase 12 | Pending |
+| SLIDE-03 | Phase 12 | Pending |
+| SLIDE-04 | Phase 12 | Pending |
+| MOD1-01 | Phase 13 | Pending |
+| MOD1-02 | Phase 12 | Pending |
+| MOD1-03 | Phase 13 | Pending |
+| MOD1-04 | Phase 13 | Pending |
+| MOD1-05 | Phase 13 | Pending |
+| PROG-01 | Phase 11 | Pending |
+| PROG-02 | Phase 13 | Pending |
+| PROG-03 | Phase 13 | Pending |
+| GATE-01 | Phase 14 | Pending |
+| GATE-02 | Phase 14 | Pending |
+| CONT-01 | Phase 11 | Pending |
 
 **Coverage:**
 - v6.0.0 requirements: 17 total
-- Mapped to phases: 0
-- Unmapped: 17 ⚠️
+- Mapped to phases: 17
+- Unmapped: 0
 
 ---
 *Requirements defined: 2026-02-03*
-*Last updated: 2026-02-03 after initial definition*
+*Last updated: 2026-02-03 — Traceability complete after roadmap creation*

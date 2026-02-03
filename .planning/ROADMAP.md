@@ -4,287 +4,210 @@
 **Version:** 1.0.0
 **Created:** 2026-01-27
 
-## Milestone 1: Prediction Market Integration (Current)
+## Milestones
 
-Transform the gamified Telegram Mini App into an active prediction market trading platform with guided onboarding.
+- **v1.0 MVP** - Phases 1-10 (in progress, paused at Phase 4 pending API)
+- **v6.0.0 "Net Practice"** - Phases 11-14 (current focus)
 
----
+## Phases Overview
 
-### Phase 1: Launch Polish ✓
+<details>
+<summary>Milestone 1: Prediction Market Integration (Phases 1-10)</summary>
+
+### Phase 1: Launch Polish - COMPLETE (2026-01-27)
 **Goal:** Ship a polished v1.0 release candidate with visual refinements
 **Requirements:** Launch Polish items from PROJECT.md
-- ✓ Leaderboard: Remove @username, show only name and avatar
-- ✓ Visual tweaks across app (user declined - none needed)
-- ✓ Page element reordering (user declined - none needed)
+- Leaderboard: Remove @username, show only name and avatar
+- Visual tweaks across app (user declined - none needed)
+- Page element reordering (user declined - none needed)
 
-**Estimated complexity:** S (1-2 days)
-**Research needed:** No
-**Dependencies:** None
-**Status:** COMPLETE (2026-01-27)
-**Plans:** 2 plans
-
-Plans:
-- [x] 01-01-PLAN.md — Remove @username from leaderboard + gather polish requirements
-- [x] 01-02-PLAN.md — Skipped (user specified no additional polish)
-
-**Success Criteria:**
-- ✓ Leaderboard displays name and avatar only (no @username)
-- ✓ Visual tweaks applied per user feedback (none requested)
-- ✓ Page elements reordered as specified (none requested)
+**Plans:**
+- [x] 01-01: Remove @username from leaderboard + gather polish requirements
+- [x] 01-02: Skipped (user specified no additional polish)
 
 ---
 
-### Phase 2: Campaign Tracking ✓
+### Phase 2: Campaign Tracking - COMPLETE (2026-01-27)
 **Goal:** Track user acquisition from marketing campaigns via startapp parameter
 **Requirements:** Campaign attribution system
-- ✓ Detect if startapp parameter is a campaign ID (e.g., "V1a", "V1b") or a referral (numeric user ID)
-- ✓ For referrals: keep existing flow unchanged
-- ✓ For campaigns: record campaign attribution (user_id, campaign_id, timestamp)
-- ✓ Database table to store campaign attributions
-- ✓ Admin view to see which users came through which campaigns
 
-**Estimated complexity:** S (1 day)
-**Research needed:** No
-**Dependencies:** Phase 1 complete
-**Status:** COMPLETE (2026-01-27)
-**Plans:** 2 plans
-
-Plans:
-- [x] 02-01-PLAN.md — Create campaign_attributions table and POST /api/campaign endpoint
-- [x] 02-02-PLAN.md — Add detection logic to AuthWrapper and create debug endpoint
-
-**Success Criteria:**
-- ✓ startapp parameter correctly identified as campaign vs referral
-- ✓ Campaign attributions stored in database
-- ✓ Existing referral flow unchanged
-- ✓ Campaign data queryable (debug endpoint)
+**Plans:**
+- [x] 02-01: Create campaign_attributions table and POST /api/campaign endpoint
+- [x] 02-02: Add detection logic to AuthWrapper and create debug endpoint
 
 ---
 
-### Phase 3: Featured Market Gating ✓
+### Phase 3: Featured Market Gating - COMPLETE (2026-01-28)
 **Goal:** Gate Featured Market access behind wallet connection with education and incentive
-**Requirements:** Prediction Market Integration - Wallet gating before external market access
-- ✓ Featured Market card shows lock indicator when wallet not connected
-- ✓ Tap triggers bottom sheet modal with wallet education
-- ✓ Points reward (~1000+) for connecting wallet (shown upfront)
-- ✓ Connected users go directly to themoon.business via Telegram openLink
 
-**Estimated complexity:** S (1-2 days)
-**Research needed:** No
-**Dependencies:** Phase 2 complete ✓
-**Status:** COMPLETE (2026-01-28)
-**Plans:** 1 plan
-
-Plans:
-- [x] 03-01-PLAN.md — Wallet gating components and page integration
-
-**Success Criteria:**
-- ✓ Featured Market card shows lock + "Wallet required" when no wallet
-- ✓ Bottom sheet modal explains requirement, offers "Connect Wallet" CTA
-- ✓ Points awarded on wallet connection
-- ✓ Connected users redirected to themoon.business on tap
+**Plans:**
+- [x] 03-01: Wallet gating components and page integration
 
 ---
 
-### Phase 4: themoon.business API Integration
+### Phase 4: themoon.business API Integration - BLOCKED
 **Goal:** Connect to real market data from themoon.business
-**Requirements:** Prediction Market Integration - Integrate a market from themoon.business
-- Market client library (lib/marketClient.ts)
-- API routes proxying to themoon.business
-- Real market data flowing to UI
-- Error handling and loading states
-
-**Estimated complexity:** L (3-5 days)
-**Research needed:** YES - BLOCKED until API documentation received
-**Dependencies:** Phase 3 complete, themoon.business API access
-
-**Success Criteria:**
-- Real markets displayed from themoon.business
-- Market data updates in real-time (polling or WebSocket)
-- API errors handled gracefully
-- initData validation on all API routes
-
-**Research Notes:**
-- Contact themoon.business for API documentation
-- Clarify: authentication mechanism, trade submission flow, settlement, token type
-- Fallback options: direct smart contract, iframe embed
+**Status:** BLOCKED until API documentation received
 
 ---
 
 ### Phase 5: Trading Execution
 **Goal:** Enable real trades via TonConnect wallet integration
-**Requirements:** Prediction Market Integration - Trading interface
-- Trade preparation endpoint
-- TonConnect transaction signing flow
-- Optimistic trade UI with recovery
-- Transaction confirmation and receipts
-
-**Estimated complexity:** M (2-3 days)
-**Research needed:** Maybe - depends on themoon.business transaction flow
-**Dependencies:** Phase 4 complete, TonConnect patterns established
-
-**Success Criteria:**
-- User can submit a trade and sign with TonConnect
-- Transaction status shows (pending, confirmed, failed)
-- Optimistic UI updates immediately, reconciles on confirmation
-- Gas fees displayed transparently before signing
+**Dependencies:** Phase 4 complete
 
 ---
 
 ### Phase 6: Tutorial & Onboarding
 **Goal:** Guide new users through wallet setup and first trade
-**Requirements:** Tutorial/Onboarding items from PROJECT.md
-- Wallet creation/connection coaching
-- Prediction market basics education
-- First trade completion with reward
-
-**Estimated complexity:** M (2-3 days)
-**Research needed:** No
-**Dependencies:** Phase 5 complete (trading must work to teach it)
-
-**Success Criteria:**
-- New user guided through wallet connection (not required upfront)
-- Tutorial explains prediction market concepts in plain language
-- User completes first trade with guided walkthrough
-- First trade reward granted (points, badge, or both)
-- Progress tracked and persisted
+**Dependencies:** Phase 5 complete
 
 ---
 
 ### Phase 7: Position Management & Polish
 **Goal:** Complete the trading loop with position tracking and settlement
-**Requirements:** Prediction Market Integration - final polish
-- Position polling with real-time updates
-- Settlement handling (claim winnings)
-- Points engine integration for trading activity
-- Final UX polish and edge cases
-
-**Estimated complexity:** M (2-3 days)
-**Research needed:** No
 **Dependencies:** Phase 6 complete
 
-**Success Criteria:**
-- User can view all open positions with live P&L
-- Settlement flow works (automatic or user-initiated)
-- Points awarded for trading milestones
-- Error states and edge cases handled
-
 ---
 
-### Phase 8: Various Small Tasks ✓
+### Phase 8: Various Small Tasks - COMPLETE (2026-01-31)
 **Goal:** Targeted UI polish - welcome page spacing and news feed limit
-**Requirements:** Various small tasks and improvements
-- ✓ Reduce welcome page top spacing (~20-30% less top gap)
-- ✓ Limit news feed to 4 items
-**Estimated complexity:** S
-**Research needed:** No
-**Dependencies:** None (independent of other phases)
-**Status:** COMPLETE (2026-01-31)
-**Plans:** 1 plan
 
-Plans:
-- [x] 08-01-PLAN.md — Welcome spacing adjustment + news feed limit
-
-**Success Criteria:**
-- ✓ Welcome screen content positioned higher (reduced top gap)
-- ✓ News section displays exactly 4 items
-- ✓ All other screens unchanged
+**Plans:**
+- [x] 08-01: Welcome spacing adjustment + news feed limit
 
 ---
 
-### Phase 9: Analytics Dashboard
-**Goal:** Build an admin dashboard with growth metrics, user insights, and engagement visualizations
-**Requirements:** Analytics and tracking for app growth
-- User acquisition metrics (total users, daily/weekly/monthly active users)
-- Engagement heatmaps (when users are most active)
-- Wallet connection funnel (users → wallet connected → trades)
-- Referral network visualization
-- Campaign performance tracking
-- Points economy health (total distributed, burn rate)
-- Retention curves (D1, D7, D30)
-- Feature usage breakdown (spin, referrals, settings, etc.)
+### Phase 9: Analytics Dashboard - COMPLETE
+**Goal:** Build an admin dashboard with growth metrics
 
-**Estimated complexity:** M-L (3-5 days)
-**Research needed:** No
-**Dependencies:** None (uses existing Supabase data)
-**Status:** Planned
-**Plans:** 5 plans
-
-Plans:
-- [ ] 09-01-PLAN.md — Foundation: deps, admin config, AdminGuard, overview API
-- [ ] 09-02-PLAN.md — Core charts: user growth, wallet funnel, points economy
-- [ ] 09-03-PLAN.md — Engagement: heatmap, retention curves, feature usage
-- [ ] 09-04-PLAN.md — Marketing: campaign table, referral stats
-- [ ] 09-05-PLAN.md — Polish: export, date picker, mobile responsive
-
-**Success Criteria:**
-- Dashboard accessible via protected admin route
-- Real-time metrics with auto-refresh
-- Visual charts and graphs (not just tables)
-- Mobile-responsive for on-the-go monitoring
-- Export capabilities for reporting
+**Plans:**
+- [x] 09-01: Foundation: deps, admin config, AdminGuard, overview API
+- [x] 09-02: Core charts: user growth, wallet funnel, points economy
+- [x] 09-03: Engagement: heatmap, retention curves, feature usage
+- [x] 09-04: Marketing: campaign table, referral stats
+- [x] 09-05: Polish: export, date picker, mobile responsive
 
 ---
 
-### Phase 10: Admin Leaderboard View
-**Goal:** Display top 10 leaderboards (overall, weekly, daily) in admin dashboard with user details and export
-**Requirements:** Leaderboard visibility for admin analytics
-- Top 10 users for each timeframe (overall, weekly, daily)
-- Display: name, username, wallet address (if connected)
-- CSV export for each leaderboard
-- Integrated into existing admin dashboard
+### Phase 10: Admin Leaderboard View - COMPLETE (2026-02-02)
+**Goal:** Display top 10 leaderboards in admin dashboard with export
 
-**Estimated complexity:** S (1 day)
-**Research needed:** No
-**Dependencies:** Phase 9 complete (uses admin dashboard infrastructure)
-**Status:** COMPLETE (2026-02-02)
-**Plans:** 1 plan
+**Plans:**
+- [x] 10-01: Leaderboards API, LeaderboardTable component, dashboard integration
 
-Plans:
-- [x] 10-01-PLAN.md — Leaderboards API, LeaderboardTable component, dashboard integration
-
-**Success Criteria:**
-- ✓ Three leaderboard tables visible in admin dashboard (overall, weekly, daily)
-- ✓ Each shows top 10 with name, username, wallet
-- ✓ Export button for each leaderboard generates CSV
-- ✓ Consistent styling with existing dashboard components
+</details>
 
 ---
 
-## Success Criteria for Milestone 1
+## Milestone 2: Net Practice (v6.0.0) - IN PROGRESS
 
-Milestone 1 is complete when:
-- [x] Launch Polish shipped (v1.0 ready)
-- [ ] User can browse real markets from themoon.business
-- [ ] User can execute a trade via TonConnect
-- [ ] New user can complete tutorial and first trade with reward
-- [ ] Positions tracked with P&L display
-- [ ] Trading vocabulary uses "trading" framing, not "betting"
+Gamified educational onboarding using Cricket metaphors. Module 1 teaches wallet concepts through a 6-slide "Net Practice" session with quiz, haptic feedback, and rewards.
 
-## Risk Summary
+### Phase 11: Data Model & Content
 
-| Risk | Mitigation | Phase |
-|------|------------|-------|
-| themoon.business API unavailable | Fallback to iframe or smart contract direct | Phase 4 |
-| Premature wallet prompts cause abandonment | Wallet deferred until trading; tutorial guides | Phase 6 |
-| Crypto jargon overwhelms users | Plain language, progressive disclosure | Phase 6 |
-| TON-only violation | TonConnect SDK only, no multichain | Phase 5 |
+**Goal:** Establish the foundation for education modules with database schema, content structure, and TypeScript types
 
-## Timeline Estimate
+**Depends on:** Nothing (standalone feature)
 
-| Phase | Complexity | Days |
-|-------|------------|------|
-| 1 - Launch Polish | S | 1-2 |
-| 2 - Campaign Tracking | S | 1 |
-| 3 - Mock Trading UI | M | 2-3 |
-| 4 - API Integration | L | 3-5 |
-| 5 - Trading Execution | M | 2-3 |
-| 6 - Tutorial & Onboarding | M | 2-3 |
-| 7 - Position Management | M | 2-3 |
-| **Total** | | **14-21 days** |
+**Requirements:** PROG-01, CONT-01
 
-Note: Phase 4 may be blocked pending themoon.business API access. Phases 1-3 can proceed immediately.
+**Success Criteria** (what must be TRUE):
+1. Database table `user_education_progress` exists with columns for user_id, module_id, slide_index, completed_at, and badge_earned
+2. Static JSON file `education_modules.json` contains Module 1 content with 6 slides
+3. TypeScript types define Slide variants (intro, concept, quiz, action, reward) and Module structure
+4. Module 2 and 3 placeholders exist in JSON (locked state)
+
+**Plans:** TBD
+
+Plans:
+- [ ] 11-01: DB migration, JSON content, TypeScript types
+
+---
+
+### Phase 12: Slide Engine Component
+
+**Goal:** Build the core SlideEngine component that renders slides, handles navigation, and provides feedback
+
+**Depends on:** Phase 11
+
+**Requirements:** SLIDE-01, SLIDE-02, SLIDE-03, SLIDE-04, MOD1-02
+
+**Success Criteria** (what must be TRUE):
+1. User can swipe left/right or tap arrows to navigate between slides
+2. Each slide type renders with its appropriate layout (intro with title/image, concept with text/illustration, quiz with options, action with CTA button, reward with animation)
+3. Quiz slides show immediate feedback on selection (correct/incorrect state)
+4. Correct quiz answers trigger haptic feedback (light impact) and confetti animation
+5. Incorrect quiz answers trigger haptic feedback (heavy impact) without confetti
+
+**Plans:** TBD
+
+Plans:
+- [ ] 12-01: SlideEngine component with navigation and layouts
+- [ ] 12-02: Quiz logic, haptics, confetti integration
+
+---
+
+### Phase 13: Module 1 Integration
+
+**Goal:** Wire up Module 1 content to SlideEngine with wallet connect action and completion rewards
+
+**Depends on:** Phase 12
+
+**Requirements:** MOD1-01, MOD1-03, MOD1-04, MOD1-05, PROG-02, PROG-03
+
+**Success Criteria** (what must be TRUE):
+1. User can complete all 6 slides of Module 1 ("The Kit Bag" wallet education)
+2. Action slide triggers TonConnect wallet connection flow
+3. On module completion, user earns ~700 points (awarded via existing points system)
+4. On module completion, user earns "Kit Owner" badge (stored in database)
+5. User returning to education sees their progress and can resume from last completed slide
+6. Earned badges are visible in the module list view
+
+**Plans:** TBD
+
+Plans:
+- [ ] 13-01: Module 1 page with SlideEngine, progress persistence
+- [ ] 13-02: Wallet connect action, points award, badge grant
+
+---
+
+### Phase 14: Menu & Gating
+
+**Goal:** Add Net Practice entry point to main menu with attention indicator and locked module teasers
+
+**Depends on:** Phase 13
+
+**Requirements:** NAV-01, NAV-02, GATE-01, GATE-02
+
+**Success Criteria** (what must be TRUE):
+1. User can access "Net Practice" from the main navigation menu
+2. Menu item shows pulsing indicator when education is incomplete AND wallet is not connected
+3. Module 2 and Module 3 appear visually locked (grayed out, lock icon) when wallet is not connected
+4. Locked modules display "Connect wallet to unlock" teaser message
+
+**Plans:** TBD
+
+Plans:
+- [ ] 14-01: Menu item with pulsing indicator, module list with gating UI
+
+---
+
+## Progress
+
+**Execution Order:** 11 -> 12 -> 13 -> 14
+
+| Phase | Milestone | Plans Complete | Status | Completed |
+|-------|-----------|----------------|--------|-----------|
+| 1-3 | v1.0 | 4/4 | Complete | 2026-01-28 |
+| 4-7 | v1.0 | 0/? | Blocked | - |
+| 8 | v1.0 | 1/1 | Complete | 2026-01-31 |
+| 9 | v1.0 | 5/5 | Complete | 2026-02-01 |
+| 10 | v1.0 | 1/1 | Complete | 2026-02-02 |
+| 11 - Data Model & Content | v6.0.0 | 0/1 | Not started | - |
+| 12 - Slide Engine | v6.0.0 | 0/2 | Not started | - |
+| 13 - Module 1 Integration | v6.0.0 | 0/2 | Not started | - |
+| 14 - Menu & Gating | v6.0.0 | 0/1 | Not started | - |
 
 ---
 *Roadmap created: 2026-01-27*
-*Based on: PROJECT.md requirements, research/SUMMARY.md findings*
+*v6.0.0 phases added: 2026-02-03*
