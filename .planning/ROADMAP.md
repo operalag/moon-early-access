@@ -139,11 +139,11 @@ Plans:
 4. Correct quiz answers trigger haptic feedback (light impact) and confetti animation
 5. Incorrect quiz answers trigger haptic feedback (heavy impact) without confetti
 
-**Plans:** TBD
+**Plans:** 2 plans
 
 Plans:
-- [ ] 12-01: SlideEngine component with navigation and layouts
-- [ ] 12-02: Quiz logic, haptics, confetti integration
+- [ ] 12-01-PLAN.md — SlideEngine with swipe/arrow navigation and all 5 slide type renderers
+- [ ] 12-02-PLAN.md — Quiz haptic feedback and confetti integration
 
 ---
 
