@@ -5,6 +5,11 @@ import { motion, AnimatePresence, PanInfo, Variants } from 'framer-motion';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import type { Slide } from '@/lib/educationTypes';
 import SlideProgress from './SlideProgress';
+import IntroSlideComponent from './slides/IntroSlide';
+import ConceptSlideComponent from './slides/ConceptSlide';
+import QuizSlideComponent from './slides/QuizSlide';
+import ActionSlideComponent from './slides/ActionSlide';
+import RewardSlideComponent from './slides/RewardSlide';
 
 // Animation constants from RESEARCH.md
 const X_OFFSET = 300;
@@ -97,73 +102,19 @@ export default function SlideEngine({ slides, onSlideChange, onComplete }: Slide
     // No-op for now - Phase 12-02 will implement haptic feedback and confetti
   };
 
-  // Render the appropriate slide component based on type
+  // Render the appropriate slide component based on type (discriminated union switch)
   const renderSlide = (slide: Slide) => {
     switch (slide.type) {
       case 'intro':
-        // Placeholder - Task 2 will create IntroSlideComponent
-        return (
-          <div className="p-6">
-            <h2 className="text-xl font-bold text-white mb-4">{slide.title}</h2>
-            <p className="text-white/70">{slide.body}</p>
-            {slide.mascotImage && (
-              <img src={slide.mascotImage} alt="Mascot" className="mx-auto mt-4" />
-            )}
-          </div>
-        );
+        return <IntroSlideComponent slide={slide} />;
       case 'concept':
-        // Placeholder - Task 2 will create ConceptSlideComponent
-        return (
-          <div className="p-6">
-            <h2 className="text-xl font-bold text-white mb-4">{slide.title}</h2>
-            <p className="text-white/70">{slide.body}</p>
-            {slide.diagram && (
-              <img src={slide.diagram} alt="Diagram" className="mx-auto mt-4 rounded-lg" />
-            )}
-          </div>
-        );
+        return <ConceptSlideComponent slide={slide} />;
       case 'quiz':
-        // Placeholder - Task 2 will create QuizSlideComponent
-        return (
-          <div className="p-6">
-            <h2 className="text-xl font-bold text-white mb-4">{slide.title}</h2>
-            <p className="text-white/70 mb-4">{slide.question}</p>
-            <div className="space-y-2">
-              {slide.options.map((option) => (
-                <button
-                  key={option.id}
-                  onClick={() => handleQuizAnswer(option.id === slide.correctOptionId)}
-                  className="w-full p-3 bg-white/10 border border-white/20 rounded-lg text-white text-left"
-                >
-                  {option.text}
-                </button>
-              ))}
-            </div>
-          </div>
-        );
+        return <QuizSlideComponent slide={slide} onAnswer={handleQuizAnswer} />;
       case 'action':
-        // Placeholder - Task 2 will create ActionSlideComponent
-        return (
-          <div className="p-6">
-            <h2 className="text-xl font-bold text-white mb-4">{slide.title}</h2>
-            <p className="text-white/70 mb-6">{slide.instruction}</p>
-            <button className="w-full py-3 bg-gradient-to-r from-amber-500 to-orange-500 text-black font-bold rounded-xl">
-              {slide.buttonText}
-            </button>
-          </div>
-        );
+        return <ActionSlideComponent slide={slide} />;
       case 'reward':
-        // Placeholder - Task 2 will create RewardSlideComponent
-        return (
-          <div className="p-6 text-center">
-            <h2 className="text-xl font-bold text-white mb-4">{slide.title}</h2>
-            <p className="text-white/70 mb-4">{slide.body}</p>
-            <div className="text-3xl font-bold text-amber-500">+{slide.pointsAwarded} points</div>
-            <div className="mt-2 inline-block px-4 py-1 bg-amber-500/20 text-amber-400 rounded-full">
-              {slide.badgeName}
-            </div>
-          </div>
-        );
+        return <RewardSlideComponent slide={slide} />;
       default:
         // TypeScript exhaustiveness check
         const _exhaustive: never = slide;
