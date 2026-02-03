@@ -1,215 +1,71 @@
 # Project State
 
 **Project:** Moon Prediction Mini App
-**Last Updated:** 2026-02-02
-**Current Phase:** Phase 10 - Admin Leaderboard View (COMPLETE)
+**Last Updated:** 2026-02-03
+**Current Phase:** Not started (defining requirements)
+
+## Current Position
+
+Phase: Not started (defining requirements)
+Plan: —
+Status: Defining requirements for Milestone v6.0.0 "Net Practice"
+Last activity: 2026-02-03 — Milestone v6.0.0 started
 
 ## Progress
 
-### Milestone 1: Prediction Market Integration
+### Milestone 2: Net Practice (v6.0.0)
 
 | Phase | Status | Notes |
 |-------|--------|-------|
-| 1 - Launch Polish | **COMPLETE** | All plans complete |
-| 2 - Campaign Tracking | **COMPLETE** | All plans complete |
-| 3 - Featured Market Gating | **COMPLETE** | All plans complete |
-| 4 - API Integration | **BLOCKED** | Needs themoon.business API docs |
-| 5 - Trading Execution | Pending | |
-| 6 - Tutorial & Onboarding | Pending | |
-| 7 - Position Management | Pending | |
-| 8 - Various Small Tasks | **COMPLETE** | All plans complete |
-| 9 - Analytics Dashboard | **COMPLETE** | All plans complete |
-| 10 - Admin Leaderboard View | **COMPLETE** | All plans complete |
+| TBD | Pending | Roadmap not yet created |
 
-### Phase 3 Progress
-
-| Plan | Status | Summary |
-|------|--------|---------|
-| 03-01 | **COMPLETE** | Wallet gating modal + FeaturedMarketCard |
-
-### Phase 8 Progress
-
-| Plan | Status | Summary |
-|------|--------|---------|
-| 08-01 | **COMPLETE** | Welcome spacing + news limit to 4 |
-
-### Phase 9 Progress
-
-| Plan | Status | Summary |
-|------|--------|---------|
-| 09-01 | **COMPLETE** | Admin dashboard foundation - routes, API, MetricCards |
-| 09-02 | **COMPLETE** | User growth charts, wallet funnel, points economy |
-| 09-03 | **COMPLETE** | Engagement heatmap, retention curves, feature adoption |
-| 09-04 | **COMPLETE** | Campaign table, referral stats, leaderboard trends |
-
-### Phase 10 Progress
-
-| Plan | Status | Summary |
-|------|--------|---------|
-| 10-01 | **COMPLETE** | Admin leaderboards (overall, weekly, daily) with CSV export |
-
-Progress: [######----] 6/10 phases complete (Phase 10 complete)
+Progress: [----------] 0% — Defining requirements
 
 ## Blockers
 
-- **themoon.business API documentation** - Required for Phase 4. Contact themoon.business team.
-- **Missing SUPABASE_SERVICE_ROLE_KEY** - Prevents production build. Add to .env.local.
+- None for v6.0.0 (self-contained feature)
+- **themoon.business API documentation** — Required for future trading integration (separate milestone)
 
 ## Accumulated Decisions
 
 | Date | Phase-Plan | Decision | Rationale |
 |------|------------|----------|-----------|
-| 2026-01-27 | 01-01 | Keep username in API type | May need for future features |
-| 2026-01-27 | 01-01 | Avatar + first_name display | Cleaner, more private user display |
-| 2026-01-27 | 01-02 | Plan skipped (conditional) | User specified no additional polish |
-| 2026-01-27 | 02-01 | First-touch attribution model | UNIQUE(user_id) ensures one campaign per user |
-| 2026-01-27 | 02-01 | No points for campaign attribution | Pure tracking, unlike referrals |
-| 2026-01-27 | 02-01 | Supabase migrations structure | supabase/ directory for managed migrations |
-| 2026-01-27 | 02-02 | Referral = numeric, Campaign = alphanumeric | Clear distinction for startapp param routing |
-| 2026-01-27 | 02-02 | Separate session storage keys | referral_processed vs campaign_processed |
-| 2026-01-27 | 02-02 | Silent campaign attribution | No UI feedback for marketing tracking |
-| 2026-01-28 | 03-01 | Close modal before TonConnect | Avoid z-index conflicts between modals |
-| 2026-01-28 | 03-01 | Card as button element | Better accessibility for interactive elements |
-| 2026-01-31 | 08-01 | Welcome spacing via padding | pb-12 → pb-8 for 25% upward content shift |
-| 2026-01-31 | 08-01 | Hard-coded news limit of 4 | Cleaner display without pagination |
-| 2026-02-01 | 09-01 | Admin ID allowlist pattern | Simple, explicit authorization via ADMIN_TELEGRAM_IDS |
-| 2026-02-01 | 09-01 | Access Denied + redirect | Show message for 2s then redirect home |
-| 2026-02-01 | 09-01 | 60-second auto-refresh | Balance between freshness and API load |
-| 2026-02-01 | 09-03 | Engagement counts all transactions | Better heatmap granularity than unique users |
-| 2026-02-01 | 09-03 | Retention uses last_active_at | From megaphone_v5_migration profiles column |
-| 2026-02-01 | 09-03 | N/A for young cohorts | D7/D30 not shown for cohorts too young |
-| 2026-02-01 | 09-03 | Transaction reason as feature | Using transaction.reason for feature usage |
-| 2026-02-01 | 09-02 | date-fns for interval filling | Prevents gaps in time series charts |
-| 2026-02-01 | 09-02 | Parallel API fetching | Promise.all for 7 analytics APIs |
-| 2026-02-01 | 09-02 | Color-coded points reasons | Each reason type has unique color |
-| 2026-02-01 | 09-04 | Supabase FK join returns array | Access profile name via [0] accessor |
-| 2026-02-01 | 09-04 | 7-day leaderboard window | Compare daily buckets today vs 7 days ago |
-| 2026-02-01 | 09-04 | Medal styling for referrers | Top 3 get gold/silver/bronze badges |
-| 2026-02-02 | 10-01 | Single API for all leaderboards | Combined response reduces network requests |
-| 2026-02-02 | 10-01 | Wallet truncation pattern | first 6 + ... + last 4 for display |
-| 2026-02-02 | 10-01 | ISO week key format | YYYY-WNN using date-fns getISOWeek/getISOWeekYear |
+| 2026-02-03 | v6.0.0 | Points not XP | Single currency, existing engine |
+| 2026-02-03 | v6.0.0 | Static JSON content | Easy updates without deploy |
+| 2026-02-03 | v6.0.0 | Module 2+ wallet-gated | Incentivize wallet connection |
+| 2026-02-03 | v6.0.0 | Incremental release (Module 1 first) | Test before shipping all |
 
 ## Recent Activity
 
+- 2026-02-03: Milestone v6.0.0 "Net Practice" started
+- 2026-02-03: Archived previous work to MILESTONES.md
+- 2026-02-03: Ad-hoc features shipped (v5.7.0 → v5.10.0)
 - 2026-02-02: Phase 10 (Admin Leaderboard View) COMPLETE
-- 2026-02-02: Completed Plan 10-01 - Admin leaderboards with CSV export
-- 2026-02-01: Phase 10 planned (1 plan in 1 wave)
-- 2026-02-01: Phase 10 (Admin Leaderboard View) added to roadmap
-- 2026-02-01: Completed Plan 09-04 - Campaign table, referral stats, leaderboard trends
-- 2026-02-01: Completed Plan 09-02 - User growth, funnel, points charts
-- 2026-02-01: Completed Plan 09-03 - Engagement heatmap, retention, features
-- 2026-02-01: Completed Plan 09-01 - Admin dashboard foundation
-- 2026-02-01: Phase 9 (Analytics Dashboard) started
-- 2026-01-31: Phase 9 (Analytics Dashboard) added to roadmap
-- 2026-01-31: Phase 8 (Various Small Tasks) COMPLETE
-- 2026-01-31: Completed Plan 08-01 - Welcome spacing + news limit
-- 2026-01-31: Phase 8 (Various Small Tasks) started
-- 2026-01-30: Phase 8 added to roadmap (Various Small Tasks)
-- 2026-01-28: Phase 3 (Featured Market Gating) COMPLETE
-- 2026-01-28: Completed Plan 03-01 - Wallet gating modal + FeaturedMarketCard
-- 2026-01-27: Completed Plan 02-02 - TMA integration for campaign capture
-- 2026-01-27: Phase 2 (Campaign Tracking) COMPLETE
-- 2026-01-27: Completed Plan 02-01 - Campaign attribution table and API
-- 2026-01-27: Completed Plan 01-02 - Skipped (no requirements)
-- 2026-01-27: Phase 1 (Launch Polish) COMPLETE
-- 2026-01-27: Completed Plan 01-01 - Removed @username from leaderboard
-- 2026-01-27: User approved changes - no additional polish needed
-- 2026-01-27: Project initialized with GSD workflow
-- 2026-01-27: Codebase mapped (7 documents)
-- 2026-01-27: Domain research completed (4 documents + summary)
-- 2026-01-27: Roadmap created (7 phases)
+- 2026-02-01: Phase 9 (Analytics Dashboard) COMPLETE
 
 ## Session Continuity
 
-Last session: 2026-02-02T15:08:20Z
-Stopped at: Completed Plan 10-01 (Admin Leaderboard View)
+Last session: 2026-02-03
+Stopped at: Defining requirements for v6.0.0
 Resume file: None
-
-## Quick Commands
-
-```bash
-# Continue Phase 9
-/gsd:execute-phase 09 --plan 04
-
-# Start Phase 4 (blocked - needs API docs)
-/gsd:plan-phase 04
-
-# Check progress
-/gsd:progress
-
-# Add a quick task
-/gsd:add-todo
-```
 
 ## Context for Future Sessions
 
-This is a Telegram Mini App for cricket/crypto predictions. The app has gamification features working (spins, streaks, referrals, leaderboards, wallet connection). The goal is to integrate a prediction market from themoon.business and add an onboarding tutorial.
+This is a Telegram Mini App for cricket/crypto predictions. We're building "The Net Practice" — a gamified educational module using Cricket metaphors (Overs = Modules, Balls = Slides).
 
-Key constraints:
+**v6.0.0 Scope:**
+- Module 1: "The Kit Bag" (wallet education, 6 slides)
+- SlideEngine component with swipe/tap navigation
+- Quiz logic + haptic feedback + confetti
+- Points integration (existing system)
+- Badge system
+- Locked module teasers
+
+**Key constraints:**
 - TON blockchain only (Telegram mandate)
 - Trading framing, not betting (regulatory)
-- Play-first architecture (wallet unlocks later)
-
-**User Versioning Preference:**
-Continue versioning format: "System v5.3.0-beta - Build 2026-01-24-WelcomeBonusEngine"
-
-**Phase 2 Summary (Complete):**
-- Campaign tracking for marketing attribution
-- First-touch model (one campaign per user)
-- API endpoint: POST /api/campaign {campaignId, userId}
-- Detection: isReferralCode() distinguishes numeric (referral) from alphanumeric (campaign)
-- Debug endpoint: GET /api/debug/campaigns with 3 query modes
-
-**Phase 3 Summary (Plan 01 Complete):**
-- WalletGateModal: Bottom sheet with wallet education and +1000 points incentive
-- FeaturedMarketCard: Extracted component with lock indicator and wallet gating
-- Dashboard integration: Uses webApp.openLink for external navigation to themoon.business
-- Visual testing needed: Lock icon, bottom sheet animation, TonConnect flow
-
-**Phase 8 Summary (Plan 01 Complete):**
-- Welcome screen: Reduced top spacing by 25% (pb-12 → pb-8)
-- News API: Limited to 4 items (down from 10)
-- Pure UI polish, no logic changes
-
-**Phase 9 Summary (Plan 01 Complete):**
-- Admin route protection via AdminGuard component
-- isAdmin() checks against ADMIN_TELEGRAM_IDS allowlist
-- Overview API: /api/admin/analytics/overview
-- Returns: totalUsers, walletsConnected, walletConversionRate, totalPointsDistributed, totalReferrals
-- Dashboard with 4 MetricCards, 60-second auto-refresh
-- Charting dependencies installed: recharts, date-fns, @uiw/react-heat-map, react-csv
-
-**Phase 9 Summary (Plan 02 Complete):**
-- Users API: 30-day time series with daily and cumulative counts
-- Funnel API: 3-stage conversion (Total -> Channel -> Wallet)
-- Points API: Breakdown by transaction reason
-- UserGrowthChart: Line chart with cumulative (yellow) and daily (green) lines
-- WalletFunnel: Funnel visualization with stage percentages
-- PointsEconomyChart: Horizontal bar chart with color-coded reasons
-
-**Phase 9 Summary (Plan 03 Complete):**
-- Engagement API: 90-day activity counts for GitHub-style heatmap
-- Retention API: Weekly cohorts with D1/D7/D30 percentages
-- Features API: Transaction breakdown by reason (feature usage)
-- EngagementHeatmap: @uiw/react-heat-map with dark theme
-- RetentionChart: recharts line chart for retention curves
-- FeatureUsageChart: recharts pie chart for adoption breakdown
-
-**Phase 9 Summary (Plan 04 Complete):**
-- Campaigns API: Aggregates campaign_attributions by campaign_id with user counts
-- Referrals API: Top referrers with names, summary stats, leaderboard trends
-- CampaignTable: Sortable table with campaign_id, users, first/last seen
-- ReferralStats: Summary metrics + top 10 referrers with medal styling
-- LeaderboardTrends: Top 5 movers with rank change indicators (green up/red down)
-- Dashboard now has 9 visualization sections total
-
-**Phase 10 Summary (Plan 01 Complete):**
-- Leaderboards API: /api/admin/analytics/leaderboards returns overall/weekly/daily
-- LeaderboardTable: Reusable component with medal styling, wallet truncation, CSV export
-- Dashboard integration: 3-column grid with Top 10 Leaderboards section
-- Each leaderboard shows rank, name, username, wallet address, points
-- Dashboard now has 10 visualization sections total
+- Static JSON for content (education_modules.json)
 
 ---
 *State initialized: 2026-01-27*
-*Last updated: 2026-02-02*
+*Last updated: 2026-02-03*
