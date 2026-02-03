@@ -9,38 +9,38 @@ Requirements for "Net Practice" Module 1. Each maps to roadmap phases.
 
 ### Navigation
 
-- [ ] **NAV-01**: User can access "Net Practice" from main menu
-- [ ] **NAV-02**: User sees pulsing indicator on menu item if education incomplete and no wallet connected
+- [x] **NAV-01**: User can access "Net Practice" from main menu
+- [x] **NAV-02**: User sees pulsing indicator on menu item if education incomplete and no wallet connected
 
 ### Slide Engine
 
-- [ ] **SLIDE-01**: User can swipe or tap to advance through slides
-- [ ] **SLIDE-02**: User sees slide type-specific layouts (intro, concept, quiz, action, reward)
-- [ ] **SLIDE-03**: User experiences haptic feedback on quiz selection (light impact for correct, heavy for wrong)
-- [ ] **SLIDE-04**: User sees confetti animation on correct quiz answer
+- [x] **SLIDE-01**: User can swipe or tap to advance through slides
+- [x] **SLIDE-02**: User sees slide type-specific layouts (intro, concept, quiz, action, reward)
+- [x] **SLIDE-03**: User experiences haptic feedback on quiz selection (light impact for correct, heavy for wrong)
+- [x] **SLIDE-04**: User sees confetti animation on correct quiz answer
 
 ### Module 1 Content
 
-- [ ] **MOD1-01**: User completes 6 slides teaching wallet concepts using Cricket metaphors
-- [ ] **MOD1-02**: User answers quiz question about wallet ownership with immediate feedback
-- [ ] **MOD1-03**: User can trigger wallet connect action from within a slide
-- [ ] **MOD1-04**: User earns ~700 points on module completion (feeds existing points system)
-- [ ] **MOD1-05**: User earns "Kit Owner" badge on module completion
+- [x] **MOD1-01**: User completes 6 slides teaching wallet concepts using Cricket metaphors
+- [x] **MOD1-02**: User answers quiz question about wallet ownership with immediate feedback
+- [x] **MOD1-03**: User can trigger wallet connect action from within a slide
+- [x] **MOD1-04**: User earns ~700 points on module completion (feeds existing points system)
+- [x] **MOD1-05**: User earns "Kit Owner" badge on module completion
 
 ### Progress Tracking
 
-- [ ] **PROG-01**: User progress persisted in database (user_education_progress table)
-- [ ] **PROG-02**: User can resume from last completed module/slide on return
-- [ ] **PROG-03**: User sees earned badges in module list or profile area
+- [x] **PROG-01**: User progress persisted in database (user_education_progress table)
+- [x] **PROG-02**: User can resume from last completed module/slide on return
+- [x] **PROG-03**: User sees earned badges in module list or profile area
 
 ### Module Gating
 
-- [ ] **GATE-01**: User sees Module 2 & 3 as visually locked without wallet connected
-- [ ] **GATE-02**: User sees "Connect wallet to unlock" teaser message on locked modules
+- [x] **GATE-01**: User sees Module 2 & 3 as visually locked without wallet connected
+- [x] **GATE-02**: User sees "Connect wallet to unlock" teaser message on locked modules
 
 ### Content Storage
 
-- [ ] **CONT-01**: Module content stored in static JSON file (education_modules.json)
+- [x] **CONT-01**: Module content stored in static JSON file (education_modules.json)
 
 ## v6.1.0+ Requirements
 
@@ -81,8 +81,8 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| NAV-01 | Phase 14 | Pending |
-| NAV-02 | Phase 14 | Pending |
+| NAV-01 | Phase 14 | Complete |
+| NAV-02 | Phase 14 | Complete |
 | SLIDE-01 | Phase 12 | Complete |
 | SLIDE-02 | Phase 12 | Complete |
 | SLIDE-03 | Phase 12 | Complete |
@@ -95,9 +95,9 @@ Which phases cover which requirements. Updated during roadmap creation.
 | PROG-01 | Phase 11 | Complete |
 | PROG-02 | Phase 13 | Complete |
 | PROG-03 | Phase 13 | Complete |
-| GATE-01 | Phase 14 | Pending |
-| GATE-02 | Phase 14 | Pending |
-| CONT-01 | Phase 11 | Pending |
+| GATE-01 | Phase 14 | Complete |
+| GATE-02 | Phase 14 | Complete |
+| CONT-01 | Phase 11 | Complete |
 
 **Coverage:**
 - v6.0.0 requirements: 17 total

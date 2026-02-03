@@ -99,7 +99,7 @@
 
 ---
 
-## Milestone 2: Net Practice (v6.0.0) - IN PROGRESS
+## Milestone 2: Net Practice (v6.0.0) - COMPLETE (2026-02-03)
 
 Gamified educational onboarding using Cricket metaphors. Module 1 teaches wallet concepts through a 6-slide "Net Practice" session with quiz, haptic feedback, and rewards.
 
@@ -171,7 +171,7 @@ Plans:
 
 ---
 
-### Phase 14: Menu & Gating
+### Phase 14: Menu & Gating - COMPLETE (2026-02-03)
 
 **Goal:** Add Net Practice entry point to main menu with attention indicator and locked module teasers
 
@@ -188,7 +188,7 @@ Plans:
 **Plans:** 1 plan
 
 Plans:
-- [ ] 14-01-PLAN.md — useEducationStatus hook, BottomNav with Net Practice tab and indicator, ModuleCard wallet-lock teaser
+- [x] 14-01-PLAN.md — useEducationStatus hook, BottomNav with Net Practice tab and indicator, ModuleCard wallet-lock teaser
 
 ---
 
@@ -206,7 +206,7 @@ Plans:
 | 11 - Data Model & Content | v6.0.0 | 1/1 | Complete | 2026-02-03 |
 | 12 - Slide Engine | v6.0.0 | 2/2 | Complete | 2026-02-03 |
 | 13 - Module 1 Integration | v6.0.0 | 2/2 | Complete | 2026-02-03 |
-| 14 - Menu & Gating | v6.0.0 | 0/1 | Ready | - |
+| 14 - Menu & Gating | v6.0.0 | 1/1 | Complete | 2026-02-03 |
 
 ---
 *Roadmap created: 2026-01-27*
