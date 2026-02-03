@@ -11,7 +11,7 @@ import { getISOWeek, getISOWeekYear } from 'date-fns';
  * - daily: Today's date from leaderboard_buckets
  *
  * Each entry includes rank, name, username, wallet address, and points.
- * Wallet addresses are fetched from points_transactions metadata (wallet_connect reason).
+ * Wallet addresses are fetched from transactions table metadata (wallet_connect reason).
  */
 
 interface LeaderboardEntry {
@@ -39,12 +39,12 @@ interface WalletTransaction {
   metadata: { address?: string } | null;
 }
 
-// Helper to fetch wallet addresses from points_transactions
+// Helper to fetch wallet addresses from transactions table
 async function getWalletAddresses(userIds: number[]): Promise<Map<number, string>> {
   if (userIds.length === 0) return new Map();
 
   const { data, error } = await supabaseAdmin
-    .from('points_transactions')
+    .from('transactions')
     .select('user_id, metadata')
     .in('user_id', userIds)
     .eq('reason', 'wallet_connect');
