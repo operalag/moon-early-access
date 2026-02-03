@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { motion, AnimatePresence, PanInfo, Variants } from 'framer-motion';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
+import confetti from 'canvas-confetti';
 import type { Slide } from '@/lib/educationTypes';
 import SlideProgress from './SlideProgress';
 import IntroSlideComponent from './slides/IntroSlide';
@@ -97,9 +98,25 @@ export default function SlideEngine({ slides, onSlideChange, onComplete }: Slide
     }
   };
 
-  // Quiz answer handler - Phase 12-02 will add haptics/confetti here
-  const handleQuizAnswer = (_isCorrect: boolean) => {
-    // No-op for now - Phase 12-02 will implement haptic feedback and confetti
+  // Fire confetti burst for correct quiz answers
+  const fireConfetti = () => {
+    const colors = ['#22c55e', '#16a34a', '#15803d']; // Green theme for correct answer
+    confetti({
+      particleCount: 50,
+      spread: 60,
+      origin: { x: 0.5, y: 0.6 },
+      colors,
+      startVelocity: 30,
+      gravity: 1.2,
+    });
+  };
+
+  // Quiz answer handler - triggers confetti for correct answers
+  const handleQuizAnswer = (isCorrect: boolean) => {
+    if (isCorrect) {
+      fireConfetti(); // Celebrate correct answer with confetti
+    }
+    // Haptic feedback is handled in QuizSlide component
   };
 
   // Render the appropriate slide component based on type (discriminated union switch)

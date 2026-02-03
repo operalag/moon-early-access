@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { Check, X } from 'lucide-react';
 import type { QuizSlide } from '@/lib/educationTypes';
+import { useHapticFeedback } from '@/hooks/useHapticFeedback';
 
 interface QuizSlideComponentProps {
   slide: QuizSlide;
@@ -12,6 +13,7 @@ interface QuizSlideComponentProps {
 export default function QuizSlideComponent({ slide, onAnswer }: QuizSlideComponentProps) {
   const [selectedOptionId, setSelectedOptionId] = useState<string | null>(null);
   const [showResult, setShowResult] = useState(false);
+  const { impactOccurred } = useHapticFeedback();
 
   const handleSelectOption = (optionId: string) => {
     if (showResult) return; // Already answered
@@ -19,6 +21,14 @@ export default function QuizSlideComponent({ slide, onAnswer }: QuizSlideCompone
     const isCorrect = optionId === slide.correctOptionId;
     setSelectedOptionId(optionId);
     setShowResult(true);
+
+    // Trigger haptic feedback based on correctness
+    if (isCorrect) {
+      impactOccurred('light'); // Light haptic for correct answer
+    } else {
+      impactOccurred('heavy'); // Heavy haptic for incorrect answer
+    }
+
     onAnswer?.(isCorrect);
   };
 
