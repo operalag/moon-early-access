@@ -163,11 +163,11 @@ Plans:
 5. User returning to education sees their progress and can resume from last completed slide
 6. Earned badges are visible in the module list view
 
-**Plans:** TBD
+**Plans:** 2 plans
 
 Plans:
-- [ ] 13-01: Module 1 page with SlideEngine, progress persistence
-- [ ] 13-02: Wallet connect action, points award, badge grant
+- [ ] 13-01-PLAN.md — Progress/complete API routes, PointReason extension
+- [ ] 13-02-PLAN.md — Education pages, SlideEngine resume, wallet connect action
 
 ---
 
