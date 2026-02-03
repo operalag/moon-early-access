@@ -2,30 +2,30 @@
 
 **Project:** Moon Prediction Mini App
 **Last Updated:** 2026-02-03
-**Current Phase:** Phase 13 - Module 1 Integration (COMPLETE)
+**Current Phase:** Phase 14 - Menu & Gating (COMPLETE)
 
 ## Project Reference
 
 See: .planning/PROJECT.md (updated 2026-02-03)
 
 **Core value:** Educate and guide Telegram users into becoming active prediction market traders through gamified Cricket-themed education.
-**Current focus:** v6.0.0 "Net Practice" - Phase 14 (Menu & Gating)
+**Current focus:** v6.0.0 "Net Practice" - COMPLETE
 
 ## Current Position
 
 Phase: 14 of 14 (Menu & Gating)
-Plan: 0 of 1 in current phase
-Status: Ready to plan
-Last activity: 2026-02-03 - Phase 13 verified complete
+Plan: 1 of 1 in current phase
+Status: Phase complete
+Last activity: 2026-02-03 - Completed 14-01-PLAN.md
 
-Progress: [########--] 83% (5/6 plans)
+Progress: [##########] 100% (6/6 plans)
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed (v6.0.0): 5
+- Total plans completed (v6.0.0): 6
 - Average duration: ~2 min
-- Total execution time: ~11 min
+- Total execution time: ~13 min
 
 **By Phase:**
 
@@ -34,7 +34,7 @@ Progress: [########--] 83% (5/6 plans)
 | 11 | 1/1 | ~3 min | ~3 min |
 | 12 | 2/2 | ~4 min | ~2 min |
 | 13 | 2/2 | ~4 min | ~2 min |
-| 14 | 0/1 | - | - |
+| 14 | 1/1 | ~2 min | ~2 min |
 
 *Updated after each plan completion*
 
@@ -58,6 +58,9 @@ Decisions logged during milestone planning:
 - [13-01]: PGRST116 treated as not-found, not error (enables null progress response)
 - [13-02]: Auto-advance on wallet connect via useEffect with ref guard
 - [13-02]: Completed modules show summary view, not re-run SlideEngine
+- [14-01]: Indicator AND logic (education incomplete AND no wallet)
+- [14-01]: Module 1 exempt from wallet gating (teaches wallet connection)
+- [14-01]: Prerequisite locking evaluated before wallet locking
 
 ### Pending Todos
 
@@ -70,7 +73,7 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-02-03
-Stopped at: Phase 13 verified complete, ready to plan Phase 14
+Stopped at: v6.0.0 "Net Practice" milestone complete
 Resume file: None
 
 ---
