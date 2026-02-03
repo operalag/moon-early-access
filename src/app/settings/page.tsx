@@ -6,6 +6,7 @@ import { supabase } from "@/lib/supabaseClient";
 import Link from "next/link";
 import { ArrowLeft, Bell, BellOff, Shield, Smartphone } from "lucide-react";
 import { motion } from "framer-motion";
+import WeeklyRewardBanner from "@/components/WeeklyRewardBanner";
 
 export default function SettingsPage() {
   const { user } = useTelegram();
@@ -89,7 +90,7 @@ export default function SettingsPage() {
                </div>
                <div>
                   <p className="font-bold text-sm uppercase">Version</p>
-                  <p className="text-[10px] text-white/40">Build 5.0.0-beta</p>
+                  <p className="text-[10px] text-white/40">Build 5.7.0-beta</p>
                </div>
             </div>
             <div className="p-5 flex items-center gap-4">
@@ -102,6 +103,12 @@ export default function SettingsPage() {
                </div>
             </div>
           </div>
+        </section>
+
+        {/* Section: Weekly Rewards */}
+        <section className="mb-8">
+          <h2 className="text-[10px] font-bold text-white/30 uppercase tracking-[0.2em] mb-4 ml-2">Weekly Rewards</h2>
+          <WeeklyRewardBanner />
         </section>
 
         <div className="text-center mt-12">
