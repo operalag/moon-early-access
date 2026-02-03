@@ -2,16 +2,19 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { LayoutGrid, Bot, Newspaper, Settings } from 'lucide-react';
+import { LayoutGrid, Bot, Newspaper, GraduationCap, Settings } from 'lucide-react';
+import { useEducationStatus } from '@/hooks/useEducationStatus';
 import { motion } from 'framer-motion';
 
 export default function BottomNav() {
   const pathname = usePathname();
+  const { shouldShowIndicator } = useEducationStatus();
 
-  const tabs = [
+  const tabs: { name: string; href: string; icon: typeof LayoutGrid; showIndicator?: boolean }[] = [
     { name: 'Markets', href: '/', icon: LayoutGrid },
     { name: 'AI Analyst', href: '/chat', icon: Bot },
     { name: 'News', href: '/news', icon: Newspaper },
+    { name: 'Net Practice', href: '/education', icon: GraduationCap, showIndicator: true },
     { name: 'Settings', href: '/settings', icon: Settings },
   ];
 
@@ -23,10 +26,10 @@ export default function BottomNav() {
           const Icon = tab.icon;
 
           return (
-            <Link 
-              key={tab.name} 
+            <Link
+              key={tab.name}
               href={tab.href}
-              className="flex-1 relative py-3 flex flex-col items-center justify-center gap-1"
+              className="relative flex-1 py-3 flex flex-col items-center justify-center gap-1"
             >
               {isActive && (
                 <motion.div 
@@ -48,6 +51,9 @@ export default function BottomNav() {
               }`}>
                 {tab.name}
               </span>
+              {tab.showIndicator && shouldShowIndicator && (
+                <div className="absolute -top-0.5 -right-1 w-2 h-2 rounded-full bg-yellow-500 animate-pulse" />
+              )}
             </Link>
           );
         })}
