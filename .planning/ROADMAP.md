@@ -120,7 +120,7 @@ Gamified educational onboarding using Cricket metaphors. Module 1 teaches wallet
 **Plans:** 1 plan
 
 Plans:
-- [ ] 11-01-PLAN.md — DB migration, TypeScript types, Module 1 JSON content
+- [x] 11-01-PLAN.md — DB migration, TypeScript types, Module 1 JSON content
 
 ---
 
@@ -203,7 +203,7 @@ Plans:
 | 8 | v1.0 | 1/1 | Complete | 2026-01-31 |
 | 9 | v1.0 | 5/5 | Complete | 2026-02-01 |
 | 10 | v1.0 | 1/1 | Complete | 2026-02-02 |
-| 11 - Data Model & Content | v6.0.0 | 0/1 | Planned | - |
+| 11 - Data Model & Content | v6.0.0 | 1/1 | Complete | 2026-02-03 |
 | 12 - Slide Engine | v6.0.0 | 0/2 | Not started | - |
 | 13 - Module 1 Integration | v6.0.0 | 0/2 | Not started | - |
 | 14 - Menu & Gating | v6.0.0 | 0/1 | Not started | - |
