@@ -1,14 +1,14 @@
 const NUDGES = [
-  "🏏 <b>The pitch is ready. Are you?</b>\nYour daily streak is waiting.",
-  "🔥 <b>Streak Alert!</b>\nDon't let your combo multiplier burn out. Log in now!",
-  "👀 <b>Market Update</b>\nSomeone just overtook your rank on the leaderboard. Reclaim your spot!",
-  "🎰 <b>Spin & Win</b>\nThe volatility wheel is reset. Your free spin is ready.",
-  "📉 <b>Buy the Dip?</b>\nPrediction markets are moving. Check the latest odds.",
-  "⚡ <b>Power Up</b>\nCollect your daily strategy points before they expire.",
-  "🤔 <b>Cricket Insight</b>\nNew intel just dropped. See what the analysts are saying.",
-  "💎 <b>Airdrop Check</b>\nActive users get higher allocation. Keep your activity up!",
-  "🏆 <b>Champion's Mindset</b>\nConsistency is key. Log in to maintain your elite status.",
-  "🚀 <b>To the Moon!</b>\nYour portfolio misses you. Come say hi."
+  "🏆 <b>Weekly Rewards Alert!</b>\nTop 10 users earn 30,000 HNCH jettons on TON. Check your rank!",
+  "💰 <b>Win Jettons Every Week</b>\nClimb the leaderboard to earn HNCH tokens. Use them to create new markets!",
+  "🚀 <b>Invite Friends, Climb Faster</b>\nBring friends to MOON and boost your weekly ranking together.",
+  "🎁 <b>30K HNCH Up for Grabs</b>\nWeekly rewards drop Sunday 12PM IST. Are you in the top 10?",
+  "👥 <b>Syndicate Power</b>\nYour referrals boost your points. Invite a friend to reach the top!",
+  "🔥 <b>Weekly Leaderboard Reset</b>\nNew week, new chance to win jettons. Start earning now!",
+  "💎 <b>HNCH Token Rewards</b>\nTop performers get real tokens on TON. Keep your wallet connected!",
+  "🏅 <b>Top 10 Gets Paid</b>\nWeekly jetton rewards await. Check your position on the leaderboard.",
+  "⚡ <b>Create Markets with HNCH</b>\nWin jettons this week and use them to launch your own prediction markets.",
+  "🌙 <b>MOON Rewards Sunday</b>\nJettons distributed to top 10 every week. Don't miss out!"
 ];
 
 export function getRandomNudge(): string {

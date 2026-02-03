@@ -12,6 +12,7 @@ import { Zap, Trophy, Users, Wallet, TrendingUp } from "lucide-react";
 import ProgressionCard from "@/components/ProgressionCard";
 import WelcomeScreen from "@/components/WelcomeScreen";
 import FeaturedMarketCard from "@/components/FeaturedMarketCard";
+import WeeklyRewardBanner from "@/components/WeeklyRewardBanner";
 import { useTonAddress } from "@tonconnect/ui-react";
 
 function Dashboard() {
@@ -211,6 +212,10 @@ function Dashboard() {
              <DailyLoginCard />
           </motion.div>
 
+          <motion.div variants={item}>
+             <WeeklyRewardBanner />
+          </motion.div>
+
           <motion.div variants={item} className="space-y-3">
             <Link href="/syndicate" className="block group">
               <div className="relative overflow-hidden bg-yellow-500 rounded-[24px] p-5 transition-transform active:scale-95">
@@ -271,7 +276,7 @@ function Dashboard() {
           </motion.div>
 
                   <motion.div variants={item} className="text-center pt-8 pb-4 opacity-30">
-                    <p className="text-[10px] font-mono uppercase tracking-widest">System v5.7.0-beta • Build 2026-02-03-WeeklyRewardsBanner</p>
+                    <p className="text-[10px] font-mono uppercase tracking-widest">System v5.8.0-beta • Build 2026-02-03-WeeklyRewardsPromo</p>
                   </motion.div>
                   </motion.div>
       </main>
