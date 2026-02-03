@@ -1,0 +1,90 @@
+{
+  "version": "1.0.0",
+  "modules": [
+    {
+      "id": "module-1",
+      "title": "The Kit Bag",
+      "description": "Gear up with your TON wallet",
+      "icon": "🎒",
+      "totalPoints": 700,
+      "badgeId": "kit-owner",
+      "badgeName": "Kit Owner",
+      "isLocked": false,
+      "prerequisiteModuleId": null,
+      "slides": [
+        {
+          "id": "slide-1-1",
+          "type": "intro",
+          "title": "Welcome to the Kit Bag",
+          "body": "Hey Future Analyst! Before you step onto the pitch to trade predictions, you need your gear."
+        },
+        {
+          "id": "slide-1-2",
+          "type": "concept",
+          "title": "Why Do I Need It?",
+          "body": "Unlike a bank that holds your money, a Wallet lets YOU hold your money."
+        },
+        {
+          "id": "slide-1-3",
+          "type": "quiz",
+          "title": "Quick Check",
+          "question": "Who controls your crypto wallet?",
+          "options": [
+            { "id": "a", "text": "App Developer" },
+            { "id": "b", "text": "Me" },
+            { "id": "c", "text": "Bank Manager" }
+          ],
+          "correctOptionId": "b",
+          "explanation": "That's right! With a crypto wallet, YOU are in control of your funds. No bank or app developer can freeze or take your money."
+        },
+        {
+          "id": "slide-1-4",
+          "type": "concept",
+          "title": "Your Jersey Number",
+          "body": "We use TON wallets here. Think of your TON Wallet address like your Jersey Number."
+        },
+        {
+          "id": "slide-1-5",
+          "type": "action",
+          "title": "Let's Suit Up!",
+          "instruction": "Connect your TON wallet now to finish this Over.",
+          "actionType": "wallet_connect",
+          "buttonText": "Connect Wallet"
+        },
+        {
+          "id": "slide-1-6",
+          "type": "reward",
+          "title": "OVER COMPLETE!",
+          "body": "You've got your kit ready! You're now equipped to step onto the pitch.",
+          "pointsAwarded": 700,
+          "badgeId": "kit-owner",
+          "badgeName": "Kit Owner"
+        }
+      ]
+    },
+    {
+      "id": "module-2",
+      "title": "The Ticket & The Score",
+      "description": "Learn about TON vs USDT",
+      "icon": "🎫",
+      "totalPoints": 700,
+      "badgeId": "ticket-holder",
+      "badgeName": "Ticket Holder",
+      "isLocked": true,
+      "prerequisiteModuleId": "module-1",
+      "slides": []
+    },
+    {
+      "id": "module-3",
+      "title": "The Analyst vs. The Gambler",
+      "description": "Trading vs Betting mindset",
+      "icon": "🎯",
+      "totalPoints": 600,
+      "badgeId": "analyst",
+      "badgeName": "Analyst",
+      "isLocked": true,
+      "prerequisiteModuleId": "module-2",
+      "slides": []
+    }
+  ]
+}
