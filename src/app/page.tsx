@@ -276,7 +276,7 @@ function Dashboard() {
           </motion.div>
 
                   <motion.div variants={item} className="text-center pt-8 pb-4 opacity-30">
-                    <p className="text-[10px] font-mono uppercase tracking-widest">System v5.9.0-beta • Build 2026-02-03-DynamicLeaderboard</p>
+                    <p className="text-[10px] font-mono uppercase tracking-widest">System v5.10.0-beta • Build 2026-02-03-ConfettiCompletion</p>
                   </motion.div>
                   </motion.div>
       </main>
