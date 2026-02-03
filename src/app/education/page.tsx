@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { ArrowLeft, GraduationCap } from 'lucide-react';
 import { useTelegram } from '@/hooks/useTelegram';
+import { useTonAddress } from '@tonconnect/ui-react';
 import educationData from '@/data/education_modules.json';
 import ModuleCard from '@/components/education/ModuleCard';
 import type { EducationModulesData, UserEducationProgress } from '@/lib/educationTypes';
@@ -12,8 +13,11 @@ const typedEducationData = educationData as EducationModulesData;
 
 export default function EducationPage() {
   const { user } = useTelegram();
+  const walletAddress = useTonAddress();
   const [progressMap, setProgressMap] = useState<Record<string, UserEducationProgress>>({});
   const [isLoading, setIsLoading] = useState(true);
+
+  const isWalletConnected = !!walletAddress;
 
   useEffect(() => {
     async function fetchProgress() {
@@ -42,14 +46,22 @@ export default function EducationPage() {
     fetchProgress();
   }, [user?.id]);
 
-  // Compute locked state dynamically based on prerequisites
-  const computeIsLocked = (moduleId: string, prerequisiteModuleId: string | null): boolean => {
-    // No prerequisite means unlocked
-    if (!prerequisiteModuleId) return false;
+  // Compute lock state with reason for UI differentiation
+  const computeLockState = (moduleId: string, prerequisiteModuleId: string | null): { isLocked: boolean; lockReason: 'prerequisite' | 'wallet' | null } => {
+    // Check prerequisite first
+    if (prerequisiteModuleId) {
+      const prereqProgress = progressMap[prerequisiteModuleId];
+      if (!prereqProgress?.completed_at) {
+        return { isLocked: true, lockReason: 'prerequisite' };
+      }
+    }
 
-    // Check if prerequisite is completed
-    const prereqProgress = progressMap[prerequisiteModuleId];
-    return !prereqProgress?.completed_at;
+    // Check wallet gate (Module 2+ requires wallet)
+    if (moduleId !== 'module-1' && !isWalletConnected) {
+      return { isLocked: true, lockReason: 'wallet' };
+    }
+
+    return { isLocked: false, lockReason: null };
   };
 
   return (
@@ -83,7 +95,7 @@ export default function EducationPage() {
           ) : (
             // Module cards
             typedEducationData.modules.map((module) => {
-              const isLocked = computeIsLocked(module.id, module.prerequisiteModuleId);
+              const { isLocked, lockReason } = computeLockState(module.id, module.prerequisiteModuleId);
               const progress = progressMap[module.id] || null;
 
               return (
@@ -92,6 +104,7 @@ export default function EducationPage() {
                   module={module}
                   progress={progress}
                   isLocked={isLocked}
+                  lockReason={lockReason}
                 />
               );
             })

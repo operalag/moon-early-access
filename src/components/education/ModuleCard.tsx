@@ -1,16 +1,17 @@
 'use client';
 
 import Link from 'next/link';
-import { Check, Lock, ChevronRight } from 'lucide-react';
+import { Check, Lock, ChevronRight, Wallet } from 'lucide-react';
 import type { Module, UserEducationProgress } from '@/lib/educationTypes';
 
 interface ModuleCardProps {
   module: Module;
   progress: UserEducationProgress | null;
   isLocked: boolean;
+  lockReason?: 'prerequisite' | 'wallet' | null;
 }
 
-export default function ModuleCard({ module, progress, isLocked }: ModuleCardProps) {
+export default function ModuleCard({ module, progress, isLocked, lockReason }: ModuleCardProps) {
   const isCompleted = !!progress?.completed_at;
   const hasBadge = !!progress?.badge_earned;
 
@@ -41,6 +42,16 @@ export default function ModuleCard({ module, progress, isLocked }: ModuleCardPro
               {module.badgeName}
             </span>
           </span>
+        )}
+
+        {/* Wallet Lock Teaser */}
+        {lockReason === 'wallet' && (
+          <div className="mt-2 flex items-center gap-1.5">
+            <Wallet size={12} className="text-yellow-500/70" />
+            <span className="text-[10px] text-yellow-500/70 font-medium">
+              Connect wallet to unlock
+            </span>
+          </div>
         )}
       </div>
 
