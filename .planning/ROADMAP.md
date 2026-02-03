@@ -185,10 +185,10 @@ Plans:
 3. Module 2 and Module 3 appear visually locked (grayed out, lock icon) when wallet is not connected
 4. Locked modules display "Connect wallet to unlock" teaser message
 
-**Plans:** TBD
+**Plans:** 1 plan
 
 Plans:
-- [ ] 14-01: Menu item with pulsing indicator, module list with gating UI
+- [ ] 14-01-PLAN.md — useEducationStatus hook, BottomNav with Net Practice tab and indicator, ModuleCard wallet-lock teaser
 
 ---
 
@@ -206,7 +206,7 @@ Plans:
 | 11 - Data Model & Content | v6.0.0 | 1/1 | Complete | 2026-02-03 |
 | 12 - Slide Engine | v6.0.0 | 2/2 | Complete | 2026-02-03 |
 | 13 - Module 1 Integration | v6.0.0 | 2/2 | Complete | 2026-02-03 |
-| 14 - Menu & Gating | v6.0.0 | 0/1 | Not started | - |
+| 14 - Menu & Gating | v6.0.0 | 0/1 | Ready | - |
 
 ---
 *Roadmap created: 2026-01-27*
