@@ -43,12 +43,13 @@ const slideVariants: Variants = {
 
 interface SlideEngineProps {
   slides: Slide[];
+  initialSlideIndex?: number;
   onSlideChange?: (index: number) => void;
   onComplete?: () => void;
 }
 
-export default function SlideEngine({ slides, onSlideChange, onComplete }: SlideEngineProps) {
-  const [currentIndex, setCurrentIndex] = useState(0);
+export default function SlideEngine({ slides, initialSlideIndex, onSlideChange, onComplete }: SlideEngineProps) {
+  const [currentIndex, setCurrentIndex] = useState(initialSlideIndex ?? 0);
   const [direction, setDirection] = useState(0);
 
   const currentSlide = slides[currentIndex];
@@ -119,6 +120,11 @@ export default function SlideEngine({ slides, onSlideChange, onComplete }: Slide
     // Haptic feedback is handled in QuizSlide component
   };
 
+  // Action slide completion handler - advances to next slide
+  const handleActionComplete = () => {
+    goNext();
+  };
+
   // Render the appropriate slide component based on type (discriminated union switch)
   const renderSlide = (slide: Slide) => {
     switch (slide.type) {
@@ -129,7 +135,7 @@ export default function SlideEngine({ slides, onSlideChange, onComplete }: Slide
       case 'quiz':
         return <QuizSlideComponent slide={slide} onAnswer={handleQuizAnswer} />;
       case 'action':
-        return <ActionSlideComponent slide={slide} />;
+        return <ActionSlideComponent slide={slide} onActionComplete={handleActionComplete} />;
       case 'reward':
         return <RewardSlideComponent slide={slide} />;
       default:

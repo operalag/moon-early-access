@@ -1,17 +1,47 @@
 'use client';
 
+import { useEffect, useRef } from 'react';
+import { useTonConnectUI, useTonAddress } from '@tonconnect/ui-react';
 import type { ActionSlide } from '@/lib/educationTypes';
 
 interface ActionSlideComponentProps {
   slide: ActionSlide;
-  onAction?: () => void;
+  onActionComplete?: () => void;
 }
 
-export default function ActionSlideComponent({ slide, onAction }: ActionSlideComponentProps) {
+export default function ActionSlideComponent({ slide, onActionComplete }: ActionSlideComponentProps) {
+  const [tonConnectUI] = useTonConnectUI();
+  const userFriendlyAddress = useTonAddress();
+  const isConnected = !!userFriendlyAddress;
+  const hasTriggeredComplete = useRef(false);
+
+  // Auto-advance when wallet connects (for wallet_connect action type)
+  useEffect(() => {
+    if (slide.actionType === 'wallet_connect' && isConnected && !hasTriggeredComplete.current) {
+      hasTriggeredComplete.current = true;
+      onActionComplete?.();
+    }
+  }, [isConnected, slide.actionType, onActionComplete]);
+
   const handleActionClick = () => {
-    // Call the onAction callback - Phase 13 will implement actual wallet connect logic
-    onAction?.();
+    if (slide.actionType === 'wallet_connect') {
+      if (!isConnected) {
+        // Open TonConnect modal
+        tonConnectUI.openModal();
+      } else {
+        // Already connected, proceed
+        onActionComplete?.();
+      }
+    } else {
+      // Other action types - call the callback directly
+      onActionComplete?.();
+    }
   };
+
+  // Determine button text based on connection state
+  const buttonText = slide.actionType === 'wallet_connect' && isConnected
+    ? 'Continue'
+    : slide.buttonText;
 
   return (
     <div className="p-6 flex flex-col min-h-full">
@@ -31,7 +61,7 @@ export default function ActionSlideComponent({ slide, onAction }: ActionSlideCom
           onClick={handleActionClick}
           className="w-full py-4 bg-gradient-to-r from-amber-500 to-orange-500 text-black font-bold rounded-xl transition-transform active:scale-[0.98] shadow-lg shadow-amber-500/20"
         >
-          {slide.buttonText}
+          {buttonText}
         </button>
       </div>
     </div>
