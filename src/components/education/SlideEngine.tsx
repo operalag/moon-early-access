@@ -59,9 +59,9 @@ export default function SlideEngine({ slides, initialSlideIndex, onSlideChange, 
   const [direction, setDirection] = useState(0);
   const [showSwipeHint, setShowSwipeHint] = useState(true);
 
-  // Hide swipe hint after first navigation or after 4 seconds
+  // Hide swipe hint after first navigation or after 6 seconds
   useEffect(() => {
-    const timer = setTimeout(() => setShowSwipeHint(false), 4000);
+    const timer = setTimeout(() => setShowSwipeHint(false), 6000);
     return () => clearTimeout(timer);
   }, []);
 
@@ -151,7 +151,7 @@ export default function SlideEngine({ slides, initialSlideIndex, onSlideChange, 
       case 'action':
         return <ActionSlideComponent slide={slide} onActionComplete={handleActionComplete} />;
       case 'reward':
-        return <RewardSlideComponent slide={slide} unlockContext={unlockContext} />;
+        return <RewardSlideComponent slide={slide} unlockContext={unlockContext} onContinue={onComplete} />;
       default:
         // TypeScript exhaustiveness check
         const _exhaustive: never = slide;
@@ -189,15 +189,16 @@ export default function SlideEngine({ slides, initialSlideIndex, onSlideChange, 
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0 }}
-            className="flex items-center justify-center gap-2 py-2 text-white/40"
+            className="flex items-center justify-center gap-2 py-3 mx-6 mb-2 bg-white/10 rounded-xl"
           >
             <motion.div
-              animate={{ x: [0, 8, 0] }}
-              transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
+              animate={{ x: [-8, 8, -8] }}
+              transition={{ duration: 1.2, repeat: Infinity, ease: "easeInOut" }}
+              className="text-amber-400"
             >
-              <MoveHorizontal size={18} />
+              <MoveHorizontal size={20} />
             </motion.div>
-            <span className="text-xs font-medium">Swipe or tap arrows to navigate</span>
+            <span className="text-sm font-medium text-white/80">Swipe or tap arrows to navigate</span>
           </motion.div>
         )}
       </AnimatePresence>
