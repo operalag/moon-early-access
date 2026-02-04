@@ -142,8 +142,8 @@
     },
     {
       "id": "module-3",
-      "title": "The Analyst vs. The Gambler",
-      "description": "Trading vs Betting mindset",
+      "title": "The Analyst vs. The Impulse Trader",
+      "description": "Smart trading vs emotional trading",
       "icon": "🎯",
       "totalPoints": 600,
       "badgeId": "analyst",
@@ -154,14 +154,14 @@
         {
           "id": "slide-3-1",
           "type": "intro",
-          "title": "The Analyst vs. The Gambler",
-          "body": "Two fans watch the same match. One bets on gut feeling, the other studies the stats. Same game, very different outcomes. Which one are you?"
+          "title": "The Analyst vs. The Impulse Trader",
+          "body": "Two traders watch the same market. One trades on gut feeling, the other studies the data. Same opportunity, very different outcomes. Which one are you?"
         },
         {
           "id": "slide-3-2",
           "type": "concept",
-          "title": "The Gambler's Mindset",
-          "body": "Gamblers chase luck. They bet big on hunches, double down after losses, and let emotions drive decisions. It's exciting... until it isn't."
+          "title": "The Impulse Trader's Mindset",
+          "body": "Impulse traders chase hype. They go all-in on hunches, overreact to losses, and let emotions drive decisions. It's exciting... until their capital runs out."
         },
         {
           "id": "slide-3-3",
@@ -175,9 +175,9 @@
           "title": "Quick Check",
           "question": "Your favorite team is playing. An analyst would:",
           "options": [
-            { "id": "a", "text": "Bet everything on them to win" },
+            { "id": "a", "text": "Go all-in on them to win" },
             { "id": "b", "text": "Check their recent form first" },
-            { "id": "c", "text": "Always bet against them" }
+            { "id": "c", "text": "Always trade against them" }
           ],
           "correctOptionId": "b",
           "explanation": "Exactly! Analysts remove emotion and check the data. Your favorite team might be in poor form - a true analyst acknowledges that."
@@ -185,14 +185,14 @@
         {
           "id": "slide-3-5",
           "type": "concept",
-          "title": "Rule #1: Never Bet the Rent",
-          "body": "Only use money you can afford to lose. Analysts set a budget and stick to it. If losing would hurt, you're betting too much."
+          "title": "Rule #1: Protect Your Capital",
+          "body": "Only trade with money you can afford to lose. Analysts set a budget and stick to it. If a loss would hurt, you're risking too much."
         },
         {
           "id": "slide-3-6",
           "type": "concept",
-          "title": "Rule #2: Small Bets, Many Matches",
-          "body": "Don't put all your eggs in one basket. Spread your predictions across multiple matches. One bad result won't wipe you out."
+          "title": "Rule #2: Small Positions, Many Markets",
+          "body": "Don't put all your eggs in one basket. Spread your positions across multiple matches. One bad result won't wipe you out."
         },
         {
           "id": "slide-3-7",
@@ -200,12 +200,12 @@
           "title": "Strategy Check",
           "question": "You lost 3 predictions in a row. What should you do?",
           "options": [
-            { "id": "a", "text": "Double the next bet to recover" },
+            { "id": "a", "text": "Double the next position to recover" },
             { "id": "b", "text": "Take a break and review what went wrong" },
-            { "id": "c", "text": "Keep betting until luck changes" }
+            { "id": "c", "text": "Keep trading until luck changes" }
           ],
           "correctOptionId": "b",
-          "explanation": "Smart! Chasing losses is the gambler's trap. Analysts step back, analyze their mistakes, and come back with a better strategy."
+          "explanation": "Smart! Chasing losses destroys portfolios. Analysts step back, analyze their mistakes, and come back with a better strategy."
         },
         {
           "id": "slide-3-8",
@@ -217,11 +217,11 @@
           "id": "slide-3-9",
           "type": "quiz",
           "title": "Final Check",
-          "question": "What separates an analyst from a gambler?",
+          "question": "What separates an analyst from an impulse trader?",
           "options": [
             { "id": "a", "text": "Analysts always win" },
             { "id": "b", "text": "Analysts use data and manage risk" },
-            { "id": "c", "text": "Gamblers have more fun" }
+            { "id": "c", "text": "Impulse traders have more fun" }
           ],
           "correctOptionId": "b",
           "explanation": "Correct! Analysts don't always win, but they make informed decisions and protect themselves from big losses. That's the winning edge."
@@ -531,7 +531,7 @@
           "title": "Strategy Check",
           "question": "The AI says Pakistan has lost 5 straight games at this venue. You should:",
           "options": [
-            { "id": "a", "text": "Bet against Pakistan immediately" },
+            { "id": "a", "text": "Trade against Pakistan immediately" },
             { "id": "b", "text": "Check if their team has changed since then" },
             { "id": "c", "text": "Ignore it, history doesn't matter" }
           ],
@@ -921,9 +921,9 @@
           "title": "Strategy Check",
           "question": "Tournament starts tomorrow. You should:",
           "options": [
-            { "id": "a", "text": "Bet everything on the first match" },
+            { "id": "a", "text": "Trade everything on the first match" },
             { "id": "b", "text": "Save some capital for later rounds" },
-            { "id": "c", "text": "Wait until the final to bet" }
+            { "id": "c", "text": "Wait until the final to trade" }
           ],
           "correctOptionId": "b",
           "explanation": "Pace yourself! Early matches teach you about form and conditions. Keep capital ready for later opportunities."
