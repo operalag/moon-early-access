@@ -150,7 +150,92 @@
       "badgeName": "Analyst",
       "isLocked": true,
       "prerequisiteModuleId": "module-2",
-      "slides": []
+      "slides": [
+        {
+          "id": "slide-3-1",
+          "type": "intro",
+          "title": "The Analyst vs. The Gambler",
+          "body": "Two fans watch the same match. One bets on gut feeling, the other studies the stats. Same game, very different outcomes. Which one are you?"
+        },
+        {
+          "id": "slide-3-2",
+          "type": "concept",
+          "title": "The Gambler's Mindset",
+          "body": "Gamblers chase luck. They bet big on hunches, double down after losses, and let emotions drive decisions. It's exciting... until it isn't."
+        },
+        {
+          "id": "slide-3-3",
+          "type": "concept",
+          "title": "The Analyst's Mindset",
+          "body": "Analysts study the pitch, check player form, consider weather conditions. They make calculated decisions based on data, not hope. Boring? Maybe. Profitable? Usually."
+        },
+        {
+          "id": "slide-3-4",
+          "type": "quiz",
+          "title": "Quick Check",
+          "question": "Your favorite team is playing. An analyst would:",
+          "options": [
+            { "id": "a", "text": "Bet everything on them to win" },
+            { "id": "b", "text": "Check their recent form first" },
+            { "id": "c", "text": "Always bet against them" }
+          ],
+          "correctOptionId": "b",
+          "explanation": "Exactly! Analysts remove emotion and check the data. Your favorite team might be in poor form - a true analyst acknowledges that."
+        },
+        {
+          "id": "slide-3-5",
+          "type": "concept",
+          "title": "Rule #1: Never Bet the Rent",
+          "body": "Only use money you can afford to lose. Analysts set a budget and stick to it. If losing would hurt, you're betting too much."
+        },
+        {
+          "id": "slide-3-6",
+          "type": "concept",
+          "title": "Rule #2: Small Bets, Many Matches",
+          "body": "Don't put all your eggs in one basket. Spread your predictions across multiple matches. One bad result won't wipe you out."
+        },
+        {
+          "id": "slide-3-7",
+          "type": "quiz",
+          "title": "Strategy Check",
+          "question": "You lost 3 predictions in a row. What should you do?",
+          "options": [
+            { "id": "a", "text": "Double the next bet to recover" },
+            { "id": "b", "text": "Take a break and review what went wrong" },
+            { "id": "c", "text": "Keep betting until luck changes" }
+          ],
+          "correctOptionId": "b",
+          "explanation": "Smart! Chasing losses is the gambler's trap. Analysts step back, analyze their mistakes, and come back with a better strategy."
+        },
+        {
+          "id": "slide-3-8",
+          "type": "concept",
+          "title": "Rule #3: Track Everything",
+          "body": "Keep a record of your predictions. What worked? What didn't? Patterns emerge over time. Data turns guesses into informed decisions."
+        },
+        {
+          "id": "slide-3-9",
+          "type": "quiz",
+          "title": "Final Check",
+          "question": "What separates an analyst from a gambler?",
+          "options": [
+            { "id": "a", "text": "Analysts always win" },
+            { "id": "b", "text": "Analysts use data and manage risk" },
+            { "id": "c", "text": "Gamblers have more fun" }
+          ],
+          "correctOptionId": "b",
+          "explanation": "Correct! Analysts don't always win, but they make informed decisions and protect themselves from big losses. That's the winning edge."
+        },
+        {
+          "id": "slide-3-10",
+          "type": "reward",
+          "title": "OVER COMPLETE!",
+          "body": "You've learned to think like an analyst! Remember: data over hunches, discipline over emotion. Now go make smart predictions!",
+          "pointsAwarded": 600,
+          "badgeId": "analyst",
+          "badgeName": "Analyst"
+        }
+      ]
     }
   ]
 }
