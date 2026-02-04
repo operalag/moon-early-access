@@ -72,7 +72,73 @@
       "badgeName": "Ticket Holder",
       "isLocked": true,
       "prerequisiteModuleId": "module-1",
-      "slides": []
+      "slides": [
+        {
+          "id": "slide-2-1",
+          "type": "intro",
+          "title": "The Ticket & The Score",
+          "body": "In cricket, you need a ticket to enter the stadium, and the scoreboard tracks the runs. In crypto, TON is your ticket and USDT keeps the score!"
+        },
+        {
+          "id": "slide-2-2",
+          "type": "concept",
+          "title": "TON: Your Match Ticket",
+          "body": "TON is the native currency of The Open Network. Think of it like your match ticket - its price can go up or down based on demand, just like ticket prices before a big final!"
+        },
+        {
+          "id": "slide-2-3",
+          "type": "concept",
+          "title": "USDT: The Scoreboard",
+          "body": "USDT (Tether) is a stablecoin pegged to the US Dollar. 1 USDT = $1, always. It's like the scoreboard - reliable and steady. Perfect for keeping your winnings safe."
+        },
+        {
+          "id": "slide-2-4",
+          "type": "quiz",
+          "title": "Quick Check",
+          "question": "Which one stays stable in value?",
+          "options": [
+            { "id": "a", "text": "TON" },
+            { "id": "b", "text": "USDT" },
+            { "id": "c", "text": "Both fluctuate" }
+          ],
+          "correctOptionId": "b",
+          "explanation": "Correct! USDT is a stablecoin - it's designed to always equal $1. TON's price moves up and down like any other cryptocurrency."
+        },
+        {
+          "id": "slide-2-5",
+          "type": "concept",
+          "title": "When to Use Each",
+          "body": "Use TON to pay for transactions (gas fees) and when you believe the price will rise. Use USDT to lock in your profits and protect against price swings."
+        },
+        {
+          "id": "slide-2-6",
+          "type": "quiz",
+          "title": "Strategy Check",
+          "question": "You just won big! What's the smartest move to protect your gains?",
+          "options": [
+            { "id": "a", "text": "Keep it all in TON" },
+            { "id": "b", "text": "Convert some to USDT" },
+            { "id": "c", "text": "Delete my wallet" }
+          ],
+          "correctOptionId": "b",
+          "explanation": "Smart thinking! Converting some winnings to USDT locks in your gains. If TON drops, your USDT stays safe at $1."
+        },
+        {
+          "id": "slide-2-7",
+          "type": "concept",
+          "title": "The Winning Combo",
+          "body": "Pro analysts use both: TON for upside potential and transaction fees, USDT for stability and protecting profits. Balance is key!"
+        },
+        {
+          "id": "slide-2-8",
+          "type": "reward",
+          "title": "OVER COMPLETE!",
+          "body": "You now understand the two key currencies! You're ready to manage your portfolio like a pro analyst.",
+          "pointsAwarded": 700,
+          "badgeId": "ticket-holder",
+          "badgeName": "Ticket Holder"
+        }
+      ]
     },
     {
       "id": "module-3",
