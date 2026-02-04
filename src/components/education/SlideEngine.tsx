@@ -205,8 +205,8 @@ export default function SlideEngine({ slides, initialSlideIndex, onSlideChange, 
         )}
       </AnimatePresence>
 
-      {/* Navigation controls */}
-      <div className="flex items-center justify-between px-4 py-4 mb-2">
+      {/* Navigation controls - positioned above bottom menu */}
+      <div className="flex items-center justify-between px-4 py-4 mb-24">
         {/* Previous button */}
         <button
           onClick={goPrev}
