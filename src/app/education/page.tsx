@@ -73,7 +73,7 @@ export default function EducationPage() {
             <ArrowLeft size={20} className="text-zinc-400" />
           </Link>
           <div>
-            <h1 className="text-xl font-bold uppercase tracking-wider">Net Practice</h1>
+            <h1 className="text-xl font-bold uppercase tracking-wider">Practice</h1>
             <p className="text-xs text-white/50">Learn to trade like a pro</p>
           </div>
         </div>

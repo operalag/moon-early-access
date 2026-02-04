@@ -1,8 +1,8 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion, AnimatePresence, PanInfo, Variants } from 'framer-motion';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { ChevronLeft, ChevronRight, MoveHorizontal } from 'lucide-react';
 import confetti from 'canvas-confetti';
 import type { Slide } from '@/lib/educationTypes';
 import SlideProgress from './SlideProgress';
@@ -41,16 +41,29 @@ const slideVariants: Variants = {
   }),
 };
 
+export interface UnlockContext {
+  nextModuleTitle?: string;
+  nextModuleIcon?: string;
+}
+
 interface SlideEngineProps {
   slides: Slide[];
   initialSlideIndex?: number;
   onSlideChange?: (index: number) => void;
   onComplete?: () => void;
+  unlockContext?: UnlockContext;
 }
 
-export default function SlideEngine({ slides, initialSlideIndex, onSlideChange, onComplete }: SlideEngineProps) {
+export default function SlideEngine({ slides, initialSlideIndex, onSlideChange, onComplete, unlockContext }: SlideEngineProps) {
   const [currentIndex, setCurrentIndex] = useState(initialSlideIndex ?? 0);
   const [direction, setDirection] = useState(0);
+  const [showSwipeHint, setShowSwipeHint] = useState(true);
+
+  // Hide swipe hint after first navigation or after 4 seconds
+  useEffect(() => {
+    const timer = setTimeout(() => setShowSwipeHint(false), 4000);
+    return () => clearTimeout(timer);
+  }, []);
 
   const currentSlide = slides[currentIndex];
   const isFirstSlide = currentIndex === 0;
@@ -61,6 +74,7 @@ export default function SlideEngine({ slides, initialSlideIndex, onSlideChange, 
 
     setDirection(newDirection);
     setCurrentIndex(newIndex);
+    setShowSwipeHint(false); // Hide hint on first navigation
     onSlideChange?.(newIndex);
   };
 
@@ -137,7 +151,7 @@ export default function SlideEngine({ slides, initialSlideIndex, onSlideChange, 
       case 'action':
         return <ActionSlideComponent slide={slide} onActionComplete={handleActionComplete} />;
       case 'reward':
-        return <RewardSlideComponent slide={slide} />;
+        return <RewardSlideComponent slide={slide} unlockContext={unlockContext} />;
       default:
         // TypeScript exhaustiveness check
         const _exhaustive: never = slide;
@@ -168,20 +182,40 @@ export default function SlideEngine({ slides, initialSlideIndex, onSlideChange, 
         </AnimatePresence>
       </div>
 
+      {/* Swipe hint - shows on first slide */}
+      <AnimatePresence>
+        {showSwipeHint && currentIndex === 0 && (
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0 }}
+            className="flex items-center justify-center gap-2 py-2 text-white/40"
+          >
+            <motion.div
+              animate={{ x: [0, 8, 0] }}
+              transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
+            >
+              <MoveHorizontal size={18} />
+            </motion.div>
+            <span className="text-xs font-medium">Swipe or tap arrows to navigate</span>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       {/* Navigation controls */}
       <div className="flex items-center justify-between px-6 py-4">
         {/* Previous button */}
         <button
           onClick={goPrev}
           disabled={isFirstSlide}
-          className={`p-2 rounded-full transition-colors ${
+          className={`p-3 rounded-full transition-all ${
             isFirstSlide
               ? 'text-white/20 cursor-not-allowed'
-              : 'text-white/60 hover:text-white hover:bg-white/10'
+              : 'text-white/70 hover:text-white hover:bg-white/10 active:scale-95'
           }`}
           aria-label="Previous slide"
         >
-          <ChevronLeft size={24} />
+          <ChevronLeft size={28} />
         </button>
 
         {/* Progress dots */}
@@ -190,11 +224,10 @@ export default function SlideEngine({ slides, initialSlideIndex, onSlideChange, 
         {/* Next button */}
         <button
           onClick={goNext}
-          disabled={false}
-          className="p-2 rounded-full text-white/60 hover:text-white hover:bg-white/10 transition-colors"
+          className="p-3 rounded-full text-white/70 hover:text-white hover:bg-white/10 active:scale-95 transition-all"
           aria-label={isLastSlide ? 'Complete' : 'Next slide'}
         >
-          <ChevronRight size={24} />
+          <ChevronRight size={28} />
         </button>
       </div>
     </div>

@@ -14,7 +14,7 @@ export default function BottomNav() {
     { name: 'Markets', href: '/', icon: LayoutGrid },
     { name: 'AI Analyst', href: '/chat', icon: Bot },
     { name: 'News', href: '/news', icon: Newspaper },
-    { name: 'Net Practice', href: '/education', icon: GraduationCap, showIndicator: true },
+    { name: 'Practice', href: '/education', icon: GraduationCap, showIndicator: true },
     { name: 'Settings', href: '/settings', icon: Settings },
   ];
 

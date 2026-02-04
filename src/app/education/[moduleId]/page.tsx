@@ -7,6 +7,7 @@ import { ArrowLeft, Trophy } from 'lucide-react';
 import { useTelegram } from '@/hooks/useTelegram';
 import educationData from '@/data/education_modules.json';
 import SlideEngine from '@/components/education/SlideEngine';
+import type { UnlockContext } from '@/components/education/SlideEngine';
 import type { EducationModulesData, Module, Slide } from '@/lib/educationTypes';
 
 const typedEducationData = educationData as EducationModulesData;
@@ -27,6 +28,19 @@ export default function ModulePage() {
     const foundModule = typedEducationData.modules.find((m) => m.id === moduleId);
     setModule(foundModule || null);
   }, [moduleId]);
+
+  // Find the next module that this one unlocks
+  const unlockContext: UnlockContext | undefined = (() => {
+    if (!module) return undefined;
+    const nextModule = typedEducationData.modules.find(
+      (m) => m.prerequisiteModuleId === module.id
+    );
+    if (!nextModule) return undefined;
+    return {
+      nextModuleTitle: nextModule.title,
+      nextModuleIcon: nextModule.icon,
+    };
+  })();
 
   // Fetch user progress for this module
   useEffect(() => {
@@ -201,6 +215,7 @@ export default function ModulePage() {
           initialSlideIndex={initialSlideIndex}
           onSlideChange={handleSlideChange}
           onComplete={handleComplete}
+          unlockContext={unlockContext}
         />
       </div>
     </main>
