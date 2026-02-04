@@ -236,6 +236,786 @@
           "badgeName": "Analyst"
         }
       ]
+    },
+    {
+      "id": "module-4",
+      "title": "Reading the Odds",
+      "description": "Understanding prediction probabilities",
+      "icon": "📊",
+      "totalPoints": 600,
+      "badgeId": "odds-reader",
+      "badgeName": "Odds Reader",
+      "isLocked": true,
+      "prerequisiteModuleId": "module-3",
+      "slides": [
+        {
+          "id": "slide-4-1",
+          "type": "intro",
+          "title": "Reading the Odds",
+          "body": "Ever seen 'India 65% - Pakistan 35%' and wondered what it means? Time to decode the numbers that drive prediction markets!"
+        },
+        {
+          "id": "slide-4-2",
+          "type": "concept",
+          "title": "What Are Odds?",
+          "body": "Odds show what the crowd thinks will happen. If India is at 65%, most traders believe India will win. It's like a live poll of thousands of analysts."
+        },
+        {
+          "id": "slide-4-3",
+          "type": "concept",
+          "title": "The Crowd vs. Reality",
+          "body": "Here's the secret: the crowd isn't always right! If you spot something others missed - an injury, a pitch change - you can profit when the odds catch up to reality."
+        },
+        {
+          "id": "slide-4-4",
+          "type": "quiz",
+          "title": "Quick Check",
+          "question": "India is at 80% odds. This means:",
+          "options": [
+            { "id": "a", "text": "India will definitely win" },
+            { "id": "b", "text": "Most traders think India will win" },
+            { "id": "c", "text": "India has won 80 matches" }
+          ],
+          "correctOptionId": "b",
+          "explanation": "Right! Odds reflect crowd sentiment, not certainty. Upsets happen all the time - that's what makes cricket exciting!"
+        },
+        {
+          "id": "slide-4-5",
+          "type": "concept",
+          "title": "Finding Value",
+          "body": "Value = when you think the real chance is different from the odds. If Pakistan has a 40% chance but odds show 25%, that's value! You're getting a discount."
+        },
+        {
+          "id": "slide-4-6",
+          "type": "concept",
+          "title": "How Odds Move",
+          "body": "Odds shift as news breaks. Captain injured? Odds drop. Star player returns? Odds rise. The fastest analysts catch these moves first."
+        },
+        {
+          "id": "slide-4-7",
+          "type": "quiz",
+          "title": "Strategy Check",
+          "question": "Breaking news: India's captain is injured. What happens to India's odds?",
+          "options": [
+            { "id": "a", "text": "They go up (more likely to win)" },
+            { "id": "b", "text": "They go down (less likely to win)" },
+            { "id": "c", "text": "Nothing changes" }
+          ],
+          "correctOptionId": "b",
+          "explanation": "Correct! Bad news = lower odds. Smart analysts who see the news first can trade before the crowd reacts."
+        },
+        {
+          "id": "slide-4-8",
+          "type": "reward",
+          "title": "OVER COMPLETE!",
+          "body": "You can now read the scoreboard of prediction markets! Remember: odds are opinions, not facts. Find the gaps and profit!",
+          "pointsAwarded": 600,
+          "badgeId": "odds-reader",
+          "badgeName": "Odds Reader"
+        }
+      ]
+    },
+    {
+      "id": "module-5",
+      "title": "The T20 Playbook",
+      "description": "T20 cricket basics for predictions",
+      "icon": "🏏",
+      "totalPoints": 500,
+      "badgeId": "t20-scholar",
+      "badgeName": "T20 Scholar",
+      "isLocked": true,
+      "prerequisiteModuleId": "module-4",
+      "slides": [
+        {
+          "id": "slide-5-1",
+          "type": "intro",
+          "title": "The T20 Playbook",
+          "body": "T20 is cricket's shortest format - fast, furious, and full of surprises. Understanding the game helps you make better predictions!"
+        },
+        {
+          "id": "slide-5-2",
+          "type": "concept",
+          "title": "20 Overs, Maximum Chaos",
+          "body": "Each team gets just 20 overs (120 balls) to score. There's no time to play safe - batters swing hard, bowlers take risks. Anything can happen!"
+        },
+        {
+          "id": "slide-5-3",
+          "type": "concept",
+          "title": "The Power Play",
+          "body": "First 6 overs = Power Play. Fielding restrictions mean more boundaries. Teams often score 50-60 runs here. A strong Power Play can set the tone."
+        },
+        {
+          "id": "slide-5-4",
+          "type": "quiz",
+          "title": "Quick Check",
+          "question": "Why are T20 matches harder to predict than Test matches?",
+          "options": [
+            { "id": "a", "text": "Less time means more randomness" },
+            { "id": "b", "text": "T20 players are worse" },
+            { "id": "c", "text": "Weather doesn't matter" }
+          ],
+          "correctOptionId": "a",
+          "explanation": "Exactly! In T20, one dropped catch or lucky shot can swing the game. Less time = more variance = more upsets."
+        },
+        {
+          "id": "slide-5-5",
+          "type": "concept",
+          "title": "Death Overs Drama",
+          "body": "Overs 16-20 are the 'death overs'. Teams go all out. A great death bowler or finisher can completely flip a match in the final minutes."
+        },
+        {
+          "id": "slide-5-6",
+          "type": "concept",
+          "title": "Key Players to Watch",
+          "body": "Openers set the pace. Middle-order anchors control the chase. Death bowlers defend totals. Finishers win tight games. Know who's who!"
+        },
+        {
+          "id": "slide-5-7",
+          "type": "quiz",
+          "title": "Strategy Check",
+          "question": "Team A needs 24 runs from 6 balls. What's this called?",
+          "options": [
+            { "id": "a", "text": "The Power Play" },
+            { "id": "b", "text": "A run-a-ball situation" },
+            { "id": "c", "text": "Death overs pressure" }
+          ],
+          "correctOptionId": "c",
+          "explanation": "That's the death overs! 24 from 6 is tough but not impossible in T20. One six, then another... that's the magic of T20!"
+        },
+        {
+          "id": "slide-5-8",
+          "type": "reward",
+          "title": "OVER COMPLETE!",
+          "body": "You know the T20 format! Power Plays, death overs, key players - use this knowledge to spot value others miss.",
+          "pointsAwarded": 500,
+          "badgeId": "t20-scholar",
+          "badgeName": "T20 Scholar"
+        }
+      ]
+    },
+    {
+      "id": "module-6",
+      "title": "Pitch & Weather Report",
+      "description": "How conditions affect outcomes",
+      "icon": "🌤️",
+      "totalPoints": 500,
+      "badgeId": "pitch-inspector",
+      "badgeName": "Pitch Inspector",
+      "isLocked": true,
+      "prerequisiteModuleId": "module-5",
+      "slides": [
+        {
+          "id": "slide-6-1",
+          "type": "intro",
+          "title": "Pitch & Weather Report",
+          "body": "The same two teams can have completely different results based on where they play and what the weather does. Let's decode the conditions!"
+        },
+        {
+          "id": "slide-6-2",
+          "type": "concept",
+          "title": "Reading the Pitch",
+          "body": "Green pitch = helps fast bowlers (ball swings and seams). Dry, cracked pitch = helps spinners. Flat pitch = high scores, batter's paradise."
+        },
+        {
+          "id": "slide-6-3",
+          "type": "concept",
+          "title": "Home Advantage",
+          "body": "Teams know their home pitches. India dominates on turning tracks. Australia excels on bouncy pitches. England loves swing conditions. Location matters!"
+        },
+        {
+          "id": "slide-6-4",
+          "type": "quiz",
+          "title": "Quick Check",
+          "question": "The pitch has visible cracks and is dry. Who benefits most?",
+          "options": [
+            { "id": "a", "text": "Fast bowlers" },
+            { "id": "b", "text": "Spin bowlers" },
+            { "id": "c", "text": "Opening batters" }
+          ],
+          "correctOptionId": "b",
+          "explanation": "Correct! Dry, cracked pitches grip the ball and help spinners turn it sharply. Teams with strong spinners love these conditions."
+        },
+        {
+          "id": "slide-6-5",
+          "type": "concept",
+          "title": "The Toss Factor",
+          "body": "Winning the toss can be huge! Dew at night makes batting easier. Day games might favor bowling first. Check what captains typically choose at each venue."
+        },
+        {
+          "id": "slide-6-6",
+          "type": "concept",
+          "title": "Weather Watch",
+          "body": "Rain can reduce overs, changing the game entirely. Overcast skies help swing bowlers. Hot, dry conditions favor batters. Always check the forecast!"
+        },
+        {
+          "id": "slide-6-7",
+          "type": "quiz",
+          "title": "Strategy Check",
+          "question": "It's a night game and heavy dew is expected. The toss winner should probably:",
+          "options": [
+            { "id": "a", "text": "Bat first" },
+            { "id": "b", "text": "Bowl first" },
+            { "id": "c", "text": "Doesn't matter" }
+          ],
+          "correctOptionId": "b",
+          "explanation": "Smart! Dew makes the ball slippery for bowlers in the second innings. Bowl first, then chase with a wet ball that's hard to grip!"
+        },
+        {
+          "id": "slide-6-8",
+          "type": "reward",
+          "title": "OVER COMPLETE!",
+          "body": "You're now a pitch and weather expert! Use these hidden factors to find edges the casual fan misses.",
+          "pointsAwarded": 500,
+          "badgeId": "pitch-inspector",
+          "badgeName": "Pitch Inspector"
+        }
+      ]
+    },
+    {
+      "id": "module-7",
+      "title": "Your AI Coach",
+      "description": "Master the AI Analyst feature",
+      "icon": "🤖",
+      "totalPoints": 500,
+      "badgeId": "ai-whisperer",
+      "badgeName": "AI Whisperer",
+      "isLocked": true,
+      "prerequisiteModuleId": "module-6",
+      "slides": [
+        {
+          "id": "slide-7-1",
+          "type": "intro",
+          "title": "Your AI Coach",
+          "body": "You have a secret weapon: an AI trained on thousands of cricket matches. Learn to ask the right questions and get winning insights!"
+        },
+        {
+          "id": "slide-7-2",
+          "type": "concept",
+          "title": "What the AI Knows",
+          "body": "Our AI Analyst has studied historical match data, player statistics, head-to-head records, and venue patterns. It's like having a cricket encyclopedia in your pocket."
+        },
+        {
+          "id": "slide-7-3",
+          "type": "concept",
+          "title": "Asking Good Questions",
+          "body": "Bad: 'Who will win?' Better: 'How does Kohli perform against left-arm pace in T20s?' The more specific your question, the more useful the answer."
+        },
+        {
+          "id": "slide-7-4",
+          "type": "quiz",
+          "title": "Quick Check",
+          "question": "Which question will get you the most useful insight?",
+          "options": [
+            { "id": "a", "text": "Is India good?" },
+            { "id": "b", "text": "What's India's win rate batting first in Australia?" },
+            { "id": "c", "text": "Tell me about cricket" }
+          ],
+          "correctOptionId": "b",
+          "explanation": "Perfect! Specific questions get specific answers. Venue + condition + team = actionable intelligence."
+        },
+        {
+          "id": "slide-7-5",
+          "type": "concept",
+          "title": "Research Patterns",
+          "body": "Before a match, ask about: head-to-head records, recent form, venue history, key player matchups, and injury news. Build a complete picture."
+        },
+        {
+          "id": "slide-7-6",
+          "type": "concept",
+          "title": "Combining Insights",
+          "body": "The AI gives you data. You make the call. If AI says 'India struggles here' but you know they just fixed their weakness, that's YOUR edge."
+        },
+        {
+          "id": "slide-7-7",
+          "type": "quiz",
+          "title": "Strategy Check",
+          "question": "The AI says Pakistan has lost 5 straight games at this venue. You should:",
+          "options": [
+            { "id": "a", "text": "Bet against Pakistan immediately" },
+            { "id": "b", "text": "Check if their team has changed since then" },
+            { "id": "c", "text": "Ignore it, history doesn't matter" }
+          ],
+          "correctOptionId": "b",
+          "explanation": "Exactly! Historical data is a starting point, not the final answer. Teams change. Context matters. Think critically!"
+        },
+        {
+          "id": "slide-7-8",
+          "type": "reward",
+          "title": "OVER COMPLETE!",
+          "body": "You know how to leverage AI for cricket analysis! Ask smart questions, combine insights, and make informed predictions.",
+          "pointsAwarded": 500,
+          "badgeId": "ai-whisperer",
+          "badgeName": "AI Whisperer"
+        }
+      ]
+    },
+    {
+      "id": "module-8",
+      "title": "Building Your Syndicate",
+      "description": "Grow your referral network",
+      "icon": "👥",
+      "totalPoints": 400,
+      "badgeId": "recruiter",
+      "badgeName": "Recruiter",
+      "isLocked": true,
+      "prerequisiteModuleId": "module-7",
+      "slides": [
+        {
+          "id": "slide-8-1",
+          "type": "intro",
+          "title": "Building Your Syndicate",
+          "body": "In cricket, the best teams have deep squads. Here, your 'syndicate' is your referral network - and they help YOU earn more!"
+        },
+        {
+          "id": "slide-8-2",
+          "type": "concept",
+          "title": "What's a Syndicate?",
+          "body": "Your syndicate is the group of friends you've invited to MOON. Every person who joins using your link becomes part of your network."
+        },
+        {
+          "id": "slide-8-3",
+          "type": "concept",
+          "title": "Earn Per Recruit",
+          "body": "For every friend who joins through your link, you earn 500 Strategy Points. No limit! 10 friends = 5,000 points. 100 friends = 50,000 points."
+        },
+        {
+          "id": "slide-8-4",
+          "type": "quiz",
+          "title": "Quick Check",
+          "question": "You invite 20 friends and they all join. How many points do you earn?",
+          "options": [
+            { "id": "a", "text": "500 points" },
+            { "id": "b", "text": "5,000 points" },
+            { "id": "c", "text": "10,000 points" }
+          ],
+          "correctOptionId": "c",
+          "explanation": "Math checks out! 20 friends × 500 points = 10,000 points. Your syndicate is a serious points multiplier."
+        },
+        {
+          "id": "slide-8-5",
+          "type": "concept",
+          "title": "Where to Share",
+          "body": "Share your link in cricket WhatsApp groups, Discord servers, Twitter/X, or directly with friends who love cricket. Cricket fans make the best recruits!"
+        },
+        {
+          "id": "slide-8-6",
+          "type": "concept",
+          "title": "Quality Over Quantity",
+          "body": "Active recruits are worth more in the long run. Invite people who'll actually use the app - they'll stay engaged and boost the community."
+        },
+        {
+          "id": "slide-8-7",
+          "type": "quiz",
+          "title": "Strategy Check",
+          "question": "What's the best way to build a strong syndicate?",
+          "options": [
+            { "id": "a", "text": "Spam links everywhere" },
+            { "id": "b", "text": "Invite cricket fans who'll actually engage" },
+            { "id": "c", "text": "Create fake accounts" }
+          ],
+          "correctOptionId": "b",
+          "explanation": "Exactly! Real cricket fans = real engagement = real value. Build a syndicate of genuine enthusiasts."
+        },
+        {
+          "id": "slide-8-8",
+          "type": "reward",
+          "title": "OVER COMPLETE!",
+          "body": "You're ready to build your syndicate! Share your link, grow your network, and watch those points multiply.",
+          "pointsAwarded": 400,
+          "badgeId": "recruiter",
+          "badgeName": "Recruiter"
+        }
+      ]
+    },
+    {
+      "id": "module-9",
+      "title": "The Daily Grind",
+      "description": "Daily routines for maximum points",
+      "icon": "📅",
+      "totalPoints": 400,
+      "badgeId": "daily-grinder",
+      "badgeName": "Daily Grinder",
+      "isLocked": true,
+      "prerequisiteModuleId": "module-8",
+      "slides": [
+        {
+          "id": "slide-9-1",
+          "type": "intro",
+          "title": "The Daily Grind",
+          "body": "The best cricketers train every day. The best analysts check in daily too. Small daily actions add up to massive points over time!"
+        },
+        {
+          "id": "slide-9-2",
+          "type": "concept",
+          "title": "The Daily Spin",
+          "body": "Every day at midnight IST, your spin resets. You could win 5 points... or 1,000! It's free points just for showing up."
+        },
+        {
+          "id": "slide-9-3",
+          "type": "concept",
+          "title": "Streak Power",
+          "body": "Log in every day to build your streak. Consecutive days = bonus rewards. Miss a day? Streak resets. Consistency is key!"
+        },
+        {
+          "id": "slide-9-4",
+          "type": "quiz",
+          "title": "Quick Check",
+          "question": "You've logged in for 6 days straight. What happens if you miss day 7?",
+          "options": [
+            { "id": "a", "text": "Nothing, streaks don't matter" },
+            { "id": "b", "text": "Your streak resets to 0" },
+            { "id": "c", "text": "You lose all your points" }
+          ],
+          "correctOptionId": "b",
+          "explanation": "Your streak resets, but you keep your points! Still, try to maintain that streak - consistency gets rewarded."
+        },
+        {
+          "id": "slide-9-5",
+          "type": "concept",
+          "title": "The Optimal Routine",
+          "body": "Daily checklist: 1) Spin the wheel 2) Check the leaderboard 3) Review today's matches 4) Ask the AI Analyst one question 5) Share with a friend"
+        },
+        {
+          "id": "slide-9-6",
+          "type": "concept",
+          "title": "Timing Matters",
+          "body": "Spin resets at midnight IST. Best time to check matches? Morning for team news, afternoon for final lineups, evening for live action."
+        },
+        {
+          "id": "slide-9-7",
+          "type": "quiz",
+          "title": "Strategy Check",
+          "question": "What's the minimum you should do every day?",
+          "options": [
+            { "id": "a", "text": "Nothing, only trade on match days" },
+            { "id": "b", "text": "Log in and spin - it's free points" },
+            { "id": "c", "text": "Spend 3 hours analyzing" }
+          ],
+          "correctOptionId": "b",
+          "explanation": "At minimum, log in and spin! It takes 10 seconds and keeps your streak alive. Everything else is bonus."
+        },
+        {
+          "id": "slide-9-8",
+          "type": "reward",
+          "title": "OVER COMPLETE!",
+          "body": "You know the daily grind! Small daily habits = massive long-term gains. See you tomorrow!",
+          "pointsAwarded": 400,
+          "badgeId": "daily-grinder",
+          "badgeName": "Daily Grinder"
+        }
+      ]
+    },
+    {
+      "id": "module-10",
+      "title": "Timing the Market",
+      "description": "When to enter and exit positions",
+      "icon": "⏱️",
+      "totalPoints": 600,
+      "badgeId": "market-timer",
+      "badgeName": "Market Timer",
+      "isLocked": true,
+      "prerequisiteModuleId": "module-9",
+      "slides": [
+        {
+          "id": "slide-10-1",
+          "type": "intro",
+          "title": "Timing the Market",
+          "body": "Buying at the right time is half the battle. The same prediction can be profitable or not depending on WHEN you enter. Let's master timing!"
+        },
+        {
+          "id": "slide-10-2",
+          "type": "concept",
+          "title": "Early Bird Advantage",
+          "body": "Odds shift as match day approaches. If you spot value early - before the crowd - you get better prices. Early research = better entries."
+        },
+        {
+          "id": "slide-10-3",
+          "type": "concept",
+          "title": "The News Catalyst",
+          "body": "Big news moves markets fast. Injury announcements, team changes, weather updates - the first to react often gets the best price."
+        },
+        {
+          "id": "slide-10-4",
+          "type": "quiz",
+          "title": "Quick Check",
+          "question": "Breaking: Star player is injured! When should you trade?",
+          "options": [
+            { "id": "a", "text": "Wait a day to see what happens" },
+            { "id": "b", "text": "As soon as possible, before odds adjust" },
+            { "id": "c", "text": "Injuries don't affect odds" }
+          ],
+          "correctOptionId": "b",
+          "explanation": "Speed wins! Once the news spreads, everyone adjusts. The early analyst catches the best prices."
+        },
+        {
+          "id": "slide-10-5",
+          "type": "concept",
+          "title": "Taking Profits",
+          "body": "You don't have to wait for the match to end! If odds move in your favor, you can exit early and lock in gains. A profit taken is a profit earned."
+        },
+        {
+          "id": "slide-10-6",
+          "type": "concept",
+          "title": "Cutting Losses",
+          "body": "New information changed your view? It's okay to exit at a small loss rather than ride it to a big loss. Protect your capital!"
+        },
+        {
+          "id": "slide-10-7",
+          "type": "quiz",
+          "title": "Strategy Check",
+          "question": "You're up 30% on a position but the match hasn't started. You should:",
+          "options": [
+            { "id": "a", "text": "Always wait for the match result" },
+            { "id": "b", "text": "Consider taking some profit now" },
+            { "id": "c", "text": "Double down for more gains" }
+          ],
+          "correctOptionId": "b",
+          "explanation": "Locking in profit is never wrong! You can take partial profit and let the rest ride, or exit fully. Flexibility is power."
+        },
+        {
+          "id": "slide-10-8",
+          "type": "reward",
+          "title": "OVER COMPLETE!",
+          "body": "You understand market timing! Enter early, react to news, take profits, and cut losses. Timing is everything!",
+          "pointsAwarded": 600,
+          "badgeId": "market-timer",
+          "badgeName": "Market Timer"
+        }
+      ]
+    },
+    {
+      "id": "module-11",
+      "title": "Climbing the Leaderboard",
+      "description": "Compete and rise in rankings",
+      "icon": "🏆",
+      "totalPoints": 400,
+      "badgeId": "competitor",
+      "badgeName": "Competitor",
+      "isLocked": true,
+      "prerequisiteModuleId": "module-10",
+      "slides": [
+        {
+          "id": "slide-11-1",
+          "type": "intro",
+          "title": "Climbing the Leaderboard",
+          "body": "Every cricketer wants to be #1 in the rankings. Here, your Strategy Points determine your rank. Let's learn how to climb!"
+        },
+        {
+          "id": "slide-11-2",
+          "type": "concept",
+          "title": "Three Leaderboards",
+          "body": "We track three timeframes: Today, This Week, and All Time. You can dominate daily sprints or play the long game. Why not both?"
+        },
+        {
+          "id": "slide-11-3",
+          "type": "concept",
+          "title": "Point Sources",
+          "body": "Points come from: Daily Spin, Referrals (500 each), Education Modules, Wallet Connection (1000), and Channel Membership (500). Stack them all!"
+        },
+        {
+          "id": "slide-11-4",
+          "type": "quiz",
+          "title": "Quick Check",
+          "question": "What's the fastest way to climb the weekly leaderboard?",
+          "options": [
+            { "id": "a", "text": "Wait for lucky spins" },
+            { "id": "b", "text": "Invite friends and complete modules" },
+            { "id": "c", "text": "Just log in once" }
+          ],
+          "correctOptionId": "b",
+          "explanation": "Referrals and education are guaranteed big points! Spin is luck, but referrals and modules are in your control."
+        },
+        {
+          "id": "slide-11-5",
+          "type": "concept",
+          "title": "Top 100 Benefits",
+          "body": "The Top 100 on the All-Time leaderboard get exclusive benefits at mainnet launch. Early grinders get rewarded. Your position matters!"
+        },
+        {
+          "id": "slide-11-6",
+          "type": "concept",
+          "title": "Weekly Resets",
+          "body": "Weekly leaderboard resets every Monday. This is your chance! A focused week of activity can shoot you to the top."
+        },
+        {
+          "id": "slide-11-7",
+          "type": "quiz",
+          "title": "Strategy Check",
+          "question": "You're ranked #150 All-Time. To reach Top 100, you should:",
+          "options": [
+            { "id": "a", "text": "Give up, it's too late" },
+            { "id": "b", "text": "Focus on daily activities and referrals" },
+            { "id": "c", "text": "Just wait and hope others quit" }
+          ],
+          "correctOptionId": "b",
+          "explanation": "It's never too late! Consistent daily effort plus referrals can climb 50 spots faster than you think."
+        },
+        {
+          "id": "slide-11-8",
+          "type": "reward",
+          "title": "OVER COMPLETE!",
+          "body": "You're ready to compete! Daily grind + referrals + education = leaderboard domination. See you at the top!",
+          "pointsAwarded": 400,
+          "badgeId": "competitor",
+          "badgeName": "Competitor"
+        }
+      ]
+    },
+    {
+      "id": "module-12",
+      "title": "Spreading Your Field",
+      "description": "Portfolio diversification strategy",
+      "icon": "🌐",
+      "totalPoints": 500,
+      "badgeId": "diversifier",
+      "badgeName": "Diversifier",
+      "isLocked": true,
+      "prerequisiteModuleId": "module-11",
+      "slides": [
+        {
+          "id": "slide-12-1",
+          "type": "intro",
+          "title": "Spreading Your Field",
+          "body": "A cricket captain doesn't put all fielders in one spot. Smart analysts don't put all predictions in one match. Let's learn diversification!"
+        },
+        {
+          "id": "slide-12-2",
+          "type": "concept",
+          "title": "Why Diversify?",
+          "body": "One upset can wipe out a concentrated position. But if you're spread across 5 matches and one loses, you still have 4 chances to profit."
+        },
+        {
+          "id": "slide-12-3",
+          "type": "concept",
+          "title": "The 20% Rule",
+          "body": "Never put more than 20% of your capital in a single prediction. Even if you're super confident. Upsets happen to everyone."
+        },
+        {
+          "id": "slide-12-4",
+          "type": "quiz",
+          "title": "Quick Check",
+          "question": "You have 100 USDT. How much should go into your 'best' prediction?",
+          "options": [
+            { "id": "a", "text": "All 100 USDT - go big or go home" },
+            { "id": "b", "text": "Maximum 20 USDT" },
+            { "id": "c", "text": "50 USDT is reasonable" }
+          ],
+          "correctOptionId": "b",
+          "explanation": "20% max! Even the 'best' predictions fail sometimes. Spread your risk across multiple opportunities."
+        },
+        {
+          "id": "slide-12-5",
+          "type": "concept",
+          "title": "Diversify Across Teams",
+          "body": "Don't just predict India matches. Look at Pakistan, Australia, England too. More markets = more opportunities = more learning."
+        },
+        {
+          "id": "slide-12-6",
+          "type": "concept",
+          "title": "Diversify Across Time",
+          "body": "Don't blow your whole budget on day 1 of the tournament. Pace yourself. Later rounds often have better value as you learn more."
+        },
+        {
+          "id": "slide-12-7",
+          "type": "quiz",
+          "title": "Strategy Check",
+          "question": "Tournament starts tomorrow. You should:",
+          "options": [
+            { "id": "a", "text": "Bet everything on the first match" },
+            { "id": "b", "text": "Save some capital for later rounds" },
+            { "id": "c", "text": "Wait until the final to bet" }
+          ],
+          "correctOptionId": "b",
+          "explanation": "Pace yourself! Early matches teach you about form and conditions. Keep capital ready for later opportunities."
+        },
+        {
+          "id": "slide-12-8",
+          "type": "reward",
+          "title": "OVER COMPLETE!",
+          "body": "You understand diversification! Spread across matches, teams, and time. A protected analyst survives to trade another day.",
+          "pointsAwarded": 500,
+          "badgeId": "diversifier",
+          "badgeName": "Diversifier"
+        }
+      ]
+    },
+    {
+      "id": "module-13",
+      "title": "The Airdrop Innings",
+      "description": "Points to tokens: the endgame",
+      "icon": "🚀",
+      "totalPoints": 600,
+      "badgeId": "airdrop-ready",
+      "badgeName": "Airdrop Ready",
+      "isLocked": true,
+      "prerequisiteModuleId": "module-12",
+      "slides": [
+        {
+          "id": "slide-13-1",
+          "type": "intro",
+          "title": "The Airdrop Innings",
+          "body": "You've been collecting Strategy Points. But what happens when the real game begins? Let's talk about the airdrop and mainnet launch!"
+        },
+        {
+          "id": "slide-13-2",
+          "type": "concept",
+          "title": "What's an Airdrop?",
+          "body": "An airdrop is when projects distribute free tokens to early supporters. Your Strategy Points make you eligible. The more points, the bigger your share!"
+        },
+        {
+          "id": "slide-13-3",
+          "type": "concept",
+          "title": "Points → Tokens",
+          "body": "At mainnet launch, Strategy Points convert to real tokens in your connected TON wallet. This is why connecting your wallet matters!"
+        },
+        {
+          "id": "slide-13-4",
+          "type": "quiz",
+          "title": "Quick Check",
+          "question": "Why should you connect your wallet before mainnet launch?",
+          "options": [
+            { "id": "a", "text": "It looks cool" },
+            { "id": "b", "text": "Tokens are sent directly to connected wallets" },
+            { "id": "c", "text": "Wallets aren't necessary" }
+          ],
+          "correctOptionId": "b",
+          "explanation": "Exactly! No wallet = nowhere to receive your tokens. Connect early and verify everything works!"
+        },
+        {
+          "id": "slide-13-5",
+          "type": "concept",
+          "title": "Top 100 Exclusive",
+          "body": "The Top 100 on the All-Time leaderboard get exclusive airdrop bonuses. Your rank literally determines your reward. Every point counts!"
+        },
+        {
+          "id": "slide-13-6",
+          "type": "concept",
+          "title": "The Conversion Event",
+          "body": "When mainnet launches, a snapshot of all points is taken. Your points at that moment determine your airdrop. No last-minute grinding!"
+        },
+        {
+          "id": "slide-13-7",
+          "type": "quiz",
+          "title": "Final Check",
+          "question": "To maximize your airdrop, you should:",
+          "options": [
+            { "id": "a", "text": "Wait until the last day to start" },
+            { "id": "b", "text": "Grind points now and keep wallet connected" },
+            { "id": "c", "text": "Airdrops are random, points don't matter" }
+          ],
+          "correctOptionId": "b",
+          "explanation": "Start now, stay consistent, keep that wallet connected! Early grinders always win in crypto."
+        },
+        {
+          "id": "slide-13-8",
+          "type": "reward",
+          "title": "OVER COMPLETE!",
+          "body": "You understand the endgame! Points today = tokens tomorrow. Keep grinding, stay connected, and get ready for launch!",
+          "pointsAwarded": 600,
+          "badgeId": "airdrop-ready",
+          "badgeName": "Airdrop Ready"
+        }
+      ]
     }
   ]
 }
