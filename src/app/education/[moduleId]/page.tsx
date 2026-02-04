@@ -3,7 +3,7 @@
 import { useEffect, useState, useCallback } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { ArrowLeft, Trophy } from 'lucide-react';
+import { ArrowLeft, Trophy, Clock } from 'lucide-react';
 import { useTelegram } from '@/hooks/useTelegram';
 import educationData from '@/data/education_modules.json';
 import SlideEngine from '@/components/education/SlideEngine';
@@ -211,6 +211,59 @@ export default function ModulePage() {
               className="w-full max-w-xs py-4 bg-gradient-to-r from-amber-500 to-orange-500 text-black font-bold rounded-xl text-center active:scale-[0.98] transition-transform"
             >
               Return to Modules
+            </Link>
+          </div>
+        </div>
+      </main>
+    );
+  }
+
+  // Coming Soon state - module has no content yet
+  if (!module.slides || module.slides.length === 0) {
+    return (
+      <main className="min-h-screen bg-[#050505] p-6 text-white">
+        <div className="max-w-md mx-auto">
+          {/* Header */}
+          <div className="flex items-center gap-4 mb-8 pt-4">
+            <Link
+              href="/education"
+              className="p-2 bg-white/5 rounded-full hover:bg-white/10 transition-colors"
+            >
+              <ArrowLeft size={20} className="text-zinc-400" />
+            </Link>
+            <div className="flex items-center gap-2">
+              <span className="text-xl">{module.icon}</span>
+              <h1 className="text-lg font-bold">{module.title}</h1>
+            </div>
+          </div>
+
+          {/* Coming Soon */}
+          <div className="flex flex-col items-center text-center py-16">
+            <div className="w-20 h-20 rounded-full bg-white/5 flex items-center justify-center mb-6">
+              <Clock size={40} className="text-white/30" />
+            </div>
+
+            <h2 className="text-2xl font-bold text-white mb-2">Coming Soon</h2>
+            <p className="text-white/50 mb-8 max-w-xs">
+              This module is still being prepared. Check back soon for new content!
+            </p>
+
+            {/* Module info */}
+            <div className="w-full max-w-xs p-4 bg-white/5 rounded-xl mb-8">
+              <p className="text-white/70 text-sm mb-2">{module.description}</p>
+              <div className="flex items-center justify-center gap-4 text-xs text-white/40">
+                <span>+{module.totalPoints} points</span>
+                <span>•</span>
+                <span>{module.badgeName} badge</span>
+              </div>
+            </div>
+
+            {/* Return button */}
+            <Link
+              href="/education"
+              className="w-full max-w-xs py-4 bg-white/10 text-white font-bold rounded-xl text-center active:scale-[0.98] transition-transform"
+            >
+              Back to Practice
             </Link>
           </div>
         </div>
