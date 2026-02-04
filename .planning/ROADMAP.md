@@ -6,8 +6,8 @@
 
 ## Milestones
 
-- **v1.0 MVP** - Phases 1-10 (in progress, paused at Phase 4 pending API)
-- **v6.0.0 "Net Practice"** - Phases 11-14 (current focus)
+- **v5.x Partial** — Phases 1-10 (blocked at Phase 4 pending API)
+- **v6.0.0 "Net Practice"** — Phases 11-14 (SHIPPED 2026-02-03)
 
 ## Phases Overview
 
@@ -99,115 +99,35 @@
 
 ---
 
-## Milestone 2: Net Practice (v6.0.0) - COMPLETE (2026-02-03)
+<details>
+<summary>v6.0.0 Net Practice (Phases 11-14) — SHIPPED 2026-02-03</summary>
 
 Gamified educational onboarding using Cricket metaphors. Module 1 teaches wallet concepts through a 6-slide "Net Practice" session with quiz, haptic feedback, and rewards.
 
-### Phase 11: Data Model & Content
+- [x] Phase 11: Data Model & Content (1/1 plans) — 2026-02-03
+- [x] Phase 12: Slide Engine Component (2/2 plans) — 2026-02-03
+- [x] Phase 13: Module 1 Integration (2/2 plans) — 2026-02-03
+- [x] Phase 14: Menu & Gating (1/1 plans) — 2026-02-03
 
-**Goal:** Establish the foundation for education modules with database schema, content structure, and TypeScript types
+**Archive:** `.planning/milestones/v6.0.0-ROADMAP.md`
 
-**Depends on:** Nothing (standalone feature)
-
-**Requirements:** PROG-01, CONT-01
-
-**Success Criteria** (what must be TRUE):
-1. Database table `user_education_progress` exists with columns for user_id, module_id, slide_index, completed_at, and badge_earned
-2. Static JSON file `education_modules.json` contains Module 1 content with 6 slides
-3. TypeScript types define Slide variants (intro, concept, quiz, action, reward) and Module structure
-4. Module 2 and 3 placeholders exist in JSON (locked state)
-
-**Plans:** 1 plan
-
-Plans:
-- [x] 11-01-PLAN.md — DB migration, TypeScript types, Module 1 JSON content
-
----
-
-### Phase 12: Slide Engine Component
-
-**Goal:** Build the core SlideEngine component that renders slides, handles navigation, and provides feedback
-
-**Depends on:** Phase 11
-
-**Requirements:** SLIDE-01, SLIDE-02, SLIDE-03, SLIDE-04, MOD1-02
-
-**Success Criteria** (what must be TRUE):
-1. User can swipe left/right or tap arrows to navigate between slides
-2. Each slide type renders with its appropriate layout (intro with title/image, concept with text/illustration, quiz with options, action with CTA button, reward with animation)
-3. Quiz slides show immediate feedback on selection (correct/incorrect state)
-4. Correct quiz answers trigger haptic feedback (light impact) and confetti animation
-5. Incorrect quiz answers trigger haptic feedback (heavy impact) without confetti
-
-**Plans:** 2 plans
-
-Plans:
-- [x] 12-01-PLAN.md — SlideEngine with swipe/arrow navigation and all 5 slide type renderers
-- [x] 12-02-PLAN.md — Quiz haptic feedback and confetti integration
-
----
-
-### Phase 13: Module 1 Integration - COMPLETE (2026-02-03)
-
-**Goal:** Wire up Module 1 content to SlideEngine with wallet connect action and completion rewards
-
-**Depends on:** Phase 12
-
-**Requirements:** MOD1-01, MOD1-03, MOD1-04, MOD1-05, PROG-02, PROG-03
-
-**Success Criteria** (what must be TRUE):
-1. User can complete all 6 slides of Module 1 ("The Kit Bag" wallet education)
-2. Action slide triggers TonConnect wallet connection flow
-3. On module completion, user earns ~700 points (awarded via existing points system)
-4. On module completion, user earns "Kit Owner" badge (stored in database)
-5. User returning to education sees their progress and can resume from last completed slide
-6. Earned badges are visible in the module list view
-
-**Plans:** 2 plans
-
-Plans:
-- [x] 13-01-PLAN.md — Progress/complete API routes, PointReason extension
-- [x] 13-02-PLAN.md — Education pages, SlideEngine resume, wallet connect action
-
----
-
-### Phase 14: Menu & Gating - COMPLETE (2026-02-03)
-
-**Goal:** Add Net Practice entry point to main menu with attention indicator and locked module teasers
-
-**Depends on:** Phase 13
-
-**Requirements:** NAV-01, NAV-02, GATE-01, GATE-02
-
-**Success Criteria** (what must be TRUE):
-1. User can access "Net Practice" from the main navigation menu
-2. Menu item shows pulsing indicator when education is incomplete AND wallet is not connected
-3. Module 2 and Module 3 appear visually locked (grayed out, lock icon) when wallet is not connected
-4. Locked modules display "Connect wallet to unlock" teaser message
-
-**Plans:** 1 plan
-
-Plans:
-- [x] 14-01-PLAN.md — useEducationStatus hook, BottomNav with Net Practice tab and indicator, ModuleCard wallet-lock teaser
+</details>
 
 ---
 
 ## Progress
 
-**Execution Order:** 11 -> 12 -> 13 -> 14
+**Execution Order:** 1-3, 8-10, 11-14 (4-7 blocked)
 
 | Phase | Milestone | Plans Complete | Status | Completed |
 |-------|-----------|----------------|--------|-----------|
-| 1-3 | v1.0 | 4/4 | Complete | 2026-01-28 |
-| 4-7 | v1.0 | 0/? | Blocked | - |
-| 8 | v1.0 | 1/1 | Complete | 2026-01-31 |
-| 9 | v1.0 | 5/5 | Complete | 2026-02-01 |
-| 10 | v1.0 | 1/1 | Complete | 2026-02-02 |
-| 11 - Data Model & Content | v6.0.0 | 1/1 | Complete | 2026-02-03 |
-| 12 - Slide Engine | v6.0.0 | 2/2 | Complete | 2026-02-03 |
-| 13 - Module 1 Integration | v6.0.0 | 2/2 | Complete | 2026-02-03 |
-| 14 - Menu & Gating | v6.0.0 | 1/1 | Complete | 2026-02-03 |
+| 1-3 | v5.x | 4/4 | Complete | 2026-01-28 |
+| 4-7 | v5.x | 0/? | Blocked | - |
+| 8 | v5.x | 1/1 | Complete | 2026-01-31 |
+| 9 | v5.x | 5/5 | Complete | 2026-02-01 |
+| 10 | v5.x | 1/1 | Complete | 2026-02-02 |
+| 11-14 | v6.0.0 | 6/6 | SHIPPED | 2026-02-03 |
 
 ---
 *Roadmap created: 2026-01-27*
-*v6.0.0 phases added: 2026-02-03*
+*v6.0.0 shipped: 2026-02-03*

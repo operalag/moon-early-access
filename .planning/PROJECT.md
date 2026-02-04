@@ -2,24 +2,27 @@
 
 ## What This Is
 
-A Telegram Mini App for cricket and crypto predictions. Users earn points through daily activities (spins, logins, referrals), compete on leaderboards, and connect TON wallets. The app converts "Passive Watchers" into "Active Analysts" through gamified education and prediction market trading.
+A Telegram Mini App for cricket and crypto predictions. Users earn points through daily activities (spins, logins, referrals), compete on leaderboards, connect TON wallets, and learn Web3 concepts through gamified education. The app converts "Passive Watchers" into "Active Analysts" through gamified education and prediction market trading.
 
 ## Core Value
 
 Get Telegram users engaged through gamification, then educate and guide them into becoming active prediction market traders on themoon.business.
 
-## Current Milestone: v6.0.0 "Net Practice"
+## Current State (v6.0.0)
 
-**Goal:** Ship an educational onboarding module that teaches Web3 and prediction market concepts using Cricket metaphors, increasing wallet connection and first trade rates.
+**Shipped:** 2026-02-03 — "Net Practice" educational onboarding
 
-**Target features:**
-- New "Net Practice" menu item
-- SlideEngine component (swipe/tap stories format)
-- Module 1: "The Kit Bag" — 6 slides teaching wallet concepts
-- Quiz logic with haptic feedback and confetti
-- Points integration (2000 total across all modules)
-- Progress tracking with badges
-- Locked module teasers for wallet-gated content
+**What's working:**
+- Net Practice menu with attention indicator
+- Module 1 "The Kit Bag" — 6 slides teaching wallet concepts
+- SlideEngine with swipe/arrow navigation
+- Quiz with haptic feedback and confetti
+- Progress tracking with resume capability
+- 700 points + "Kit Owner" badge on completion
+- Wallet-gated Module 2 & 3 teasers
+
+**Codebase:** ~9,200 lines TypeScript
+**Tech stack:** Next.js 16, React 19, Supabase, TailwindCSS, framer-motion, TonConnect
 
 ## Requirements
 
@@ -44,22 +47,19 @@ Get Telegram users engaged through gamification, then educate and guide them int
 - ✓ Weekly rewards banner — v5.7.0
 - ✓ Dynamic leaderboard (user-centered) — v5.9.0
 - ✓ Task completion confetti — v5.10.0
+- ✓ Net Practice menu with attention indicator — v6.0.0
+- ✓ SlideEngine with swipe/tap navigation — v6.0.0
+- ✓ Haptic feedback on quiz answers — v6.0.0
+- ✓ Module 1 wallet education (6 slides) — v6.0.0
+- ✓ Quiz with right/wrong validation — v6.0.0
+- ✓ Points award on module completion (700 pts) — v6.0.0
+- ✓ Badge award ("Kit Owner") — v6.0.0
+- ✓ Progress tracking and resume — v6.0.0
+- ✓ Wallet-gated module teasers — v6.0.0
 
 ### Active
 
 <!-- Current scope. Building toward these. -->
-
-**Net Practice (v6.0.0):**
-- [ ] "Net Practice" menu item in main navigation
-- [ ] SlideEngine component with swipe/tap navigation
-- [ ] Haptic feedback on quiz answers (correct/wrong)
-- [ ] Module 1: "The Kit Bag" (6 slides) — wallet education
-- [ ] Quiz logic with right/wrong validation
-- [ ] Points award on module completion (~700 pts for Module 1)
-- [ ] Badge award ("Kit Owner") on module completion
-- [ ] Progress tracking (user_education_progress table)
-- [ ] Locked Module 2 & 3 with "Connect wallet to unlock" teaser
-- [ ] Action triggers (wallet connect from within slides)
 
 **Future Modules (v6.1.0+):**
 - [ ] Module 2: "The Ticket & The Score" — TON vs USDT education
@@ -82,7 +82,7 @@ Get Telegram users engaged through gamification, then educate and guide them int
 
 ## Context
 
-- **Current state:** v5.10.0-beta — gamification complete, education next
+- **Current state:** v6.0.0 shipped — Education Module 1 complete
 - **Target audience:** Cricket fans in India, Pakistan, Bangladesh
 - **Platform:** Telegram Mini App ecosystem
 - **Blockchain:** TON network
@@ -106,10 +106,14 @@ Get Telegram users engaged through gamification, then educate and guide them int
 |----------|-----------|---------|
 | Use trading framing, not betting | Regulatory and positioning clarity | ✓ Good |
 | Play-first architecture | Wallet unlocks after engagement | ✓ Good |
-| Static JSON for education content | Easy updates without deploy | — Pending |
-| Points not XP | Single currency, existing engine | — Pending |
-| Module 2+ wallet-gated | Incentivize wallet connection | — Pending |
-| Incremental module release | Test Module 1 before 2 & 3 | — Pending |
+| Static JSON for education content | Easy updates without deploy | ✓ Good |
+| Points not XP | Single currency, existing engine | ✓ Good |
+| Module 2+ wallet-gated | Incentivize wallet connection | ✓ Good |
+| Incremental module release | Test Module 1 before 2 & 3 | ✓ Good |
+| Discriminated union for slides | Type-safe variant handling | ✓ Good |
+| Service-role only RLS | Security via server-side API only | ✓ Good |
+| Haptic in component, confetti in engine | Separation of concerns | ✓ Good |
+| AND logic for indicator | Avoid over-notification | ✓ Good |
 
 ---
-*Last updated: 2026-02-03 after milestone v6.0.0 started*
+*Last updated: 2026-02-03 after v6.0.0 milestone shipped*
