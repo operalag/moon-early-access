@@ -1,6 +1,6 @@
 'use client';
 
-import { Trophy, Unlock, TrendingUp, ArrowRight } from 'lucide-react';
+import { Trophy, Unlock, TrendingUp, ArrowRight, ChevronRight } from 'lucide-react';
 import type { RewardSlide } from '@/lib/educationTypes';
 import type { UnlockContext } from '../SlideEngine';
 
@@ -8,9 +8,10 @@ interface RewardSlideComponentProps {
   slide: RewardSlide;
   unlockContext?: UnlockContext;
   onContinue?: () => void;
+  onGoToNextModule?: () => void;
 }
 
-export default function RewardSlideComponent({ slide, unlockContext, onContinue }: RewardSlideComponentProps) {
+export default function RewardSlideComponent({ slide, unlockContext, onContinue, onGoToNextModule }: RewardSlideComponentProps) {
   return (
     <div className="p-6 flex flex-col items-center justify-center min-h-full text-center">
       {/* Trophy icon */}
@@ -60,15 +61,19 @@ export default function RewardSlideComponent({ slide, unlockContext, onContinue 
           <span className="text-white/70 text-sm">Leaderboard updated</span>
         </div>
 
-        {/* Unlocked module */}
+        {/* Unlocked module - clickable */}
         {unlockContext?.nextModuleTitle && (
-          <div className="flex items-center gap-3 px-4 py-2.5 bg-white/5 rounded-xl">
+          <button
+            onClick={onGoToNextModule}
+            className="w-full flex items-center gap-3 px-4 py-2.5 bg-amber-500/10 border border-amber-500/20 rounded-xl hover:bg-amber-500/20 active:scale-[0.98] transition-all"
+          >
             <Unlock size={18} className="text-amber-400" />
-            <span className="text-white/70 text-sm flex-1">
+            <span className="text-white/70 text-sm flex-1 text-left">
               Unlocked: <span className="text-white font-medium">{unlockContext.nextModuleTitle}</span>
             </span>
             <span className="text-lg">{unlockContext.nextModuleIcon}</span>
-          </div>
+            <ChevronRight size={18} className="text-amber-400" />
+          </button>
         )}
       </div>
 

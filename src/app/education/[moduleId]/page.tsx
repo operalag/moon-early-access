@@ -37,6 +37,7 @@ export default function ModulePage() {
     );
     if (!nextModule) return undefined;
     return {
+      nextModuleId: nextModule.id,
       nextModuleTitle: nextModule.title,
       nextModuleIcon: nextModule.icon,
     };
@@ -111,6 +112,34 @@ export default function ModulePage() {
     // Always navigate back regardless of API success
     router.push('/education');
   }, [user?.id, moduleId, module, router]);
+
+  // Handle going directly to the next module
+  const handleGoToNextModule = useCallback(async () => {
+    // Save completion first
+    if (user?.id && moduleId && module) {
+      try {
+        await fetch('/api/education/complete', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            userId: user.id,
+            moduleId,
+            pointsAmount: module.totalPoints,
+            badgeId: module.badgeId,
+          }),
+        });
+      } catch (error) {
+        console.error('Error completing module:', error);
+      }
+    }
+
+    // Navigate to next module if available
+    if (unlockContext?.nextModuleId) {
+      router.push(`/education/${unlockContext.nextModuleId}`);
+    } else {
+      router.push('/education');
+    }
+  }, [user?.id, moduleId, module, unlockContext, router]);
 
   // Module not found
   if (!isLoading && !module) {
@@ -215,6 +244,7 @@ export default function ModulePage() {
           onSlideChange={handleSlideChange}
           onComplete={handleComplete}
           unlockContext={unlockContext}
+          onGoToNextModule={handleGoToNextModule}
         />
       </div>
     </main>

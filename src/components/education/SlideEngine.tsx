@@ -42,6 +42,7 @@ const slideVariants: Variants = {
 };
 
 export interface UnlockContext {
+  nextModuleId?: string;
   nextModuleTitle?: string;
   nextModuleIcon?: string;
 }
@@ -52,9 +53,10 @@ interface SlideEngineProps {
   onSlideChange?: (index: number) => void;
   onComplete?: () => void;
   unlockContext?: UnlockContext;
+  onGoToNextModule?: () => void;
 }
 
-export default function SlideEngine({ slides, initialSlideIndex, onSlideChange, onComplete, unlockContext }: SlideEngineProps) {
+export default function SlideEngine({ slides, initialSlideIndex, onSlideChange, onComplete, unlockContext, onGoToNextModule }: SlideEngineProps) {
   const [currentIndex, setCurrentIndex] = useState(initialSlideIndex ?? 0);
   const [direction, setDirection] = useState(0);
   const [showSwipeHint, setShowSwipeHint] = useState(true);
@@ -151,7 +153,7 @@ export default function SlideEngine({ slides, initialSlideIndex, onSlideChange, 
       case 'action':
         return <ActionSlideComponent slide={slide} onActionComplete={handleActionComplete} />;
       case 'reward':
-        return <RewardSlideComponent slide={slide} unlockContext={unlockContext} onContinue={onComplete} />;
+        return <RewardSlideComponent slide={slide} unlockContext={unlockContext} onContinue={onComplete} onGoToNextModule={onGoToNextModule} />;
       default:
         // TypeScript exhaustiveness check
         const _exhaustive: never = slide;
