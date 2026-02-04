@@ -206,15 +206,15 @@ export default function SlideEngine({ slides, initialSlideIndex, onSlideChange, 
       </AnimatePresence>
 
       {/* Navigation controls */}
-      <div className="flex items-center justify-between px-6 py-4">
+      <div className="flex items-center justify-between px-4 py-4 mb-2">
         {/* Previous button */}
         <button
           onClick={goPrev}
           disabled={isFirstSlide}
           className={`p-3 rounded-full transition-all ${
             isFirstSlide
-              ? 'text-white/20 cursor-not-allowed'
-              : 'text-white/70 hover:text-white hover:bg-white/10 active:scale-95'
+              ? 'bg-white/5 text-white/20 cursor-not-allowed'
+              : 'bg-white/10 text-white hover:bg-white/20 active:scale-95'
           }`}
           aria-label="Previous slide"
         >
@@ -227,7 +227,7 @@ export default function SlideEngine({ slides, initialSlideIndex, onSlideChange, 
         {/* Next button */}
         <button
           onClick={goNext}
-          className="p-3 rounded-full text-white/70 hover:text-white hover:bg-white/10 active:scale-95 transition-all"
+          className="p-3 rounded-full bg-amber-500/20 text-amber-400 hover:bg-amber-500/30 active:scale-95 transition-all"
           aria-label={isLastSlide ? 'Complete' : 'Next slide'}
         >
           <ChevronRight size={28} />
