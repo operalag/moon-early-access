@@ -89,57 +89,56 @@ export default function ModulePage() {
     [user?.id, moduleId]
   );
 
-  // Handle module completion
-  const handleComplete = useCallback(async () => {
-    // Try to save completion if we have user context
-    if (user?.id && moduleId && module) {
-      try {
-        await fetch('/api/education/complete', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            userId: user.id,
-            moduleId,
-            pointsAmount: module.totalPoints,
-            badgeId: module.badgeId,
-          }),
-        });
-      } catch (error) {
-        console.error('Error completing module:', error);
-      }
+  // Save completion to database
+  const saveCompletion = useCallback(async (): Promise<boolean> => {
+    if (!user?.id || !moduleId || !module) {
+      console.error('Missing data for completion:', { userId: user?.id, moduleId, module: !!module });
+      return false;
     }
 
-    // Always navigate back regardless of API success
+    try {
+      const res = await fetch('/api/education/complete', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          userId: user.id,
+          moduleId,
+          pointsAmount: module.totalPoints,
+          badgeId: module.badgeId,
+        }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        console.error('Completion API error:', res.status, data);
+        return false;
+      }
+
+      console.log('Completion saved:', data);
+      return true;
+    } catch (error) {
+      console.error('Error completing module:', error);
+      return false;
+    }
+  }, [user?.id, moduleId, module]);
+
+  // Handle module completion
+  const handleComplete = useCallback(async () => {
+    await saveCompletion();
     router.push('/education');
-  }, [user?.id, moduleId, module, router]);
+  }, [saveCompletion, router]);
 
   // Handle going directly to the next module
   const handleGoToNextModule = useCallback(async () => {
-    // Save completion first
-    if (user?.id && moduleId && module) {
-      try {
-        await fetch('/api/education/complete', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            userId: user.id,
-            moduleId,
-            pointsAmount: module.totalPoints,
-            badgeId: module.badgeId,
-          }),
-        });
-      } catch (error) {
-        console.error('Error completing module:', error);
-      }
-    }
+    await saveCompletion();
 
-    // Navigate to next module if available
     if (unlockContext?.nextModuleId) {
       router.push(`/education/${unlockContext.nextModuleId}`);
     } else {
       router.push('/education');
     }
-  }, [user?.id, moduleId, module, unlockContext, router]);
+  }, [saveCompletion, unlockContext, router]);
 
   // Module not found
   if (!isLoading && !module) {
