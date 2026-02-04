@@ -44,12 +44,20 @@ export default function ModuleCard({ module, progress, isLocked, lockReason }: M
           </span>
         )}
 
-        {/* Wallet Lock Teaser */}
+        {/* Lock Reason Teaser */}
         {lockReason === 'wallet' && (
           <div className="mt-2 flex items-center gap-1.5">
             <Wallet size={12} className="text-yellow-500/70" />
             <span className="text-[10px] text-yellow-500/70 font-medium">
               Connect wallet to unlock
+            </span>
+          </div>
+        )}
+        {lockReason === 'prerequisite' && (
+          <div className="mt-2 flex items-center gap-1.5">
+            <Lock size={12} className="text-white/40" />
+            <span className="text-[10px] text-white/40 font-medium">
+              Complete previous module first
             </span>
           </div>
         )}

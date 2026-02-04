@@ -90,27 +90,26 @@ export default function ModulePage() {
 
   // Handle module completion
   const handleComplete = useCallback(async () => {
-    if (!user?.id || !moduleId || !module) return;
-
-    try {
-      const res = await fetch('/api/education/complete', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          userId: user.id,
-          moduleId,
-          pointsAmount: module.totalPoints,
-          badgeId: module.badgeId,
-        }),
-      });
-
-      if (res.ok) {
-        // Navigate back to education list
-        router.push('/education');
+    // Try to save completion if we have user context
+    if (user?.id && moduleId && module) {
+      try {
+        await fetch('/api/education/complete', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            userId: user.id,
+            moduleId,
+            pointsAmount: module.totalPoints,
+            badgeId: module.badgeId,
+          }),
+        });
+      } catch (error) {
+        console.error('Error completing module:', error);
       }
-    } catch (error) {
-      console.error('Error completing module:', error);
     }
+
+    // Always navigate back regardless of API success
+    router.push('/education');
   }, [user?.id, moduleId, module, router]);
 
   // Module not found
